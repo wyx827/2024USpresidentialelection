@@ -1,6 +1,6 @@
 #### Preamble ####
 # Purpose: Downloads and saves the data from https://projects.fivethirtyeight.com/
-# Author: Group 80
+# Author: Xuanle Zhou, Yongqi Liu, Yuxuan Wei
 # Date: 2024-10-13
 # Contact: cassieliu.liu@mail.utoronto.ca
 # License: MIT
