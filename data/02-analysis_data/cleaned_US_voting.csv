@@ -1,0 +1,263 @@
+pollster,methodology,numeric_grade,start_date,end_date,sample_size,population,state,candidate_name,pct,population_group
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,882,rv,Wisconsin,Kamala Harris,52,registered_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,882,rv,Wisconsin,Donald Trump,48,registered_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,798,lv,Wisconsin,Kamala Harris,52,likely_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,798,lv,Wisconsin,Donald Trump,48,likely_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,882,rv,Wisconsin,Kamala Harris,48,registered_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,882,rv,Wisconsin,Donald Trump,44,registered_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,882,rv,Wisconsin,Robert F. Kennedy,3,registered_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,882,rv,Wisconsin,Chase Oliver,1,registered_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,882,rv,Wisconsin,Jill Stein,1,registered_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,882,rv,Wisconsin,Randall A. Terry,1,registered_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,882,rv,Wisconsin,Cornel West,0,registered_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,882,rv,Wisconsin,Claudia De La Cruz,0,registered_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,798,lv,Wisconsin,Kamala Harris,49,likely_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,798,lv,Wisconsin,Donald Trump,44,likely_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,798,lv,Wisconsin,Robert F. Kennedy,3,likely_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,798,lv,Wisconsin,Chase Oliver,1,likely_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,798,lv,Wisconsin,Jill Stein,1,likely_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,798,lv,Wisconsin,Randall A. Terry,1,likely_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,798,lv,Wisconsin,Cornel West,0,likely_voters
+Marquette Law School,Probability Panel,3,9/18/24,9/26/24,798,lv,Wisconsin,Claudia De La Cruz,0,likely_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,822,rv,Wisconsin,Kamala Harris,52,registered_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,822,rv,Wisconsin,Donald Trump,48,registered_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,738,lv,Wisconsin,Kamala Harris,52,likely_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,738,lv,Wisconsin,Donald Trump,48,likely_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,822,rv,Wisconsin,Kamala Harris,47,registered_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,822,rv,Wisconsin,Donald Trump,43,registered_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,822,rv,Wisconsin,Robert F. Kennedy,6,registered_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,822,rv,Wisconsin,Chase Oliver,1,registered_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,822,rv,Wisconsin,Jill Stein,1,registered_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,822,rv,Wisconsin,Randall A. Terry,0,registered_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,822,rv,Wisconsin,Cornel West,1,registered_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,738,lv,Wisconsin,Kamala Harris,48,likely_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,738,lv,Wisconsin,Donald Trump,43,likely_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,738,lv,Wisconsin,Robert F. Kennedy,6,likely_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,738,lv,Wisconsin,Chase Oliver,1,likely_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,738,lv,Wisconsin,Jill Stein,1,likely_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,738,lv,Wisconsin,Randall A. Terry,1,likely_voters
+Marquette Law School,Live Phone/Email,3,8/28/24,9/5/24,738,lv,Wisconsin,Cornel West,1,likely_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,877,rv,Wisconsin,Kamala Harris,49,registered_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,877,rv,Wisconsin,Donald Trump,50,registered_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,801,lv,Wisconsin,Kamala Harris,50,likely_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,801,lv,Wisconsin,Donald Trump,49,likely_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,877,rv,Wisconsin,Kamala Harris,45,registered_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,877,rv,Wisconsin,Donald Trump,43,registered_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,877,rv,Wisconsin,Robert F. Kennedy,8,registered_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,877,rv,Wisconsin,Chase Oliver,1,registered_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,877,rv,Wisconsin,Jill Stein,1,registered_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,877,rv,Wisconsin,Randall A. Terry,0,registered_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,877,rv,Wisconsin,Cornel West,0,registered_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,801,lv,Wisconsin,Kamala Harris,46,likely_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,801,lv,Wisconsin,Donald Trump,45,likely_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,801,lv,Wisconsin,Robert F. Kennedy,6,likely_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,801,lv,Wisconsin,Chase Oliver,1,likely_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,801,lv,Wisconsin,Jill Stein,1,likely_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,801,lv,Wisconsin,Randall A. Terry,0,likely_voters
+Marquette Law School,Live Phone/Email,3,7/24/24,8/1/24,801,lv,Wisconsin,Cornel West,0,likely_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,879,rv,NA,Kamala Harris,52,registered_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,879,rv,NA,Donald Trump,48,registered_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,683,lv,NA,Kamala Harris,53,likely_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,683,lv,NA,Donald Trump,47,likely_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,879,rv,NA,Kamala Harris,47,registered_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,879,rv,NA,Donald Trump,41,registered_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,879,rv,NA,Robert F. Kennedy,9,registered_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,879,rv,NA,Chase Oliver,1,registered_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,879,rv,NA,Jill Stein,2,registered_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,879,rv,NA,Cornel West,1,registered_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,683,lv,NA,Kamala Harris,50,likely_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,683,lv,NA,Donald Trump,42,likely_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,683,lv,NA,Robert F. Kennedy,6,likely_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,683,lv,NA,Chase Oliver,1,likely_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,683,lv,NA,Jill Stein,1,likely_voters
+Marquette Law School,Probability Panel,3,7/24/24,8/1/24,683,lv,NA,Cornel West,0,likely_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,871,rv,Wisconsin,Joe Biden,50,registered_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,871,rv,Wisconsin,Donald Trump,50,registered_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,784,lv,Wisconsin,Joe Biden,51,likely_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,784,lv,Wisconsin,Donald Trump,49,likely_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,871,rv,Wisconsin,Joe Biden,40,registered_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,871,rv,Wisconsin,Donald Trump,43,registered_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,871,rv,Wisconsin,Robert F. Kennedy,8,registered_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,871,rv,Wisconsin,Chase Oliver,2,registered_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,871,rv,Wisconsin,Jill Stein,2,registered_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,871,rv,Wisconsin,Cornel West,4,registered_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,784,lv,Wisconsin,Joe Biden,42,likely_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,784,lv,Wisconsin,Donald Trump,44,likely_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,784,lv,Wisconsin,Robert F. Kennedy,7,likely_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,784,lv,Wisconsin,Chase Oliver,1,likely_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,784,lv,Wisconsin,Jill Stein,2,likely_voters
+Marquette Law School,Live Phone/Email,3,6/12/24,6/20/24,784,lv,Wisconsin,Cornel West,3,likely_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,902,rv,NA,Joe Biden,50,registered_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,902,rv,NA,Donald Trump,50,registered_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,684,lv,NA,Joe Biden,49,likely_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,684,lv,NA,Donald Trump,51,likely_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,902,rv,NA,Joe Biden,37,registered_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,902,rv,NA,Donald Trump,40,registered_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,902,rv,NA,Robert F. Kennedy,17,registered_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,902,rv,NA,Jill Stein,3,registered_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,902,rv,NA,Cornel West,3,registered_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,684,lv,NA,Joe Biden,41,likely_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,684,lv,NA,Donald Trump,44,likely_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,684,lv,NA,Robert F. Kennedy,11,likely_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,684,lv,NA,Jill Stein,2,likely_voters
+Marquette Law School,Probability Panel,3,5/6/24,5/15/24,684,lv,NA,Cornel West,2,likely_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,814,rv,Wisconsin,Joe Biden,49,registered_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,814,rv,Wisconsin,Donald Trump,51,registered_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,707,lv,Wisconsin,Joe Biden,49,likely_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,707,lv,Wisconsin,Donald Trump,51,likely_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,814,rv,Wisconsin,Joe Biden,40,registered_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,814,rv,Wisconsin,Donald Trump,41,registered_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,814,rv,Wisconsin,Robert F. Kennedy,13,registered_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,814,rv,Wisconsin,Jill Stein,3,registered_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,814,rv,Wisconsin,Cornel West,2,registered_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,707,lv,Wisconsin,Joe Biden,41,likely_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,707,lv,Wisconsin,Donald Trump,42,likely_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,707,lv,Wisconsin,Robert F. Kennedy,12,likely_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,707,lv,Wisconsin,Jill Stein,3,likely_voters
+Marquette Law School,Probability Panel,3,4/3/24,4/10/24,707,lv,Wisconsin,Cornel West,1,likely_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,868,rv,NA,Joe Biden,50,registered_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,868,rv,NA,Donald Trump,50,registered_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,674,lv,NA,Joe Biden,52,likely_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,674,lv,NA,Donald Trump,48,likely_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,868,rv,NA,Joe Biden,38,registered_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,868,rv,NA,Donald Trump,41,registered_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,868,rv,NA,Robert F. Kennedy,14,registered_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,868,rv,NA,Cornel West,5,registered_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,868,rv,NA,Jill Stein,2,registered_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,674,lv,NA,Joe Biden,41,likely_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,674,lv,NA,Donald Trump,41,likely_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,674,lv,NA,Robert F. Kennedy,13,likely_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,674,lv,NA,Cornel West,4,likely_voters
+Marquette Law School,Probability Panel,3,3/18/24,3/28/24,674,lv,NA,Jill Stein,2,likely_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,787,rv,NA,Joe Biden,49,registered_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,787,rv,NA,Donald Trump,51,registered_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,628,lv,NA,Joe Biden,48,likely_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,628,lv,NA,Donald Trump,52,likely_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,787,rv,NA,Joe Biden,42,registered_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,787,rv,NA,Nikki Haley,58,registered_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,628,lv,NA,Joe Biden,41,likely_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,628,lv,NA,Nikki Haley,59,likely_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,787,rv,NA,Joe Biden,39,registered_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,787,rv,NA,Donald Trump,42,registered_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,787,rv,NA,Robert F. Kennedy,15,registered_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,787,rv,NA,Cornel West,3,registered_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,787,rv,NA,Jill Stein,2,registered_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,628,lv,NA,Joe Biden,40,likely_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,628,lv,NA,Donald Trump,43,likely_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,628,lv,NA,Robert F. Kennedy,14,likely_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,628,lv,NA,Cornel West,1,likely_voters
+Marquette Law School,Probability Panel,3,2/5/24,2/15/24,628,lv,NA,Jill Stein,1,likely_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,930,rv,Wisconsin,Joe Biden,49,registered_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,930,rv,Wisconsin,Donald Trump,49,registered_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,808,lv,Wisconsin,Joe Biden,49,likely_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,808,lv,Wisconsin,Donald Trump,50,likely_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,930,rv,Wisconsin,Joe Biden,41,registered_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,930,rv,Wisconsin,Nikki Haley,57,registered_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,808,lv,Wisconsin,Joe Biden,42,likely_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,808,lv,Wisconsin,Nikki Haley,57,likely_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,930,rv,Wisconsin,Joe Biden,37,registered_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,930,rv,Wisconsin,Donald Trump,40,registered_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,930,rv,Wisconsin,Robert F. Kennedy,16,registered_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,930,rv,Wisconsin,Cornel West,2,registered_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,930,rv,Wisconsin,Jill Stein,4,registered_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,808,lv,Wisconsin,Joe Biden,39,likely_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,808,lv,Wisconsin,Donald Trump,41,likely_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,808,lv,Wisconsin,Robert F. Kennedy,13,likely_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,808,lv,Wisconsin,Cornel West,2,likely_voters
+Marquette Law School,Live Phone/Email,3,1/24/24,1/31/24,808,lv,Wisconsin,Jill Stein,4,likely_voters
+Marquette Law School,Probability Panel,3,11/2/23,11/7/23,856,rv,NA,Joe Biden,48,registered_voters
+Marquette Law School,Probability Panel,3,11/2/23,11/7/23,856,rv,NA,Donald Trump,52,registered_voters
+Marquette Law School,Probability Panel,3,11/2/23,11/7/23,668,lv,NA,Joe Biden,49,likely_voters
+Marquette Law School,Probability Panel,3,11/2/23,11/7/23,668,lv,NA,Donald Trump,51,likely_voters
+Marquette Law School,Probability Panel,3,11/2/23,11/7/23,856,rv,NA,Joe Biden,49,registered_voters
+Marquette Law School,Probability Panel,3,11/2/23,11/7/23,856,rv,NA,Ron DeSantis,51,registered_voters
+Marquette Law School,Probability Panel,3,11/2/23,11/7/23,668,lv,NA,Joe Biden,49,likely_voters
+Marquette Law School,Probability Panel,3,11/2/23,11/7/23,668,lv,NA,Ron DeSantis,51,likely_voters
+Marquette Law School,Probability Panel,3,11/2/23,11/7/23,856,rv,NA,Joe Biden,45,registered_voters
+Marquette Law School,Probability Panel,3,11/2/23,11/7/23,856,rv,NA,Nikki Haley,55,registered_voters
+Marquette Law School,Probability Panel,3,11/2/23,11/7/23,668,lv,NA,Joe Biden,44,likely_voters
+Marquette Law School,Probability Panel,3,11/2/23,11/7/23,668,lv,NA,Nikki Haley,56,likely_voters
+Marquette Law School,Live Phone/Email,3,10/26/23,11/2/23,908,rv,Wisconsin,Joe Biden,50,registered_voters
+Marquette Law School,Live Phone/Email,3,10/26/23,11/2/23,908,rv,Wisconsin,Donald Trump,48,registered_voters
+Marquette Law School,Live Phone/Email,3,10/26/23,11/2/23,908,rv,Wisconsin,Joe Biden,48,registered_voters
+Marquette Law School,Live Phone/Email,3,10/26/23,11/2/23,908,rv,Wisconsin,Ron DeSantis,50,registered_voters
+Marquette Law School,Live Phone/Email,3,10/26/23,11/2/23,908,rv,Wisconsin,Joe Biden,44,registered_voters
+Marquette Law School,Live Phone/Email,3,10/26/23,11/2/23,908,rv,Wisconsin,Nikki Haley,53,registered_voters
+Marquette Law School,Probability Panel,3,9/18/23,9/25/23,1007,a,NA,Joe Biden,48,adults
+Marquette Law School,Probability Panel,3,9/18/23,9/25/23,1007,a,NA,Donald Trump,52,adults
+Marquette Law School,Probability Panel,3,9/18/23,9/25/23,868,rv,NA,Joe Biden,48,registered_voters
+Marquette Law School,Probability Panel,3,9/18/23,9/25/23,868,rv,NA,Donald Trump,51,registered_voters
+Marquette Law School,Probability Panel,3,9/18/23,9/25/23,690,lv,NA,Joe Biden,51,likely_voters
+Marquette Law School,Probability Panel,3,9/18/23,9/25/23,690,lv,NA,Donald Trump,49,likely_voters
+Marquette Law School,Probability Panel,3,9/18/23,9/25/23,1007,a,NA,Joe Biden,49,adults
+Marquette Law School,Probability Panel,3,9/18/23,9/25/23,1007,a,NA,Ron DeSantis,50,adults
+Marquette Law School,Probability Panel,3,9/18/23,9/25/23,868,rv,NA,Joe Biden,48,registered_voters
+Marquette Law School,Probability Panel,3,9/18/23,9/25/23,868,rv,NA,Ron DeSantis,51,registered_voters
+Marquette Law School,Probability Panel,3,9/18/23,9/25/23,690,lv,NA,Joe Biden,51,likely_voters
+Marquette Law School,Probability Panel,3,9/18/23,9/25/23,690,lv,NA,Ron DeSantis,48,likely_voters
+Marquette Law School,Probability Panel,3,7/7/23,7/12/23,1005,a,NA,Joe Biden,50,adults
+Marquette Law School,Probability Panel,3,7/7/23,7/12/23,1005,a,NA,Donald Trump,49,adults
+Marquette Law School,Probability Panel,3,7/7/23,7/12/23,788,rv,NA,Joe Biden,50,registered_voters
+Marquette Law School,Probability Panel,3,7/7/23,7/12/23,788,rv,NA,Donald Trump,50,registered_voters
+Marquette Law School,Probability Panel,3,7/7/23,7/12/23,1005,a,NA,Joe Biden,49,adults
+Marquette Law School,Probability Panel,3,7/7/23,7/12/23,1005,a,NA,Ron DeSantis,50,adults
+Marquette Law School,Probability Panel,3,7/7/23,7/12/23,788,rv,NA,Joe Biden,48,registered_voters
+Marquette Law School,Probability Panel,3,7/7/23,7/12/23,788,rv,NA,Ron DeSantis,51,registered_voters
+Marquette Law School,Live Phone/Online Panel/Mail-to-Web,3,6/8/23,6/13/23,913,rv,Wisconsin,Joe Biden,52,registered_voters
+Marquette Law School,Live Phone/Online Panel/Mail-to-Web,3,6/8/23,6/13/23,913,rv,Wisconsin,Donald Trump,43,registered_voters
+Marquette Law School,Live Phone/Online Panel/Mail-to-Web,3,6/8/23,6/13/23,913,rv,Wisconsin,Joe Biden,49,registered_voters
+Marquette Law School,Live Phone/Online Panel/Mail-to-Web,3,6/8/23,6/13/23,913,rv,Wisconsin,Ron DeSantis,47,registered_voters
+Marquette Law School,Probability Panel,3,5/8/23,5/18/23,1010,a,NA,Joe Biden,48,adults
+Marquette Law School,Probability Panel,3,5/8/23,5/18/23,1010,a,NA,Donald Trump,52,adults
+Marquette Law School,Probability Panel,3,5/8/23,5/18/23,833,rv,NA,Joe Biden,47,registered_voters
+Marquette Law School,Probability Panel,3,5/8/23,5/18/23,833,rv,NA,Donald Trump,52,registered_voters
+Marquette Law School,Probability Panel,3,5/8/23,5/18/23,1010,a,NA,Joe Biden,49,adults
+Marquette Law School,Probability Panel,3,5/8/23,5/18/23,1010,a,NA,Ron DeSantis,51,adults
+Marquette Law School,Probability Panel,3,5/8/23,5/18/23,833,rv,NA,Joe Biden,48,registered_voters
+Marquette Law School,Probability Panel,3,5/8/23,5/18/23,833,rv,NA,Ron DeSantis,52,registered_voters
+Marquette Law School,Probability Panel,3,3/13/23,3/22/23,1004,a,NA,Joe Biden,33,adults
+Marquette Law School,Probability Panel,3,3/13/23,3/22/23,1004,a,NA,Donald Trump,38,adults
+Marquette Law School,Probability Panel,3,3/13/23,3/22/23,863,rv,NA,Joe Biden,38,registered_voters
+Marquette Law School,Probability Panel,3,3/13/23,3/22/23,863,rv,NA,Donald Trump,38,registered_voters
+Marquette Law School,Probability Panel,3,3/13/23,3/22/23,1004,a,NA,Joe Biden,36,adults
+Marquette Law School,Probability Panel,3,3/13/23,3/22/23,1004,a,NA,Ron DeSantis,38,adults
+Marquette Law School,Probability Panel,3,3/13/23,3/22/23,863,rv,NA,Joe Biden,41,registered_voters
+Marquette Law School,Probability Panel,3,3/13/23,3/22/23,863,rv,NA,Ron DeSantis,42,registered_voters
+Marquette Law School,Probability Panel,3,1/9/23,1/20/23,1000,a,NA,Joe Biden,38,adults
+Marquette Law School,Probability Panel,3,1/9/23,1/20/23,1000,a,NA,Donald Trump,39,adults
+Marquette Law School,Probability Panel,3,1/9/23,1/20/23,790,rv,NA,Joe Biden,40,registered_voters
+Marquette Law School,Probability Panel,3,1/9/23,1/20/23,790,rv,NA,Donald Trump,40,registered_voters
+Marquette Law School,Probability Panel,3,1/9/23,1/20/23,1000,a,NA,Joe Biden,36,adults
+Marquette Law School,Probability Panel,3,1/9/23,1/20/23,1000,a,NA,Ron DeSantis,41,adults
+Marquette Law School,Probability Panel,3,1/9/23,1/20/23,790,rv,NA,Joe Biden,38,registered_voters
+Marquette Law School,Probability Panel,3,1/9/23,1/20/23,790,rv,NA,Ron DeSantis,45,registered_voters
+Marquette Law School,Probability Panel,3,11/15/22,11/22/22,1004,a,NA,Joe Biden,39,adults
+Marquette Law School,Probability Panel,3,11/15/22,11/22/22,1004,a,NA,Donald Trump,34,adults
+Marquette Law School,Probability Panel,3,11/15/22,11/22/22,840,rv,NA,Joe Biden,44,registered_voters
+Marquette Law School,Probability Panel,3,11/15/22,11/22/22,840,rv,NA,Donald Trump,34,registered_voters
+Marquette Law School,Probability Panel,3,11/15/22,11/22/22,1004,a,NA,Joe Biden,37,adults
+Marquette Law School,Probability Panel,3,11/15/22,11/22/22,1004,a,NA,Ron DeSantis,39,adults
+Marquette Law School,Probability Panel,3,11/15/22,11/22/22,840,rv,NA,Joe Biden,42,registered_voters
+Marquette Law School,Probability Panel,3,11/15/22,11/22/22,840,rv,NA,Ron DeSantis,42,registered_voters
+Marquette Law School,Probability Panel,3,9/7/22,9/14/22,1448,a,NA,Joe Biden,40,adults
+Marquette Law School,Probability Panel,3,9/7/22,9/14/22,1448,a,NA,Donald Trump,36,adults
+Marquette Law School,Probability Panel,3,9/7/22,9/14/22,1282,rv,NA,Joe Biden,42,registered_voters
+Marquette Law School,Probability Panel,3,9/7/22,9/14/22,1282,rv,NA,Donald Trump,36,registered_voters
+Marquette Law School,Probability Panel,3,9/7/22,9/14/22,1448,a,NA,Joe Biden,40,adults
+Marquette Law School,Probability Panel,3,9/7/22,9/14/22,1448,a,NA,Ron DeSantis,35,adults
+Marquette Law School,Probability Panel,3,9/7/22,9/14/22,1282,rv,NA,Joe Biden,43,registered_voters
+Marquette Law School,Probability Panel,3,9/7/22,9/14/22,1282,rv,NA,Ron DeSantis,38,registered_voters
+Marquette Law School,Probability Panel,3,3/14/22,3/24/22,1004,a,NA,Joe Biden,38,adults
+Marquette Law School,Probability Panel,3,3/14/22,3/24/22,1004,a,NA,Ron DeSantis,33,adults
+Marquette Law School,Probability Panel,3,3/14/22,3/24/22,1004,a,NA,Joe Biden,37,adults
+Marquette Law School,Probability Panel,3,3/14/22,3/24/22,1004,a,NA,Mike Pence,33,adults
+Marquette Law School,Probability Panel,3,3/14/22,3/24/22,1004,a,NA,Joe Biden,41,adults
+Marquette Law School,Probability Panel,3,3/14/22,3/24/22,1004,a,NA,Donald Trump,37,adults
+Marquette Law School,Probability Panel,3,1/10/22,1/21/22,1000,a,NA,Joe Biden,43,adults
+Marquette Law School,Probability Panel,3,1/10/22,1/21/22,1000,a,NA,Donald Trump,33,adults
+Marquette Law School,Probability Panel,3,1/10/22,1/21/22,1000,a,NA,Joe Biden,41,adults
+Marquette Law School,Probability Panel,3,1/10/22,1/21/22,1000,a,NA,Ron DeSantis,33,adults
+Marquette Law School,Probability Panel,3,11/1/21,11/10/21,1004,a,NA,Joe Biden,42,adults
+Marquette Law School,Probability Panel,3,11/1/21,11/10/21,1004,a,NA,Donald Trump,34,adults
+Marquette Law School,Live Phone,3,10/26/21,10/31/21,805,rv,Wisconsin,Joe Biden,45,registered_voters
+Marquette Law School,Live Phone,3,10/26/21,10/31/21,805,rv,Wisconsin,Donald Trump,41,registered_voters

@@ -1,44 +1,59 @@
 #### Preamble ####
-# Purpose: Cleans the raw plane data recorded by two observers..... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 6 April 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Cleans the raw election data
+# Author: Xuanle Zhou, Yongqi Liu, Yuxuan Wei
+# Date: 14 October 2024
+# Contact: cassieliu.liu@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: Get the raw data from the US election pollsters
+# Any other information needed? NA
 
 #### Workspace setup ####
 library(tidyverse)
+library(dplyr)
+raw_data <- read_csv("data/01-raw_data/US_voting.csv")
+colnames(raw_data)
 
-#### Clean data ####
-raw_data <- read_csv("inputs/data/plane_data.csv")
+#### Clean the poll data
+# Filter for likely voters (lv)
+likely_voters_data <- raw_data %>% filter(population == "lv")
 
-cleaned_data <-
-  raw_data |>
-  janitor::clean_names() |>
-  select(wing_width_mm, wing_length_mm, flying_time_sec_first_timer) |>
-  filter(wing_width_mm != "caw") |>
+# Sort pollsters based on numeric_grade and pollscore
+reliable_pollsters <- likely_voters_data %>%
+  filter(!is.na(numeric_grade) & !is.na(pollscore)) %>%
+  arrange(desc(numeric_grade), desc(pollscore))
+
+# Rank pollsters by transparency_score as well
+#Higher transparency scores indicate more detailed methodology information
+reliable_pollsters <- reliable_pollsters %>%
+  filter(!is.na(transparency_score)) %>%
+  arrange(desc(transparency_score))
+
+# Consider methodology
+# Extract the columns that provide relevant information
+final_pollster_ranking <- reliable_pollsters %>%
+  dplyr::select(pollster, numeric_grade, pollscore, transparency_score, methodology)
+
+
+# Now we decide to use Marquette Law School with highest numeric grade and transparency
+cleaned_data <- raw_data %>% filter(pollster=="Marquette Law School") 
+# Clean raw dataset, remove columns with many missing values and keep the columns we want to make analysis on
+cleaned_data <- cleaned_data %>% dplyr::select(pollster, methodology, numeric_grade, start_date,
+                                               end_date, sample_size, population, state, 
+                                               candidate_name, pct)
+
+#filter(!is.na(population) & !is.na(state) & !is.na(candidate_name) & !is.na(pct) & !is.na(numeric_grade& )
+
+# Change name for different types of voters in population column
+cleaned_data <- cleaned_data %>%
   mutate(
-    flying_time_sec_first_timer = if_else(flying_time_sec_first_timer == "1,35",
-                                   "1.35",
-                                   flying_time_sec_first_timer)
-  ) |>
-  mutate(wing_width_mm = if_else(wing_width_mm == "490",
-                                 "49",
-                                 wing_width_mm)) |>
-  mutate(wing_width_mm = if_else(wing_width_mm == "6",
-                                 "60",
-                                 wing_width_mm)) |>
-  mutate(
-    wing_width_mm = as.numeric(wing_width_mm),
-    wing_length_mm = as.numeric(wing_length_mm),
-    flying_time_sec_first_timer = as.numeric(flying_time_sec_first_timer)
-  ) |>
-  rename(flying_time = flying_time_sec_first_timer,
-         width = wing_width_mm,
-         length = wing_length_mm
-         ) |> 
-  tidyr::drop_na()
+    population_group = case_when(
+      population == "lv" ~ "likely_voters",
+      population == "rv" ~ "registered_voters",
+      population == "a"  ~ "adults"))
+
+# View the cleaned dataset
+head(cleaned_data)
 
 #### Save data ####
-write_csv(cleaned_data, "outputs/data/analysis_data.csv")
+# Save the cleaned dataset to a new CSV file
+write_csv(cleaned_data, "data/02-analysis_data/cleaned_US_voting.csv")
