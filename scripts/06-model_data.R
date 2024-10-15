@@ -13,7 +13,7 @@ library(tidyverse)
 library(rstanarm)
 
 #### Read data ####
-analysis_data <- read_csv("data/01-raw_data/US_voting.csv")
+analysis_data <- read_csv("data/02-analysis_data/cleaned_US_voting.csv")
 
 ### Model data ####
 first_model <-
