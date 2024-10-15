@@ -53,7 +53,7 @@ filtered_data <- cleaned_data %>%
   filter(!candidate_name %in% c("Chase Oliver", "Claudia De La Cruz"))
 
 # Boxplot to compare support percentages across candidates
-ggplot(filtered_data, aes(x = candidate_name, y = pct, fill = candidate_name)) +
+ggplot(candidates, aes(x = candidate_name, y = pct, fill = candidate_name)) +
   geom_boxplot() +
   labs(title = "Comparison of Support Across Candidates", x = "Candidate", y = "Support Percentage (pct)", fill="Candidate Name") +
   theme_minimal() +
@@ -74,17 +74,17 @@ ggplot(cleaned_data, aes(x = candidate_name, y = pct, fill = population_group)) 
 # The output shows there are 2 candidates with nearly no votes, so remove them.
 
 # Re-create the bar plot without those two candidates
-ggplot(filtered_data, aes(x = candidate_name, y = pct, fill = population_group)) +
+ggplot(candidates, aes(x = candidate_name, y = pct, fill = population_group)) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(title = "Candidate Support by Population Type", x = "Candidate", y = "Support Percentage (pct)") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-filtered_data |>
+candidates |>
   filter(pct > 1) |>
   ggplot(aes(x = sample_size, y = pct, 
              color = candidate_name)) +
-  geom_point(size = 2, alpha = 0.5) +
+  geom_point(size = 1, alpha = 0.2) +
   theme_classic() +
   labs(
     x = "Sample Size",
