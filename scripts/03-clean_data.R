@@ -37,6 +37,9 @@ colnames(raw_data)
 
 # Now we decide to use pollster with grade >2.5 as 'high quality' pollster
 cleaned_data <- raw_data %>% filter(numeric_grade > 2.5)
+cleaned_data$mdy <- mdy(cleaned_data$end_date)
+cleaned_data <- cleaned_data %>%
+  filter(candidate_name== "Donald Trump")
 # Clean raw dataset, remove columns with many missing values and keep the columns we want to make analysis on
 cleaned_data <- cleaned_data %>% dplyr::select(pollster, methodology, numeric_grade, start_date,
                                                end_date, sample_size, population, state, 
