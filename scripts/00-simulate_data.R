@@ -1,6 +1,6 @@
 #### Preamble ####
-# Purpose: Simulates a dataset of 2024 US election, to explore what plausible values might appear in the dataset.
-  #state and party that won each division.
+# Purpose: Simulates a dataset of 2024 US election, to explore 
+  #what plausible values might appear in the dataset.
 # Author: Xuanle Zhou, Yongqi Liu, Yuxuan Wei
 # Date: 18 October 2024
 # Contact: isabella.zhou@mail.utoronto.ca
@@ -118,9 +118,9 @@ us_states <- c(
 #start date and end date
 date_range <- seq.Date(from = as.Date("2021-01-20"), to = as.Date("2024-09-20"), by = "day")
 
-#populatioin_group
-populatioin_group <- c(
-  "likely_voters", "registered_voters", "adults"
+#population_group
+population_group <- c(
+  "likely voters", "registered voters", "adults"
 )
 
 # Create a dataset by randomly assigning pollster, methodology, start date, end date, sample size, population_group and percentage
@@ -136,13 +136,13 @@ simulated_data <- tibble(
     sample_size = sample(100:20000, size = num_obs, replace = TRUE) ,
     state = sample(
       us_states, 
-      size = num_obs,  # Replace 151 with num_obs
+      size = num_obs, 
       replace = TRUE
     ),
     candidate_name = "Donald Trump",
-    percent = sample(20:80, size = num_obs, replace = TRUE) ,
-    populatioin_group = sample(populatioin_group, size = num_obs, replace = TRUE, 
-                                        prob = c(0.45, 0.45, 0.1)),
+    percent = sample(0:100, size = num_obs, replace = TRUE) ,
+    population_group = sample(population_group, size = num_obs, replace = TRUE, 
+                                        prob = c(0.45, 0.45, 0.1)), 
   )
 
 # Save data
