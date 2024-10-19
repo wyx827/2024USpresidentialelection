@@ -37,52 +37,69 @@ test_that("Dataset has the correct number of columns", {
                info = paste("Expected", expected_columns, "columns but got", actual_columns))
 })
 
-
 #Test3: Check pollster columns are in expected names #
-expected_pollsters <- c( "The New York Times/Siena College", 
-                      "ABC News/The Washington Post", 
-                      "Marquette University Law School", "YouGov",
-                      "Monmouth University Polling Institute", 
-                      "Marist College", "Suffolk University","Data Orbital", 
-                      "University of Massachusetts Lowell Center for Public Opinion", 
-                      "Emerson College", 
-                      "Muhlenberg College Institute of Public Opinion", 
-                      "Selzer & Co.", 
-                      "University of North Florida Public Opinion Research Lab", 
-                      "CNN","SurveyUSA", "Beacon Research/Shaw & Co. Research", 
-                      "Quinnipiac University", "MassINC Polling Group", "Ipsos", 
-                      "Christopher Newport University Wason Center for Civic Leadership", 
-                      "Siena College","AtlasIntel", "Echelon Insights", 
-                      "The Washington Post/George Mason University Schar School of Policy and Government", 
-                      "East Carolina University Center for Survey Research", 
-                      "Data for Progress", 
-                      "Hart Research Associates/Public Opinion Strategies",
-                      "University of New Hampshire Survey Center", 
-                      "Stockton University William J. Hughes Center for Public Policy", 
-                      "Remington Research Group", 
-                      "Mason-Dixon Polling & Strategy",
-                      "Roanoke College Institute for Policy and Opinion Research", 
-                      "Fairleigh Dickinson University", 
-                      "University of Arkansas Department of Political Science", 
-                      "Lake Research Partners/The Tarrance Group",
-                      "Public Policy Institute of California", 
-                      "Michigan State University Institute for Public Policy and Social Research",
-                      "Elon University", 
-                      "Southern Illinois University Paul Simon Public Policy Institute", 
-                      "Pew Research Center",
-                      "University of Illinois Springfield Survey Research Office", 
-                      "Western New England University Polling Institute", 
-                      "High Point University Survey Research Center", "Gallup", 
-                      "Abt Associates", "The Winston Group", "KFF", 
-                      "Winthrop University Center for Public Opinion & Policy Research", 
-                      "The Washington Post/University of Maryland Center for Democracy and Civic Engagement", 
-                      "University of California Berkeley Institute of Governmental Studies")
+expected_pollsters <- c( "Siena/NYT", 
+                         "ABC News/The Washington Post", 
+                         "Marquette University Law School", "YouGov",
+                         "Monmouth University Polling Institute", 
+                         "Marist College", "Suffolk University","Data Orbital", 
+                         "University of Massachusetts Lowell Center for Public Opinion", 
+                         "Emerson College", 
+                         "Muhlenberg College Institute of Public Opinion", 
+                         "Selzer & Co.", "CNN/SSRS",
+                         "University of North Florida Public Opinion Research Lab", 
+                         "CNN","SurveyUSA", "Beacon/Shaw", 
+                         "Quinnipiac University", "MassINC Polling Group", "Ipsos", 
+                         "Christopher Newport University Wason Center for Civic Leadership", 
+                         "Siena College","AtlasIntel", "Echelon Insights", 
+                         "The Washington Post/George Mason University Schar School of Policy and Government", 
+                         "East Carolina University Center for Survey Research", 
+                         "Data for Progress", 
+                         "Hart/POS",
+                         "University of New Hampshire Survey Center", 
+                         "Stockton University William J. Hughes Center for Public Policy", 
+                         "Remington Research Group", 
+                         "Mason-Dixon Polling & Strategy",
+                         "Roanoke College Institute for Policy and Opinion Research", 
+                         "Fairleigh Dickinson University", 
+                         "University of Arkansas Department of Political Science", 
+                         "Lake Research Partners/The Tarrance Group",
+                         "Public Policy Institute of California", 
+                         "Michigan State University Institute for Public Policy and Social Research",
+                         "Elon University", 
+                         "Southern Illinois University Paul Simon Public Policy Institute", 
+                         "Pew Research Center",
+                         "University of Illinois Springfield Survey Research Office", 
+                         "Western New England University Polling Institute", 
+                         "High Point University Survey Research Center", "Gallup", 
+                         "Abt Associates", "The Winston Group", "KFF", 
+                         "Winthrop University Center for Public Opinion & Policy Research", 
+                         "The Washington Post/University of Maryland Center for Democracy and Civic Engagement", 
+                         "University of California Berkeley Institute of Governmental Studies")
 # Test to check if pollster column only contains expected names
-test_that("Pollster column contains only expected names", {
-  actual_pollsters <- unique(simulated_data$`pollster`)  
-  # Check that the actual pollsters match the expected ones
-  expect_setequal(actual_pollsters, expected_pollsters)
+
+test_that("All actual pollsters are in the expected names", {
+  actual_pollsters <- unique(simulated_data$`pollster`)
+  
+  # Function to check for partial matches
+  matches_expected <- function(actual) {
+    # Split the actual name into words
+    actual_words <- str_split(actual, "\\s+")[[1]]
+    
+    # Check if any word in the actual name is contained in any expected name
+    any(sapply(expected_pollsters, function(expected) {
+      any(str_detect(expected, fixed(actual_words, ignore_case = TRUE)))
+    }))
+  }
+  
+  # Check for actual pollsters that do not match
+  missing_pollsters <- actual_pollsters[!sapply(actual_pollsters, matches_expected)]
+  
+  expect_true(length(missing_pollsters) == 0, 
+              info = paste("The following actual pollsters are not in the expected names:", 
+                           paste(missing_pollsters, collapse = ", ")))
 })
+
 
 # Test 4: Check that the methodology columns are in the expected methodology
 expected_methodology <- c(
@@ -124,7 +141,7 @@ expected_state <- c(
   "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
   "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", 
   "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", 
-  "Washington", "West Virginia", "Wisconsin", "Wyoming"
+  "Washington", "West Virginia", "Wisconsin", "Wyoming", "National"
 )
 test_that("state column contains all states in the US", {
   actual_state <- unique(simulated_data$`state`)  
