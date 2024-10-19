@@ -112,14 +112,14 @@ just_trump_high_quality <- cleaned_data |>
 
 # Model 1: Plot for Trump based on end_date
 ggplot(just_trump_high_quality, aes(x = end_date)) +
-  geom_point(aes(y = pct), color = "black") +
+  geom_point(aes(y = pct), color = "black", size = 1) +
   geom_line(aes(y = fitted_trump_date), color = "blue", linetype = "dotted") +
   theme_classic() +
   labs(y = "Trump Percent", x = "Date", title = "Linear Model 1:Trump Poll Percent vs. Date")
 
 # Model 2: Plot for Trump based on end_date and pollster
 ggplot(just_trump_high_quality, aes(x = end_date)) +
-  geom_point(aes(y = pct), color = "black") +
+  geom_point(aes(y = pct), color = "black", size = 0.5) +
   geom_line(aes(y = fitted_trump_date_pollster), color = "blue", linetype = "dotted") +
   facet_wrap(vars(pollster)) +
   theme_classic() +
