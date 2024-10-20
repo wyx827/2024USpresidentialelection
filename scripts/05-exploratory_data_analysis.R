@@ -23,10 +23,10 @@ summary(analysis_data$sample_size)
 summary(analysis_data$pct)
 summary(analysis_data$numeric_grade)
 
-# Histogram of support percentages (pct) for all candidates
-ggplot(cleaned_data, aes(x = pct)) +
+# Histogram of support percentages (pct) for Trump
+ggplot(cleaned_data, aes(x = percent)) +
   geom_histogram(binwidth = 2, fill = "blue", color = "black", alpha = 0.7) +
-  labs(title = "Distribution of Support (pct) for Candidates", x = "Support Percentage (pct)", y = "Count") +
+  labs(title = "Distribution of Support (pct) for Donald Trump", x = "Support Percentage (pct)", y = "Count") +
   theme_minimal()
 
 # Histogram of sample size to see its distribution
@@ -35,22 +35,11 @@ ggplot(cleaned_data, aes(x = sample_size)) +
   labs(title = "Distribution of Sample Size", x = "Sample Size", y = "Count") +
   theme_minimal()
 
-# Correct way to filter for multiple candidates
-#candidates <- cleaned_data %>%
-  #filter(candidate_name %in% c("Kamala Harris", "Donald Trump", "Jill Stein", 
-                               "Chase Oliver", "Cornel West"))
-# Display the filtered data
-#print(candidates)
-
 # Line plot of candidate support over time
 ggplot(candidates, aes(x = as.Date(start_date, format = "%m/%d/%y"), y = pct, color = candidate_name)) +
   geom_line() +
   labs(title = "Candidate Support Over Time", x = "Date", y = "Support Percentage (pct)") +
   theme_minimal()
-
-# Filter out the candidates with little voter support
-filtered_data <- cleaned_data %>%
-  filter(!candidate_name %in% c("Chase Oliver", "Claudia De La Cruz"))
 
 # Boxplot to compare support percentages across candidates
 ggplot(candidates, aes(x = candidate_name, y = pct, fill = candidate_name)) +
@@ -63,16 +52,7 @@ ggplot(candidates, aes(x = candidate_name, y = pct, fill = candidate_name)) +
 head(cleaned_data)
 
 # Bar plot of candidate support by population type
-ggplot(cleaned_data, aes(x = candidate_name, y = pct, fill = population_group)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Candidate Support by Population Type", x = "Candidate", y = "Support Percentage (pct)") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-# The output shows there are 2 candidates with nearly no votes, so remove them.
-
-# Re-create the bar plot without those two candidates
-ggplot(candidates, aes(x = candidate_name, y = pct, fill = population_group)) +
+ggplot(cleaned_data, aes(x = candidate_name, y = percent, fill = population_group)) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(title = "Candidate Support by Population Type", x = "Candidate", y = "Support Percentage (pct)") +
   theme_minimal() +
@@ -96,10 +76,10 @@ candidates |>
 
 ## Starter models ##
 # Model 1: pct as a function of end_date for Trump
-model_trump_date <- lm(pct ~ end_date, data = cleaned_data)
+model_trump_date <- lm(percent ~ end_date, data = cleaned_data)
 
 # Model 2: pct as a function of end_date and pollster for Trump
-model_trump_date_pollster <- lm(pct ~ end_date + pollster, data = cleaned_data)
+model_trump_date_pollster <- lm(percent ~ end_date + pollster_rating_name, data = cleaned_data)
 
 # Augment the data with model predictions
 just_trump_high_quality <- cleaned_data |>
@@ -110,25 +90,25 @@ just_trump_high_quality <- cleaned_data |>
 
 # Model 1: Plot for Trump based on end_date
 ggplot(just_trump_high_quality, aes(x = end_date)) +
-  geom_point(aes(y = pct), color = "black", size = 1) +
+  geom_point(aes(y = percent), color = "black", size = 1) +
   geom_line(aes(y = fitted_trump_date), color = "blue", linetype = "dotted") +
   theme_classic() +
   labs(y = "Trump Percent", x = "Date", title = "Linear Model 1:Trump Poll Percent vs. Date")
 
 # Model 2: Plot for Trump based on end_date and pollster
 ggplot(just_trump_high_quality, aes(x = end_date)) +
-  geom_point(aes(y = pct), color = "black", size = 0.5) +
+  geom_point(aes(y = percent), color = "black", size = 0.5) +
   geom_line(aes(y = fitted_trump_date_pollster), color = "blue", linetype = "dotted") +
-  facet_wrap(vars(pollster)) +
+  facet_wrap(vars(pollster_rating_name)) +
   theme_classic() +
   labs(y = "Trump Percent", x = "Date", title = "Linear Model 2: Trump Poll Percent vs. Date by Pollster")
 
 ## Bayesian Model ##
 just_trump_high_quality2 <- cleaned_data |>
   mutate(
-    pollster = factor(pollster),    # Convert pollster to a factor
+    pollster = factor(pollster_rating_name),    # Convert pollster to a factor
     state = factor(state),          # Convert state to a factor
-    num_trump = round((pct / 100) * sample_size, 0)
+    num_trump = round((percent / 100) * sample_size, 0)
   )
 
 # Model formula
