@@ -17,24 +17,6 @@ colnames(raw_data)
 # Filter for likely voters (lv)
 #likely_voters_data <- raw_data %>% filter(population == "lv")
 
-# Sort pollsters based on numeric_grade and pollscore
-#reliable_pollsters <- likely_voters_data %>%
-  #filter(!is.na(numeric_grade) & !is.na(pollscore)) %>%
-  #arrange(desc(numeric_grade), desc(pollscore))
-
-# Rank pollsters by transparency_score as well
-#Higher transparency scores indicate more detailed methodology information
-#reliable_pollsters <- reliable_pollsters %>%
-#  filter(!is.na(transparency_score)) %>%
- # arrange(desc(transparency_score))
-
-# Consider methodology
-# Extract the columns that provide relevant information
-#final_pollster_ranking <- reliable_pollsters %>%
- # dplyr::select(pollster, numeric_grade, pollscore, transparency_score, methodology)
-
-
-
 # Now we decide to use pollster with grade >2.5 as 'high quality' pollster
 cleaned_data <- raw_data %>% filter(numeric_grade > 2.5)
 cleaned_data$mdy <- mdy(cleaned_data$end_date)
