@@ -62,7 +62,8 @@ pollster <- c(
 
 #methodology
 methodology <- c(
-  "App Panel", "Live Phone","Online Ad", "Email", "Probability Panel", "Text", "Text-to-Web"
+  "App Panel", "Live Phone", "Online Ad", "Email", "Probability Panel", 
+  "Text", "Text-to-Web", "Mixed", "Online Panel", "IVR" 
 )
 
 #grade of pollster
