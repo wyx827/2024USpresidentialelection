@@ -99,15 +99,18 @@ test_that("All actual pollsters are in the expected names", {
 })
 
 
-### Test 4: Check that the methodology columns are in the expected methodology###
-#expected_methodology <- c(
- # "App Panel", "Live Phone","Online Ad", "Email", "Probability Panel", "Text", "Text-to-Web"
-#)
-#test_that("Methdology column contains only expected methodology", {
-  #actual_methodology <- unique(analysis_data$`methodology`)  
-  # Check that the actual pollsters match the expected ones
-  #expect_setequal(actual_methodology, expected_methodology)
-#})
+# Test 4: Check that the methodology columns are in the expected methodology#
+expected_methodology <- c(  
+  "App Panel", "Live Phone", "Online Ad", "Email", "Probability Panel", 
+  "Text", "Text-to-Web", "Mixed", "Online Panel", "IVR" 
+)
+
+test_that("Methdology column contains only expected methodology", { 
+  actual_methodology <- unique(analysis_data$`methodology`) 
+  # Check that all actual methodologies are in the expected ones
+  expect_true(all(actual_methodology %in% expected_methodology), 
+              info = "Some actual methodologies are not in the expected list")
+})
 
 # Test 5: Check if the 'numerical grade' column is equal or higher than 2.5
 test_that("Numerical grade column is equal to or higher than 2.5", {

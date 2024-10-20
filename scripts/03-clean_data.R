@@ -64,6 +64,10 @@ cleaned_data <- cleaned_data %>%
 # Delete NA
 cleaned_data <- na.omit(cleaned_data)
 
+# regroup the methodology
+cleaned_data <- cleaned_data %>%
+  mutate(methodology = ifelse(grepl("/", methodology), "Mixed", methodology))
+
 # View the cleaned dataset
 head(cleaned_data)
 
