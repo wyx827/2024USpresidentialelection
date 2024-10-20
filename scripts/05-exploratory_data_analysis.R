@@ -25,22 +25,22 @@ summary(analysis_data$numeric_grade)
 
 # Histogram of support percentages (pct) for all candidates
 ggplot(cleaned_data, aes(x = pct)) +
-  geom_histogram(binwidth = 5, fill = "blue", color = "black", alpha = 0.7) +
+  geom_histogram(binwidth = 2, fill = "blue", color = "black", alpha = 0.7) +
   labs(title = "Distribution of Support (pct) for Candidates", x = "Support Percentage (pct)", y = "Count") +
   theme_minimal()
 
 # Histogram of sample size to see its distribution
 ggplot(cleaned_data, aes(x = sample_size)) +
-  geom_histogram(binwidth = 50, fill = "green", color = "black", alpha = 0.7) +
+  geom_histogram(binwidth = 100, fill = "green", color = "black", alpha = 0.7) +
   labs(title = "Distribution of Sample Size", x = "Sample Size", y = "Count") +
   theme_minimal()
 
 # Correct way to filter for multiple candidates
-candidates <- cleaned_data %>%
-  filter(candidate_name %in% c("Kamala Harris", "Donald Trump", "Jill Stein", 
+#candidates <- cleaned_data %>%
+  #filter(candidate_name %in% c("Kamala Harris", "Donald Trump", "Jill Stein", 
                                "Chase Oliver", "Cornel West"))
 # Display the filtered data
-print(candidates)
+#print(candidates)
 
 # Line plot of candidate support over time
 ggplot(candidates, aes(x = as.Date(start_date, format = "%m/%d/%y"), y = pct, color = candidate_name)) +
@@ -58,8 +58,6 @@ ggplot(candidates, aes(x = candidate_name, y = pct, fill = candidate_name)) +
   labs(title = "Comparison of Support Across Candidates", x = "Candidate", y = "Support Percentage (pct)", fill="Candidate Name") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-
 
 # View the updated dataset
 head(cleaned_data)
