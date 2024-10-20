@@ -2,7 +2,7 @@
 # Purpose: Do exploratory data analyis on the cleaned election data
 # Author: Xuanle Zhou, Yongqi Liu, Yuxuan Wei
 # Date: 14 October 2024
-# Contact: cassieliu.liu@mail.utoronto.ca
+# Contact: cassieliu.liu@mail.utoronto.ca, shaw.wei@mail.utoronto.ca
 # License: MIT
 # Pre-requisites: Get the cleaned dataSET of the US election 
 # Any other information needed? NA
@@ -92,23 +92,101 @@ candidates |>
   scale_color_brewer(palette = "Set1")
 
 
-### Model data ####
-#[\\\\\\\\\\\看一下是否需要在这里初步搭一个大概的model\\\\\\\\\\\\]
-first_model <-
-  stan_glm(
-    formula = flying_time ~ length + width,
-    data = analysis_data,
-    family = gaussian(),
-    prior = normal(location = 0, scale = 2.5, autoscale = TRUE),
-    prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),
-    prior_aux = exponential(rate = 1, autoscale = TRUE),
-    seed = 853)
+#### Model data #####
+
+## Starter models ##
+# Model 1: pct as a function of end_date for Trump
+model_trump_date <- lm(pct ~ end_date, data = cleaned_data)
+
+# Model 2: pct as a function of end_date and pollster for Trump
+model_trump_date_pollster <- lm(pct ~ end_date + pollster, data = cleaned_data)
+
+# Augment the data with model predictions
+just_trump_high_quality <- cleaned_data |>
+  mutate(
+    fitted_trump_date = predict(model_trump_date),
+    fitted_trump_date_pollster = predict(model_trump_date_pollster)
+  )
+
+# Model 1: Plot for Trump based on end_date
+ggplot(just_trump_high_quality, aes(x = end_date)) +
+  geom_point(aes(y = pct), color = "black", size = 1) +
+  geom_line(aes(y = fitted_trump_date), color = "blue", linetype = "dotted") +
+  theme_classic() +
+  labs(y = "Trump Percent", x = "Date", title = "Linear Model 1:Trump Poll Percent vs. Date")
+
+# Model 2: Plot for Trump based on end_date and pollster
+ggplot(just_trump_high_quality, aes(x = end_date)) +
+  geom_point(aes(y = pct), color = "black", size = 0.5) +
+  geom_line(aes(y = fitted_trump_date_pollster), color = "blue", linetype = "dotted") +
+  facet_wrap(vars(pollster)) +
+  theme_classic() +
+  labs(y = "Trump Percent", x = "Date", title = "Linear Model 2: Trump Poll Percent vs. Date by Pollster")
+
+## Bayesian Model ##
+just_trump_high_quality2 <- cleaned_data |>
+  mutate(
+    pollster = factor(pollster),    # Convert pollster to a factor
+    state = factor(state),          # Convert state to a factor
+    num_trump = round((pct / 100) * sample_size, 0)
+  )
+
+# Model formula
+model_formula_1 <- cbind(num_trump, sample_size - num_trump) ~ (1 | pollster)
+
+# Specify priors
+priors <- normal(0, 2.5, autoscale = TRUE)
+
+# Fit Bayesian model using stan_glmer
+bayesian_model_1 <- stan_glmer(
+  formula = model_formula_1,
+  data = just_trump_high_quality2,
+  family = binomial(link = "logit"),  # Use binomial family for logistic regression
+  prior = priors,
+  prior_intercept = priors,
+  seed = 123,
+  cores = 4,
+  adapt_delta = 0.95
+)
+
+# Posterior predictive checks
+pp_check(bayesian_model_1)
+
+# Summarize the model
+summary(bayesian_model_1)
+
+# Model formula with state as an additional random effect
+model_formula_2 <- cbind(num_trump, sample_size - num_trump) ~ (1 | pollster) + (1 | state)
+
+# Fit Bayesian model using stan_glmer
+bayesian_model_2 <- stan_glmer(
+  formula = model_formula_2,
+  data = just_trump_high_quality2,
+  family = binomial(link = "logit"),  # Use binomial family for logistic regression
+  prior = priors,
+  prior_intercept = priors,
+  seed = 123,
+  cores = 4,
+  adapt_delta = 0.95
+)
+
+# Posterior predictive checks
+pp_check(bayesian_model_2)
+
+# Summarize the model
+summary(bayesian_model_2)
+
+# Plot random effects for pollster
+plot(bayesian_model_2, pars = "(Intercept)", prob = 0.95) + ggtitle("Bayesian Model 1: Pollster Effect") + theme(plot.title = element_text(hjust = 0.5))
+
+# Plot random effects for pollster and state
+plot(bayesian_model_2, pars = "(Intercept)", prob = 0.95) + ggtitle("Bayesian Model 2: Pollster Effect and State Effects") + theme(plot.title = element_text(hjust = 0.5))
+
 
 
 #### Save model ####
-saveRDS(
-  first_model,
-  file = "models/first_model.rds"
-)
+#saveRDS(
+#  just_trump_high_quality,
+#  file = "models/first_model_1.rds")
 
 

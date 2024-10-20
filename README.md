@@ -1,4 +1,4 @@
-# 2024USpresidentialelection
+# 2024 US Election Prediction
 
 ## Overview
 
