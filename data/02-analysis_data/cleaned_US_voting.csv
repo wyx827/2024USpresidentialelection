@@ -1,4 +1,41 @@
 pollster_rating_name,methodology,numeric_grade,start_date,end_date,sample_size,state,candidate_name,percent,population_group
+Suffolk University,Live Phone,2.9,2024-10-14,2024-10-18,1000,National,Donald Trump,44.4,likely voters
+Suffolk University,Live Phone,2.9,2024-10-14,2024-10-18,1000,National,Donald Trump,48.7,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,4180,National,Donald Trump,50.7,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,4180,National,Donald Trump,50.8,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,1440,Arizona,Donald Trump,49.2,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,1440,Arizona,Donald Trump,49.2,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,1411,Georgia,Donald Trump,49.5,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,1411,Georgia,Donald Trump,50.1,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,1529,Michigan,Donald Trump,49.6,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,1529,Michigan,Donald Trump,50.2,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,1171,Nevada,Donald Trump,48.4,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,1171,Nevada,Donald Trump,48.3,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,1674,North Carolina,Donald Trump,48.8,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,1674,North Carolina,Donald Trump,48.8,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,2048,Pennsylvania,Donald Trump,49.8,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,2048,Pennsylvania,Donald Trump,49.9,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,932,Wisconsin,Donald Trump,48.2,likely voters
+AtlasIntel,Online Ad,2.7,2024-10-12,2024-10-17,932,Wisconsin,Donald Trump,48.4,likely voters
+Emerson College,Mixed,2.9,2024-10-14,2024-10-16,1000,National,Donald Trump,49.2,likely voters
+YouGov,Online Panel,3,2024-10-11,2024-10-16,1435,Arizona,Donald Trump,51,likely voters
+YouGov,Online Panel,3,2024-10-12,2024-10-15,1457,National,Donald Trump,45,registered voters
+YouGov,Online Panel,3,2024-10-12,2024-10-15,1314,National,Donald Trump,45,likely voters
+Emerson College,Mixed,2.9,2024-10-12,2024-10-14,1000,California,Donald Trump,36.6,likely voters
+Beacon Research/Shaw & Co. Research,Mixed,2.8,2024-10-11,2024-10-14,1110,National,Donald Trump,50,registered voters
+Beacon Research/Shaw & Co. Research,Mixed,2.8,2024-10-11,2024-10-14,870,National,Donald Trump,50,likely voters
+Quinnipiac University,Live Phone,2.8,2024-10-10,2024-10-14,1328,Georgia,Donald Trump,52,likely voters
+Quinnipiac University,Live Phone,2.8,2024-10-10,2024-10-14,1328,Georgia,Donald Trump,52,likely voters
+Quinnipiac University,Live Phone,2.8,2024-10-10,2024-10-14,1031,North Carolina,Donald Trump,47,likely voters
+Quinnipiac University,Live Phone,2.8,2024-10-10,2024-10-14,1031,North Carolina,Donald Trump,47,likely voters
+Ipsos,Probability Panel,2.8,2024-10-11,2024-10-13,807,National,Donald Trump,42,registered voters
+Ipsos,Probability Panel,2.8,2024-10-11,2024-10-13,769,National,Donald Trump,44,likely voters
+Ipsos,Probability Panel,2.8,2024-10-11,2024-10-13,938,National,Donald Trump,37,adults
+Marquette University Law School,Probability Panel,3,2024-10-01,2024-10-10,780,National,Donald Trump,50,registered voters
+Marquette University Law School,Probability Panel,3,2024-10-01,2024-10-10,780,National,Donald Trump,39,registered voters
+Marquette University Law School,Probability Panel,3,2024-10-01,2024-10-10,652,National,Donald Trump,50,likely voters
+Marquette University Law School,Probability Panel,3,2024-10-01,2024-10-10,652,National,Donald Trump,41,likely voters
+University of Massachusetts Lowell Center for Public Opinion,Online Panel,2.9,2024-10-02,2024-10-09,800,Pennsylvania,Donald Trump,45,likely voters
 Emerson College,Mixed,2.9,2024-10-05,2024-10-08,1000,Arizona,Donald Trump,50.5,likely voters
 Emerson College,Mixed,2.9,2024-10-05,2024-10-08,1000,Georgia,Donald Trump,49.7,likely voters
 Emerson College,Mixed,2.9,2024-10-05,2024-10-08,950,Michigan,Donald Trump,49.6,likely voters
