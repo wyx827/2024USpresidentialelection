@@ -1,7 +1,7 @@
 #### Preamble ####
 # Purpose: Model for the Trump's election
 # Author: Xuanle Zhou, Yongqi Liu, Yuxuan Wei
-# Date: October 19 2024
+# Date: October 22, 2024
 # Contact: cassieliu.liu@mail.utoronto.ca
 # License: MIT
 # Pre-requisites: Need the US election poll data
@@ -14,13 +14,18 @@ library(tidyverse)
 library(dplyr)
 library(splines)
 library(rstanarm)
+library(bayesplot)
+library(rstanarm)
+library(ggplot2)
+
 
 #### Read data ####
 analysis_data <- read_csv("data/02-analysis_data/cleaned_US_voting.csv")
 
 ### Model data ####
+# 1. Bayesian Model
 # Convert end_date to a numeric
-analysis_data <- analysis_data %>%
+analysis_data %>%
   mutate(end_date_num = as.numeric(end_date - min(end_date)))
 
 # Fit Bayesian model with spline and pollster as fixed effect
@@ -90,36 +95,43 @@ ggplot(analysis_data, aes(x = end_date_num, y = percent, color = pollster_rating
   labs(x = "Days since earliest poll", y = "Trump Percentage", title = "Trump Polling Percentage over Time with Spline Fit") +
   theme_minimal()
 
-#---------------------------------------logistic regression----------------
-# Convert end_date to a numeric counter and create a binary outcome for winning
+#2. Logistic Regression Model
+analysis_data <- read_csv("data/02-analysis_data/cleaned_US_voting.csv")
+# Create a binary outcome variable for Trump's win (1 if percent > 50%, 0 otherwise)
 analysis_data <- analysis_data %>%
   mutate(
-    end_date_num = as.numeric(end_date - min(end_date, na.rm = TRUE)),  # Convert end_date to a numeric counter
-    win_prob = ifelse(percent > 50, 1, 0)  # Create a binary outcome for winning
-  )
+    win_trump = ifelse(percent > 50, 1, 0))
 
-# Make pollster_rating_name a factor
-analysis_data$pollster_rating_name <- factor(analysis_data$pollster_rating_name)
+# Convert necessary variables to factors
+analysis_data %>%
+  mutate(
+    state = factor(state), 
+    pollster_rating_name = factor(pollster_rating_name), 
+    methodology = factor(methodology))
 
-# Check the structure to confirm
+
+# Check the structure of the dataset
 str(analysis_data)
 
-# Fit a Logistic Regression Model
+# Fit a logistic regression model
 logistic_model <- stan_glm(
-  win_prob ~ ns(end_date_num, df = 9) + pollster_rating_name,
+  win_trump ~ pollster_rating_name + state + sample_size + methodology,
   data = analysis_data,
   family = binomial(link = "logit"),
-  prior = normal(0, 2.5),  # Use a reasonable prior
+  prior = normal(0, 2.5),  
   prior_intercept = normal(0, 2.5),
-  seed = 1234,
+  seed = 123,
   iter = 2000,
   chains = 4,
-  refresh = 0
-)
+  refresh = 0 )
 
-# Summarize the Model
-summary(logistic_model)
-#——————-unfinished...
+# Summarize the model
+modelsummary(logistic_model)
+
+# Visualize model predictions vs actual data (optional)
+pp_check(logistic_model) + 
+  theme_classic() + 
+  theme(legend.position = "bottom")
 
 
 
@@ -132,9 +144,6 @@ summary(logistic_model)
 
 
 #### Save model ####
-saveRDS(
-  spline_model_random,
-  file = "models/trump_model.rds"
-)
+saveRDS(logistic_model, file = "models/logistic_model.rds")
 
 
