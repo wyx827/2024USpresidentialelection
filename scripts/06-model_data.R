@@ -125,10 +125,16 @@ summary(logistic_model)
 
 
 
+
+
+
+
+
+
 #### Save model ####
 saveRDS(
   spline_model_random,
-  file = "models/first_model.rds"
+  file = "models/trump_model.rds"
 )
 
 

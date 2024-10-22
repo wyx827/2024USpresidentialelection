@@ -4,7 +4,7 @@ subtitle: "My subtitle if needed"
 author: 
   - First author
   - Yongqi Liu
-  - Third author
+  - Yuxuan Wei
 thanks: "Code and data are available at: [https://github.com/wyx827/2024USpresidentialelection.git]."
 date: today
 date-format: long
@@ -202,6 +202,292 @@ Weaknesses and next steps should also be included.
 
 # Appendix {-}
 
+<<<<<<< HEAD
+=======
+# Pollster Methodology Overview and Evaluation
+
+## Overview of SurveyUSA\
+SurveyUSA is a privately held opinion research company that operates nationwide, across all 50 U.S. states. Since its founding, the company has conducted over 40,000 research projects, serving a client base of 400 organizations, including media outlets, corporations, non-profits, government agencies, and academic institutions. Known for its expertise in localized opinion research, SurveyUSA focuses on gathering data at the city, county, and regional levels. The company offers timely, cost-effective surveys tailored to meet specific client needs, distinguishing itself from larger global firms.
+
+
+## Population, Frame, and Sample\
+
+* Target Population: U.S. citizens eligible to vote in the 2024 presidential election.\
+* Sample Frame:  U.S. households with either home telephones or access to devices such as phones or tablets. \
+* Sample Size: Sample sizes vary across different polls. For the 2024 U.S. presidential election cycle, SurveyUSA conducted 49 polls, with sample sizes ranging from 507 to 2,330 for registered voters or likely voters. The average sample size for these polls is approximately 1,045 households.\
+
+## Recruitment\
+SurveyUSA employs a mixed-method approach to recruitment, including online panels, telephone calls, and a text-to-web method. Some respondents are recruited through Random Digit Dialing (RDD) using telephone samples purchased from Aristotle, while others, who do not use home telephones, are invited to complete the survey on an electronic device such as a phone or tablet. Respondents from non-probability online panels are selected randomly by Cint/Lucid Holdings LLC.\
+
+## Sampling approach and Trade-offs\
+SurveyUSA uses a blend of probability and non-probability sampling methods. Some respondents are drawn from non-probability online panels, while others are recruited using probability-based telephone sampling. Responses are weighted based on the latest U.S. Census estimates for age, gender, ethnicity, and region, ensuring alignment with the target population. Questions and answer choices are rotated to reduce order bias, recency effects, and latency effects.\
+
+* **Advantages:**\
+The diverse sampling approach not only ensures a broad range of opinions is captured but also complements probability-based sampling, which accurately reflects the overall population. Furthermore, reweighting the data according to U.S. Census demographics strengthens the credibility of the results by ensuring demographic accuracy. Additionally, rotating questions and answer choices helps mitigate bias, further improving the reliability of the data. Finally, the use of online surveys offers a cost-effective solution for efficient data collection.\
+* **Disadvantages:**\
+Phone-based data collection tends to be time-consuming and can be affected by interviewer effects during telephone interviews. Additionally, challenges like non-response issues, such as busy signals or refusals to participate, can hinder the effectiveness of the data collection process.\
+
+## Non-response Handling\
+In cases of non-response, SurveyUSA attempts follow-up calls if interviews are interrupted by answering machines or busy signals. Weighting is applied to adjust for non-response bias, although this doesn't completely eliminate challenges posed by unreachable or unwilling participants.\
+
+## Questionnaire Evaluation\
+
+* **Positive Aspects:**
+A logical flow between questions facilitates easy navigation for respondents throughout the survey, while simple wording promotes inclusivity by enabling individuals from diverse backgrounds to comprehend the questions. Furthermore, all questions are directly relevant to analyzing the 2024 U.S. presidential election, and providing predefined response options simplifies the choices for participants.\
+* **Negative Aspects:**
+Static options for party affiliation and ideology may fail to capture the nuances of respondents’ political beliefs. These rigid categories could oversimplify complex political identities.\
+
+## Summary Evaluation\
+SurveyUSA’s methodology reflects a balanced approach, leveraging various sampling approach and method to reach a representative sample. While its blend of probability and non-probability methods has strengths, such as cost-effectiveness and broad reach, it faces challenges related to telephone interview logistics, potential interviewer bias, and the limitations of fixed questionnaire options. Nevertheless, the inclusion of data weighting and question rotation adds credibility to its results, making SurveyUSA a reliable pollster for localized opinion research. 
+
+# Appendix B: Idealized Methodology and Survey
+
+## **Objective and Overview**
+The goal of this survey methodology is to accurately forecast the outcome of the U.S. presidential election by collecting high-quality, representative data from a diverse set of respondents across the country. With a budget of $100,000, this methodology incorporates sophisticated sampling techniques, robust respondent recruitment strategies, and rigorous data validation protocols. The approach is designed to maximize accuracy, reduce bias, and account for various demographic, geographic, and political factors that influence voting behavior.
+
+### **Core Objectives**:
+1. Obtain a representative sample of the U.S. electorate.
+2. Ensure data quality through rigorous validation.
+3. Leverage statistical modeling and poll aggregation for an accurate prediction.
+
+## **1. Sampling Strategy**
+
+The sampling strategy is designed to ensure that the survey reaches a broad, representative section of the voting population. To achieve this, we will use **stratified random sampling** combined with **quota sampling** for key demographics. This ensures that each important subgroup within the population is adequately represented.
+
+### **Stratification Variables**:
+- **Age Groups**: 18-29, 30-44, 45-64, 65+  
+- **Gender**: Male, Female, Non-binary/Other  
+- **Race/Ethnicity**: White, Black, Hispanic/Latino, Asian, Indigenous, Other  
+- **Education Level**: No high school, High school graduate, College graduate, Post-graduate  
+- **Income Bracket**: <$30,000, $30,000-$60,000, $60,000-$100,000, >$100,000  
+- **Geographic Region**: Northeast, Midwest, South, West  
+
+**Sample Size**:  
+A total of **10,000 respondents** will be surveyed, providing a margin of error of approximately ±1% at a 95% confidence level. This sample size will allow for detailed subgroup analysis (e.g., by state, demographic group), yielding statistically robust predictions.
+
+**Weighting**:  
+We will apply post-stratification weights to adjust for any oversampling or undersampling of specific demographic groups. For example, younger voters or underrepresented minorities will be weighted to reflect their true proportions in the voting population.
+
+## **2. Recruitment Strategy**
+
+### **Recruitment Channels**:
+To maximize respondent diversity and ensure accurate sampling, the survey will employ **multi-channel recruitment**:
+
+- **Digital Advertisements**: Targeted ads on platforms like Facebook, Instagram, and Google will be used to recruit respondents based on their demographic profiles (age, gender, location, political interest). Custom audience features will be utilized to reach specific demographic and geographic groups.
+- **Email Outreach**: If permissible, we will access voter registration databases and send email invitations to registered voters. This will allow us to target specific voter demographics that are harder to reach via digital ads.
+- **Partnerships with Civic Organizations**: Partnering with non-profits and civic organizations that engage diverse communities (e.g., minority voter outreach programs) will further boost respondent diversity.
+- **Incentives**: To increase response rates, each participant will be entered into a lottery with a chance to win a $100 gift card, encouraging broader participation.
+
+## **3. Data Validation and Quality Assurance**
+
+Maintaining data integrity and ensuring high-quality responses are critical to the accuracy of the election forecast. Therefore, several measures will be put in place to validate responses and reduce noise in the dataset.
+
+### **Data Validation Protocols**:
+1. **Real-time Captcha Verification**: This will prevent automated bots from submitting responses.
+2. **Email/Phone Verification**: Respondents will verify their email or phone number to ensure authenticity. This ensures that each respondent only participates once.
+3. **Time on Task Monitoring**: The survey platform will monitor the time respondents spend on each question. Responses completed suspiciously quickly (e.g., below 30% of the average completion time) will be flagged for review or exclusion.
+4. **Voter Registration Cross-Check**: If feasible, respondents will be cross-referenced with voter registration records to ensure they are eligible to vote in the upcoming election.
+5. **Response Audits**: Randomly selected respondents will be contacted to verify the accuracy of their responses, ensuring integrity in the dataset.
+
+## **4. Poll Aggregation and Data Analysis**
+
+### **Poll Aggregation**:
+This survey will be combined with results from reputable polling firms (e.g., YouGov, Ipsos, Gallup) to strengthen our forecast through a **poll-of-polls** approach.
+
+- **Weighting by Methodology and Recency**: Poll results will be weighted based on the rigor of their methodology (e.g., online vs. phone surveys, sample size) and the recency of the poll. Recent, methodologically sound polls will receive more weight in the aggregation process.
+- **Handling Bias and Variability**: Aggregated results will adjust for pollster house effects (biases in methodology) and variability between polls, ensuring that no single poll dominates the prediction.
+
+### **Modeling Approach**:
+We will implement **Bayesian hierarchical models** to account for variability across different states, demographics, and regions. This will allow us to model the popular vote and potentially translate it into **Electoral College predictions**.
+
+## **5. Budget Allocation**
+
+- **Respondent Recruitment (Targeted ads, outreach)**: $70,000  
+- **Incentives (e.g., lottery prizes)**: $10,000  
+- **Survey Platform (Google Forms, Qualtrics subscription)**: $5,000  
+- **Data Validation Tools**: $5,000  
+- **Poll Aggregation & Analysis Software**: $10,000  
+
+---
+
+## **6. Survey Implementation**
+
+The survey will be implemented via **Google Forms**, which offers a cost-effective platform for data collection. The link to the live survey can be found here: [Google Form Survey](https://forms.gle/RC1464SvLvtoAYdv6). A copy of the questions is provided below.
+
+### **Survey Structure**:
+
+1. **Introduction**:
+Thank you for taking part in this survey aimed at predicting the outcome of the 2024 US Presidential election. Your insights are valuable to our research.
+
+Please note:
+- **All responses will be kept strictly confidential.**
+- **Your participation is entirely voluntary.**
+- **We kindly request that you answer all questions honestly and to the best of your knowledge.**
+- **The survey is estimated to take approximately 10 minutes to complete.**
+If you have any inquiries or concerns regarding this survey, please don't hesitate to contact the research team at [shaw.wei@mail.utoronto.ca](mailto:shaw.wei@mail.utoronto.ca).
+
+Your contribution to this study is greatly appreciated! Each participant will be entered into a lottery with a chance to win a $100 gift card!
+
+
+2. **Section 1: Eligibility Screening**:
+Are you a U.S. citizen?
+- Yes
+- No [If No, end survey]
+
+Will you be 18 or older by Election Day (November 5, 2024)?
+- Yes
+- No [If No, end survey]
+
+Are you registered to vote in the United States?
+- Yes
+- No
+- Not sure
+- Plan to register before the election
+
+
+3. **Section 2: Demographic Information**:
+What is your age group?
+- 18-29
+- 30-44
+- 45-64
+- 65 or older
+- Prefer not to say
+
+What is your gender?
+- Male
+- Female
+- Non-binary/Other
+- Prefer not to say
+
+What is your race/ethnicity? (Select all that apply)
+- White
+- Black or African American
+- Hispanic or Latino
+- Asian
+- American Indian or Alaska Native
+- Native Hawaiian or Pacific Islander
+- Prefer not to say
+- Other: [Short text answer]
+
+What is your highest level of education completed?
+- No high school
+- High school graduate or equivalent
+- Some college, no degree
+- Bachelor's degree
+- Graduate or professional degree
+- Prefer not to say
+
+What was your total household income in 2023?
+- Less than $30,000
+- $30,000 - $59,999
+- $60,000 - $99,999
+- $100,000 - $149,999
+- $150,000 or more
+- Prefer not to say
+
+In which region of the United States do you currently reside?
+- Northeast (ME, NH, VT, MA, RI, CT, NY, NJ, PA)
+- Midwest (OH, IN, IL, MI, WI, MN, IA, MO, ND, SD, NE, KS)
+- South (DE, MD, DC, VA, WV, NC, SC, GA, FL, KY, TN, AL, MS, AR, LA, OK, TX)
+- West (MT, ID, WY, CO, NM, AZ, UT, NV, WA, OR, CA, AK, HI)
+
+
+4. **Section 3: Political Views and Voting Intentions**:
+How likely are you to vote in the 2024 Presidential election?
+- Definitely will vote
+- Probably will vote
+- Might or might not vote
+- Probably will not vote
+- Definitely will not vote
+
+Generally speaking, do you usually think of yourself as a:
+- Democrat
+- Republican
+- Independent
+- Prefer not to say
+- Other: [Short text answer]
+
+If the 2024 Presidential election were held today, who would you vote for?
+- Kamala Harris (Democrat)
+- Donald Trump (Republican)
+- Undecided
+- Prefer not to say
+- Other: [Short text answer]
+
+How certain are you about your choice?
+- Very certain
+- Somewhat certain
+- Not very certain
+- Not at all certain
+- Prefer not to say
+
+Which THREE issues are most important to you in deciding your vote? (Select exactly three)
+- Economy and jobs
+- Healthcare
+- Immigration
+- Climate change
+- National security
+- Education
+- Gun policy
+- Social justice/racial equality
+- Taxes
+- Crime and public safety
+- Foreign policy
+- Other: [Short text answer]
+
+
+5. **Section 4: Information Sources and Engagement**:
+
+What is your primary source of political news? (Select all that apply)
+- Network TV news (ABC, CBS, NBC)
+- Cable TV news (CNN, Fox News, MSNBC)
+- News websites
+- Social media
+- Radio
+- Print newspapers
+- Friends and family
+- Other: [Short text answer]
+
+How closely have you been following news about the 2024 Presidential election?
+- Very closely
+- Somewhat closely
+- Not too closely
+- Not at all
+- Not sure
+
+
+6. **Section 5: Validation and Consent**:
+Please verify that you are a human by selecting "Blue" from the following options:
+- Red
+- Green
+- Blue
+- Yellow
+
+Consent Statement:
+"I understand that my participation in this survey is voluntary and that my responses will be kept confidential. I agree that my responses may be used for research purposes."
+- Yes, I agree
+- No, I do not agree
+
+Email Address: [Email field]
+
+
+7. **End Message**:
+"Thank you for completing this survey. Your response has been recorded.
+If you have any questions about this survey or would like to be informed about the results, please contact [Your Contact Information]."
+    
+---
+
+### **7. Survey Design Considerations**
+
+- **Question Wording**: All questions are carefully designed to avoid bias or leading responses.
+- **Neutrality**: Political questions are framed neutrally to avoid pushing respondents toward specific answers.
+- **Pilot Testing**: Before full deployment, the survey will undergo a pilot test to identify and resolve any issues.
+
+---
+
+This methodology, combining rigorous sampling, data validation, and aggregation, ensures that the election forecast is as accurate and representative as possible.
+
+>>>>>>> 7bdf4d96b1910dc96b7cd995f3c7eccd50b162f4
 
 # Additional data details
 
