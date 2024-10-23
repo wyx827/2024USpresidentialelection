@@ -126,13 +126,12 @@ ggplot(analysis_data, aes(x = end_date_num, y = percent, color = pollster_rating
 # Read the data
 analysis_data <- read_csv("data/02-analysis_data/cleaned_US_voting.csv")
 
-# Calculate Trump and Harris percentages for each state
+# Calculate Trump and Harris percentages for each state using summarise and case_when
 analysis_data <- analysis_data %>%
   group_by(state) %>%
   mutate(
-    Trump_percent = max(percent[candidate_name == "Donald Trump"], na.rm = TRUE),
-    Harris_percent = max(percent[candidate_name == "Kamala Harris"], na.rm = TRUE)
-  )
+    Trump_percent = mean(case_when(candidate_name == "Donald Trump" ~ percent), na.rm = TRUE),
+    Harris_percent = mean(case_when(candidate_name == "Kamala Harris" ~ percent), na.rm = TRUE))
 
 # Create a binary outcome for prediction: 1 if Trump is predicted to win, 0 if Harris
 analysis_data <- analysis_data %>%
