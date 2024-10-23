@@ -8,8 +8,12 @@
 # Any other information needed? NA
 
 #### Workspace setup ####
+install.packages("arrow")
 library(tidyverse)
 library(dplyr)
+library(arrow)
+
+# Read the raw data
 raw_data <- read_csv("data/01-raw_data/US_voting.csv")
 colnames(raw_data)
 
@@ -74,3 +78,5 @@ head(cleaned_data)
 #### Save data ####
 # Save the cleaned dataset to a new CSV file
 write_csv(cleaned_data, "data/02-analysis_data/cleaned_US_voting.csv")
+
+write_parquet(cleaned_data, "data/02-analysis_data/cleaned_US_voting.parquet")
