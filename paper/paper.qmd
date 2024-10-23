@@ -15,12 +15,9 @@ bibliography: references.bib
 ---
 
 ```{r}
-#| include: false
-#| warning: false
-#| message: false
-
 library(tidyverse)
-analysis_data <- read_csv("data/02-analysis_data/cleaned_US_voting.csv")
+library(ggplot2)
+analysis_data <- read_csv(here::here("data/02-analysis_data/cleaned_US_voting.csv"))
 ```
 
 
@@ -80,14 +77,7 @@ And also planes (@fig-planes). (You can change the height and width, but don't w
 #| warning: false
 #| message: false
 
-analysis_data <- read_csv(here::here("data/02-analysis_data/analysis_data.csv"))
 
-analysis_data |> 
-  ggplot(aes(x = width, y = length)) +
-  geom_point(alpha = 0.8) +
-  theme_minimal() +
-  labs(x = "Wing width (mm)",
-       y = "Wing length (mm)")
 ```
 
 Talk way more about it. 
@@ -111,24 +101,35 @@ The goal of our modelling strategy is twofold. Firstly,...
 
 Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
 
-## Model set-up
+## Logistic Regression Model Build up
 
-Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.  
+To predict whether Donald Trump would win over Kamala Harris based on polling data, we constructed a logistic regression model using a subset of 1,000 randomly sampled observations from our cleaned dataset. The dependent variable, trump_win, is a binary outcome representing whether Trump was predicted to win in a given state (1 for Trump win, 0 for Harris win). The independent variables included in the model are pollster_rating_name, state, population_group, numeric_grade, sample_size, and methodology.
+
+We used the logit link function given that our outcome variable is binary. The logistic regression model estimates the log odds of Trump winning as a linear function of these predictors. Each predictor variable was selected based on its relevance to polling outcomes:
+
+	•	pollster_rating_name captures the credibility of the polling firm, as rated by independent organizations.
+	•	state accounts for geographic variations in voter preferences.
+	•	population_group represents different demographic categories.
+	•	numeric_grade reflects the poll’s quality rating.
+	•	sample_size measures the size of the poll’s sample, which can impact the poll’s reliability.
+	•	methodology captures how the poll was conducted (e.g., online, phone-based, etc.).
+
+We applied a Bayesian approach to estimate the logistic regression model using Stan, with weakly informative priors (Normal distribution with mean 0 and standard deviation 2.5) for both the coefficients and the intercept. These priors reflect our assumption that the effect of each predictor is centered around 0, with a moderate level of uncertainty.
+By incorporating state and demographic information along with pollster quality and methodology, we aim to capture the variability in polling predictions across different regions and polling practices. The use of Bayesian inference allows us to quantify uncertainty in our predictions more effectively.
+
+We use weakly informative Normal priors for the intercept ( \alpha ) and coefficients ( \beta_i ), centered around zero with a standard deviation of 2.5. These priors were chosen to allow the data to influence the predictions while still reflecting reasonable uncertainty. Specifically:
 
 \begin{align} 
 y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
 \mu_i &= \alpha + \beta_i + \gamma_i\\
 \alpha &\sim \mbox{Normal}(0, 2.5) \\
-\beta &\sim \mbox{Normal}(0, 2.5) \\
-\gamma &\sim \mbox{Normal}(0, 2.5) \\
-\sigma &\sim \mbox{Exponential}(1)
+\beta_{i} &\sim \mbox{Normal}(0, 2.5) \\
 \end{align}
 
 We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
 
-
 ```{r}
-trump_model <- readRDS(here::here(("models/trump_model.rds")))
+logistic_model <- readRDS(here::here(("models/logistic_model.rds")))
 ```
 
 # Diagnostic plots for the MLR model
@@ -147,35 +148,16 @@ We can use maths by including latex between dollar signs, for instance $\theta$.
 
 # Results
 
-Our results are summarized in @tbl-modelresults.
+Our results are summarized in ...
 
 ```{r}
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
 
 library(rstanarm)
 
 first_model <-
-  readRDS(file = here::here("models/first_model.rds"))
+  readRDS(file = (here::here("models/logistic_model.rds")))
 ```
 
-```{r}
-#| echo: false
-#| eval: true
-#| label: tbl-modelresults
-#| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
-#| warning: false
-
-modelsummary::modelsummary(
-  list(
-    "First model" = first_model
-  ),
-  statistic = "mad",
-  fmt = 2
-)
-```
 
 
 
@@ -201,8 +183,6 @@ Weaknesses and next steps should also be included.
 \appendix
 
 # Appendix {-}
-
-<<<<<<< HEAD
 =======
 # Pollster Methodology Overview and Evaluation
 
@@ -509,15 +489,7 @@ In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. Th
 #| fig-cap: "Examining how the model fits, and is affected by, the data"
 #| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
 
-pp_check(first_model) +
-  theme_classic() +
-  theme(legend.position = "bottom")
 
-posterior_vs_prior(first_model) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
 ```
 
 ## Diagnostics
@@ -536,9 +508,7 @@ posterior_vs_prior(first_model) +
 #| fig-subcap: ["Trace plot", "Rhat plot"]
 #| layout-ncol: 2
 
-plot(trump_model, "trace")
 
-plot(first_model, "rhat")
 
 ```
 
