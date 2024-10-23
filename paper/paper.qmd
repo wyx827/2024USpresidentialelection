@@ -15,6 +15,7 @@ bibliography: references.bib
 ---
 
 ```{r}
+#install.packages("tidymodels")
 library(tidyverse)
 library(ggplot2)
 analysis_data <- read_csv(here::here("data/02-analysis_data/cleaned_US_voting.csv"))
@@ -35,14 +36,11 @@ Telegraphing paragraph: The remainder of this paper is structured as follows. @s
 
 
 
-
-
-
 # Data {#sec-data}
 
 ## Overview
 
-We use the statistical programming language R [@citeR].... Our data [@shelter].... Following @tellingstories, we consider...
+We use the statistical programming language R [@citeR].... Following @tellingstories, we consider...
 
 Overview text
 
@@ -56,7 +54,7 @@ Add graphs, tables and text. Use sub-sub-headings for each outcome variable or u
 
 
 
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
+Some of our data is of penguins (@fig-bills), 
 
 ```{r}
 #| label: fig-bills
@@ -97,51 +95,90 @@ Use sub-sub-headings for each outcome variable and feel free to combine a few in
 
 # Model
 
-The goal of our modelling strategy is twofold. Firstly,...
+To model Donald Trump’s polling percentages over time, we employed a Bayesian linear regression framework. Bayesian methods provide a flexible approach to inference by incorporating prior beliefs and updating them with observed data, allowing us to quantify uncertainty in both parameter estimates and predictions.
 
-Here we briefly describe the logistic regression model used to investigate the winning probability of Trump. Background details and diagnostics are included in [Appendix -@sec-model-details].
+Here we briefly describe the Bayesian model used to investigate the winning probability of Trump. Background details and diagnostics are included in [Appendix -@sec-model-details].
 
-## Logistic Regression Model Setup
+## Multiple Linear Regression Model Overview
+The model now predicts Trump’s polling percentage (percent) using the following predictors:
 
-To predict whether Donald Trump would win over Kamala Harris based on polling data, we constructed a logistic regression model using a subset of 1,000 randomly sampled observations from our cleaned dataset. The dependent variable, trump_win, is a binary outcome representing whether Trump was predicted to win in a given state (1 for Trump win, 0 for Harris win). The independent variables included in the model are pollster_rating_name, state, population_group, numeric_grade, sample_size, and methodology.
+- Numeric Grade (numeric_grade): Reflects the quality rating of the pollster.
+- Sample Size (sample_size): The number of respondents in the poll.
+- State (state): A categorical variable for different U.S. states.
+- Transparency Score (transparency_score): A measure of how transparent the polling data and methodology are.
+- End Date (end_date): The date the poll was completed, which might capture trends over time.
 
-We used the logit link function given that our outcome variable is binary. The logistic regression model estimates the log odds of Trump winning as a linear function of these predictors. Each predictor variable was selected based on its relevance to polling outcomes:
-
-- pollster_rating_name captures the credibility of the polling firm, as rated by independent organizations.
-- state accounts for geographic variations in voter preferences.
-- population_group represents different demographic categories.
-- numeric_grade reflects the poll’s quality rating.
-- sample_size measures the size of the poll’s sample, which can impact the poll’s reliability.
-- methodology captures how the poll was conducted (e.g., online, phone-based, etc.).
+The model takes the form:
+The model takes the form:
 
 
-We applied a Bayesian approach to estimate the logistic regression model using Stan, with weakly informative priors (Normal distribution with mean 0 and standard deviation 2.5) for both the coefficients and the intercept. These priors reflect our assumption that the effect of each predictor is centered around 0, with a moderate level of uncertainty.
-By incorporating state and demographic information along with pollster quality and methodology, we aim to capture the variability in polling predictions across different regions and polling practices. The use of Bayesian inference allows us to quantify uncertainty in our predictions more effectively.
 
-We use weakly informative Normal priors for the intercept ( \alpha ) and coefficients ( \beta_i ), centered around zero with a standard deviation of 2.5. These priors were chosen to allow the data to influence the predictions while still reflecting reasonable uncertainty. Specifically:
 
-\begin{align*}
-y_i | \mu_i &\sim \text{Bernoulli}(\mu_i) \\
-\mu_i &= \alpha + \beta_i + \gamma_i \\
-\alpha &\sim \text{Normal}(0, 2.5) \\
-\beta_i &\sim \text{Normal}(0, 2.5) \\
-\gamma_i &\sim \text{Normal}(0, 2.5)
-\end{align*}
 
-$logit(\mu_i) = \alpha + \beta_1 \cdot \text{pollster\_rating\_name}_i + \beta_2 \cdot \text{state}_i + \beta_3 \cdot \text{population\_group}_i + \beta_4 \cdot \text{numeric\_grade}_i + \beta_5 \cdot \text{sample\_size}_i + \beta_6 \cdot \text{methodology}_i$
+# #Interpretation of Coefficients:
 
+- Intercept (\beta_0): This is the predicted Trump polling percentage when all predictors (numeric grade, sample size, state, transparency score, and end date) are at their baseline or zero value.
+- Numeric Grade (\beta_1): This coefficient measures how much Trump’s polling percentage changes as the pollster’s numeric grade increases. A positive and significant coefficient would indicate that higher-rated pollsters report better polling numbers for Trump, while a negative coefficient would suggest the opposite.
+- Sample Size (\beta_2): This measures the impact of the number of respondents on Trump’s polling percentage. A positive coefficient would indicate that larger sample sizes are associated with higher polling percentages for Trump.
+- State (\beta_3): The coefficients for the state variable represent differences in Trump’s polling percentage in each state compared to the reference state (baseline category). For example, if the coefficient for Florida is negative, it means Trump polls lower in Florida compared to the reference state.
+- Transparency Score (\beta_4): This coefficient shows how much Trump’s polling percentage is affected by the transparency of the poll. A positive coefficient would indicate that polls with higher transparency tend to report higher polling percentages for Trump, whereas a negative coefficient would imply the opposite.
+- End Date (\beta_5): The end date is a time-related variable, capturing trends over time. A positive and significant coefficient would suggest that Trump’s polling percentage has increased as the election date approaches, while a negative coefficient would suggest a decrease in his polling numbers over time.
+	
+	
+
+## Interpretation
+The posterior distributions of the parameters allow us to quantify the uncertainty around each effect:
+- The coefficient for end_date informs us about how Trump’s polling percentages have evolved over time. A positive coefficient would suggest an upward trend, while a negative coefficient would indicate a decline.
+- The coefficient for numeric_grade captures the impact of pollster quality on the polling percentage. High-quality pollsters may produce different estimates compared to lower-quality ones.
+- The state-level effects account for regional differences in Trump’s support. Some states may show significantly higher or lower levels of support, even after adjusting for the time of the poll and pollster quality.
+
+
+
+
+# Model Evalutation
+- R-squared
+@tbl-summary shows the summary table for the model. And then evaluate it on the test set. It appears as though the model is having difficulty identifying Trump supporters.
 ```{r}
-logistic_model <- readRDS(here::here(("models/logistic_model.rds")))
-summary(logistic_model)
+#| echno: False
+#| label: tbl-summary
+#| tbl-cap: Relationship between wing length and width
+#| echo: false
+#| warning: false
+#| message: false
+
+library(knitr)
+regression_model<-readRDS(here::here("models/regression_model.rds"))
+summary<-summary(regression_model)
+# Extract the coefficients (which can be formatted as a table)
+coefficients_table <- summary$coefficients
+
+# Display the coefficients table using kable
+kable(coefficients_table, digits = 3, caption = "Regression Model Coefficients")
 ```
 
-# Diagnostic plots for the MLR model
+
+
+
+# Diagnostic plots for the model
+```{r}
+#| echno: false
+#| label: fig-diagnosis
+#| tbl-cap: Linear Regression Assumptions hold.
+#| echo: false
+#| warning: false
+#| message: false
+
+par(mfrow = c(2, 2))  
+plot(regression_model)
+```
+
+
 
 ```{r}
-par(mfrow = c(2, 2))
-plot(logistic_model)
-par(mfrow = c(1, 1))
+library(car)
+vif(regression_model)
 ```
+
 
 
 
@@ -154,15 +191,49 @@ We can use maths by including latex between dollar signs, for instance $\theta$.
 
 # Results
 
-Our results are summarized in ...
+## Predict and Combine with Electroal College to Predict
 
-```{r}
+```{r tbl-prediction, echo=FALSE, warning=FALSE, message=FALSE}
+#| echno: false
+#| label: tbl-prediction
+#| tbl-cap: Prediction for Trump
+#| echo: false
+#| warning: false
+#| message: false
 
-library(rstanarm)
+# Define electoral votes for each state
+electoral_votes <- data.frame(
+  state = c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", 
+            "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", 
+            "Maine CD-1", "Maine CD-2", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", 
+            "Missouri", "Montana", "Nebraska", "Nebraska CD-1", "Nebraska CD-2", "Nebraska CD-3", "Nevada", 
+            "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", 
+            "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", 
+            "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", 
+            "District of Columbia"),
+  electoral_votes = c(9, 3, 11, 6, 55, 9, 7, 3, 29, 16, 4, 4, 20, 11, 6, 6, 8, 8, 2, 1, 1, 10, 11, 15, 10, 6, 10, 
+                      3, 5, 1, 1, 2, 6, 4, 14, 5, 29, 16, 3, 18, 7, 6, 20, 4, 9, 3, 11, 38, 6, 3, 13, 12, 5, 10, 3, 3)
+)
 
-first_model <-
-  readRDS(file = (here::here("models/logistic_model.rds")))
+# Apply the regression model to predict Trump's percentage in each state
+analysis_data$predicted_percent_trump <- predict(regression_model, newdata = analysis_data)
+
+# Summarize Trump's predicted percentage for each state
+total_trump <- aggregate(predicted_percent_trump ~ state, data = analysis_data, FUN = mean)
+
+# Join electoral vote data with Trump's predictions
+state_predictions <- merge(total_trump, electoral_votes, by = "state")
+
+# Determine the winner for each state based on Trump’s predicted percentage
+state_predictions$winner <- ifelse(state_predictions$predicted_percent_trump > 50, "Trump", "Harris")
+
+# Create a table showing the prediction results
+library(knitr)
+kable(state_predictions, col.names = c("State", "Trump Predicted %", "Electoral Votes", "Winner"),
+      digits = 2, caption = "Prediction for Trump by State")
 ```
+
+
 
 
 
@@ -481,9 +552,6 @@ This methodology, combining rigorous sampling, data validation, and aggregation,
 
 ## Posterior predictive check
 
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
-
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
 
 ```{r}
 #| eval: true
@@ -500,10 +568,6 @@ In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. Th
 
 ## Diagnostics
 
-@fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
-
-@fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
-
 
 
 ```{r}
@@ -515,83 +579,14 @@ In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. Th
 #| fig-cap: "Checking the convergence of the MCMC algorithm"
 #| fig-subcap: ["Trace plot", "Rhat plot"]
 #| layout-ncol: 2
-
-# Load required library
 library(caret)
-
-# Set a seed for reproducibility
-set.seed(853)
-analysis_data_reduced<- analysis_data_reduced %>% na.omit(analysis_data_reduced)
-# Split the data (70% training, 30% testing)
-trainIndex <- createDataPartition(analysis_data_reduced$trump_win, p = 0.7, list=FALSE)
-train_data <- analysis_data_reduced[trainIndex, ]
-test_data <- analysis_data_reduced[-trainIndex, ]
-
-```
-
-```{r}
-# Make predictions on the test dataset
-predicted_probabilities <- predict(logistic_model, newdata = test_data, type = "response")
-
-# Binarize the predicted probabilities using a threshold of 0.5
-predicted_classes <- ifelse(predicted_probabilities > 0.5, 1, 0)
-
-# Confusion Matrix
-conf_matrix <- confusionMatrix(factor(predicted_classes), factor(test_data$trump_win))
-print(conf_matrix)
-
-# Precision, Recall, and F1-score
-precision <- posPredValue(factor(predicted_classes), factor(test_data$trump_win))
-recall <- sensitivity(factor(predicted_classes), factor(test_data$trump_win))
-f1_score <- 2 * ((precision * recall) / (precision + recall))
-
-cat("Precision:", precision, "\n")
-cat("Recall:", recall, "\n")
-cat("F1-score:", f1_score, "\n")
-```
+library(rstanarm)
+library(ggplot2)
+library(dplyr)
+# Split the data into training (70%) and test (30%) sets
+set.seed(853)  # For reproducibility
 
 
-```{r}
-# Load the pre-trained logistic model from RDS
-logistic_model <- readRDS(here:here("models/logistic_model.rds"))
-
-# Calculate Trump and Harris percentages for each state (you still need to prepare the data)
-analysis_data <- analysis_data %>%
-  group_by(state) %>%
-  mutate(
-    Trump_percent = mean(case_when(candidate_name == "Donald Trump" ~ percent), na.rm = TRUE),
-    Harris_percent = mean(case_when(candidate_name == "Kamala Harris" ~ percent), na.rm = TRUE)
-  ) %>%
-  # Create a binary outcome for prediction: 1 if Trump is predicted to win, 0 if Harris
-  mutate(trump_win = ifelse(Trump_percent > Harris_percent, 1, 0))
-
-# Create 10-fold cross-validation resampling
-folds <- vfold_cv(analysis_data, v = 10)
-
-# Fit the resamples using the loaded logistic model
-cross_validation <- fit_resamples(
-  logistic_model,
-  data = analysis_data,
-  resamples = folds,
-  metrics = metric_set(accuracy, roc_auc),
-  control = control_resamples(save_pred = TRUE)
-)
-
-# Collect and display metrics
-collect_metrics(cross_validation) %>%
-  select(.metric, mean) %>%
-  knitr::kable(
-    col.names = c("Metric", "Mean"),
-    digits = 2,
-    format.args = list(big.mark = ",")
-  )
-
-# Display confusion matrix for resampled results
-conf_mat_resampled(cross_validation) %>%
-  mutate(Proportion = Freq / sum(Freq)) %>%
-  knitr::kable(
-    digits = 2,
-    format.args = list(big.mark = ","))
 ```
 
 

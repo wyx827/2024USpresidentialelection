@@ -236,7 +236,7 @@
 \makeatother
 \subtitle{My subtitle if needed}
 \author{First author \and Yongqi Liu \and Yuxuan Wei}
-\date{October 22, 2024}
+\date{October 23, 2024}
 
 \begin{document}
 \maketitle
@@ -247,6 +247,7 @@ First sentence. Second sentence. Third sentence. Fourth sentence.
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\#install.packages("tidymodels")}
 \FunctionTok{library}\NormalTok{(tidyverse)}
 \end{Highlighting}
 \end{Shaded}
@@ -272,11 +273,11 @@ i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all confl
 \end{Shaded}
 
 \begin{verbatim}
-Rows: 1951 Columns: 10
+Rows: 1683 Columns: 11
 -- Column specification --------------------------------------------------------
 Delimiter: ","
 chr  (5): pollster_rating_name, methodology, state, candidate_name, populati...
-dbl  (3): numeric_grade, sample_size, percent
+dbl  (4): numeric_grade, sample_size, percent, transparency_score
 date (2): start_date, end_date
 
 i Use `spec()` to retrieve the full column specification for this data.
@@ -301,8 +302,7 @@ follows. Section~\ref{sec-data}\ldots.
 \subsection{Overview}\label{overview}
 
 We use the statistical programming language R (R Core Team 2023)\ldots.
-Our data (Toronto Shelter \& Support Services 2024)\ldots. Following
-Alexander (2023), we consider\ldots{}
+Following Alexander (2023), we consider\ldots{}
 
 Overview text
 
@@ -316,8 +316,7 @@ entry in the dataset.
 Add graphs, tables and text. Use sub-sub-headings for each outcome
 variable or update the subheading to be singular.
 
-Some of our data is of penguins (\textbf{?@fig-bills}), from Horst,
-Hill, and Gorman (2020).
+Some of our data is of penguins (\textbf{?@fig-bills}),
 
 Talk more about it.
 
@@ -337,80 +336,253 @@ a few into one if they go together naturally.
 
 \section{Model}\label{model}
 
-The goal of our modelling strategy is twofold. Firstly,\ldots{}
+To model Donald Trump's polling percentages over time, we employed a
+Bayesian linear regression framework. Bayesian methods provide a
+flexible approach to inference by incorporating prior beliefs and
+updating them with observed data, allowing us to quantify uncertainty in
+both parameter estimates and predictions.
 
-Here we briefly describe the Bayesian analysis model used to
-investigate\ldots{} Background details and diagnostics are included in
-Appendix~\ref{sec-model-details}.
+Here we briefly describe the Bayesian model used to investigate the
+winning probability of Trump. Background details and diagnostics are
+included in Appendix~\ref{sec-model-details}.
 
-\subsection{Logistic Regression Model Build
-up}\label{logistic-regression-model-build-up}
+\subsection{Multiple Linear Regression Model
+Overview}\label{multiple-linear-regression-model-overview}
 
-To predict whether Donald Trump would win over Kamala Harris based on
-polling data, we constructed a logistic regression model using a subset
-of 1,000 randomly sampled observations from our cleaned dataset. The
-dependent variable, trump\_win, is a binary outcome representing whether
-Trump was predicted to win in a given state (1 for Trump win, 0 for
-Harris win). The independent variables included in the model are
-pollster\_rating\_name, state, population\_group, numeric\_grade,
-sample\_size, and methodology.
+The model now predicts Trump's polling percentage (percent) using the
+following predictors:
 
-We used the logit link function given that our outcome variable is
-binary. The logistic regression model estimates the log odds of Trump
-winning as a linear function of these predictors. Each predictor
-variable was selected based on its relevance to polling outcomes:
+\begin{itemize}
+\tightlist
+\item
+  Numeric Grade (numeric\_grade): Reflects the quality rating of the
+  pollster.
+\item
+  Sample Size (sample\_size): The number of respondents in the poll.
+\item
+  State (state): A categorical variable for different U.S. states.
+\item
+  Transparency Score (transparency\_score): A measure of how transparent
+  the polling data and methodology are.
+\item
+  End Date (end\_date): The date the poll was completed, which might
+  capture trends over time.
+\end{itemize}
 
-\begin{verbatim}
-•   pollster_rating_name captures the credibility of the polling firm, as rated by independent organizations.
-•   state accounts for geographic variations in voter preferences.
-•   population_group represents different demographic categories.
-•   numeric_grade reflects the poll’s quality rating.
-•   sample_size measures the size of the poll’s sample, which can impact the poll’s reliability.
-•   methodology captures how the poll was conducted (e.g., online, phone-based, etc.).
-\end{verbatim}
+The model takes the form: The model takes the form:
 
-We applied a Bayesian approach to estimate the logistic regression model
-using Stan, with weakly informative priors (Normal distribution with
-mean 0 and standard deviation 2.5) for both the coefficients and the
-intercept. These priors reflect our assumption that the effect of each
-predictor is centered around 0, with a moderate level of uncertainty. By
-incorporating state and demographic information along with pollster
-quality and methodology, we aim to capture the variability in polling
-predictions across different regions and polling practices. The use of
-Bayesian inference allows us to quantify uncertainty in our predictions
-more effectively.
+\section{\#Interpretation of
+Coefficients:}\label{interpretation-of-coefficients}
 
-We use weakly informative Normal priors for the intercept ( \alpha ) and
-coefficients ( \beta\_i ), centered around zero with a standard
-deviation of 2.5. These priors were chosen to allow the data to
-influence the predictions while still reflecting reasonable uncertainty.
-Specifically:
+\begin{itemize}
+\tightlist
+\item
+  Intercept (\beta\_0): This is the predicted Trump polling percentage
+  when all predictors (numeric grade, sample size, state, transparency
+  score, and end date) are at their baseline or zero value.
+\item
+  Numeric Grade (\beta\_1): This coefficient measures how much Trump's
+  polling percentage changes as the pollster's numeric grade increases.
+  A positive and significant coefficient would indicate that
+  higher-rated pollsters report better polling numbers for Trump, while
+  a negative coefficient would suggest the opposite.
+\item
+  Sample Size (\beta\_2): This measures the impact of the number of
+  respondents on Trump's polling percentage. A positive coefficient
+  would indicate that larger sample sizes are associated with higher
+  polling percentages for Trump.
+\item
+  State (\beta\_3): The coefficients for the state variable represent
+  differences in Trump's polling percentage in each state compared to
+  the reference state (baseline category). For example, if the
+  coefficient for Florida is negative, it means Trump polls lower in
+  Florida compared to the reference state.
+\item
+  Transparency Score (\beta\_4): This coefficient shows how much Trump's
+  polling percentage is affected by the transparency of the poll. A
+  positive coefficient would indicate that polls with higher
+  transparency tend to report higher polling percentages for Trump,
+  whereas a negative coefficient would imply the opposite.
+\item
+  End Date (\beta\_5): The end date is a time-related variable,
+  capturing trends over time. A positive and significant coefficient
+  would suggest that Trump's polling percentage has increased as the
+  election date approaches, while a negative coefficient would suggest a
+  decrease in his polling numbers over time.
+\end{itemize}
 
-\begin{align*}
-y_i | \mu_i &\sim \text{Bernoulli}(\mu_i) \\
-\mu_i &= \alpha + \beta_i + \gamma_i \\
-\alpha &\sim \text{Normal}(0, 2.5) \\
-\beta_i &\sim \text{Normal}(0, 2.5) \\
-\gamma_i &\sim \text{Normal}(0, 2.5)
-\end{align*}
+\subsection{Interpretation}\label{interpretation}
 
-\(logit(\mu_i) = \alpha + \beta_1 \cdot \text{pollster\_rating\_name}_i + \beta_2 \cdot \text{state}_i + \beta_3 \cdot \text{population\_group}_i + \beta_4 \cdot \text{numeric\_grade}_i + \beta_5 \cdot \text{sample\_size}_i + \beta_6 \cdot \text{methodology}_i\)
+The posterior distributions of the parameters allow us to quantify the
+uncertainty around each effect: - The coefficient for end\_date informs
+us about how Trump's polling percentages have evolved over time. A
+positive coefficient would suggest an upward trend, while a negative
+coefficient would indicate a decline. - The coefficient for
+numeric\_grade captures the impact of pollster quality on the polling
+percentage. High-quality pollsters may produce different estimates
+compared to lower-quality ones. - The state-level effects account for
+regional differences in Trump's support. Some states may show
+significantly higher or lower levels of support, even after adjusting
+for the time of the poll and pollster quality.
 
-We run the model in R (R Core Team 2023) using the \texttt{rstanarm}
-package of Goodrich et al. (2022). We use the default priors from
-\texttt{rstanarm}.
+\section{Model Evalutation}\label{model-evalutation}
+
+\begin{itemize}
+\tightlist
+\item
+  R-squared Table~\ref{tbl-summary} shows the summary table for the
+  model. And then evaluate it on the test set. It appears as though the
+  model is having difficulty identifying Trump supporters.
+\end{itemize}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2985}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1343}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1642}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1194}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2836}}@{}}
+
+\caption{\label{tbl-summary}Relationship between wing length and width}
+
+\tabularnewline
+
+\caption{Regression Model Coefficients}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Estimate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std. Error
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Pr(\textgreater\textbar t\textbar)
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Estimate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Std. Error
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+t value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Pr(\textgreater\textbar t\textbar)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+(Intercept) & -67.184 & 14.445 & -4.651 & 0.000 \\
+numeric\_grade & 0.914 & 1.006 & 0.909 & 0.364 \\
+sample\_size & 0.000 & 0.000 & 0.205 & 0.838 \\
+stateArizona & -5.020 & 2.582 & -1.944 & 0.052 \\
+stateArkansas & 5.569 & 4.380 & 1.272 & 0.204 \\
+stateCalifornia & -18.345 & 2.738 & -6.699 & 0.000 \\
+stateColorado & -13.340 & 3.002 & -4.443 & 0.000 \\
+stateConnecticut & -13.480 & 3.574 & -3.772 & 0.000 \\
+stateFlorida & -3.214 & 2.740 & -1.173 & 0.241 \\
+stateGeorgia & -4.814 & 2.573 & -1.871 & 0.062 \\
+stateIdaho & 3.467 & 4.379 & 0.792 & 0.429 \\
+stateIllinois & -14.064 & 3.275 & -4.294 & 0.000 \\
+stateIndiana & 0.902 & 3.268 & 0.276 & 0.783 \\
+stateIowa & -4.692 & 3.101 & -1.513 & 0.131 \\
+stateKansas & -0.798 & 3.275 & -0.244 & 0.808 \\
+stateMaine & -10.182 & 2.726 & -3.735 & 0.000 \\
+stateMaryland & -20.244 & 2.998 & -6.753 & 0.000 \\
+stateMassachusetts & -22.543 & 2.753 & -8.190 & 0.000 \\
+stateMichigan & -6.635 & 2.576 & -2.576 & 0.010 \\
+stateMinnesota & -10.250 & 2.684 & -3.819 & 0.000 \\
+stateMissouri & 1.087 & 2.803 & 0.388 & 0.698 \\
+stateMontana & 1.379 & 2.784 & 0.495 & 0.620 \\
+stateNational & -7.935 & 2.546 & -3.117 & 0.002 \\
+stateNebraska & -7.528 & 2.782 & -2.706 & 0.007 \\
+stateNevada & -5.617 & 2.594 & -2.165 & 0.031 \\
+stateNew Hampshire & -8.778 & 2.655 & -3.306 & 0.001 \\
+stateNew Jersey & -15.189 & 3.577 & -4.246 & 0.000 \\
+stateNew Mexico & -10.980 & 3.099 & -3.543 & 0.000 \\
+stateNew York & -15.239 & 2.633 & -5.789 & 0.000 \\
+stateNorth Carolina & -4.783 & 2.582 & -1.853 & 0.064 \\
+stateNorth Dakota & 2.970 & 4.380 & 0.678 & 0.498 \\
+stateOhio & -2.796 & 2.677 & -1.045 & 0.296 \\
+stateOklahoma & 8.450 & 4.385 & 1.927 & 0.054 \\
+stateOregon & -14.974 & 4.385 & -3.415 & 0.001 \\
+statePennsylvania & -6.375 & 2.568 & -2.483 & 0.013 \\
+stateRhode Island & -13.374 & 2.994 & -4.467 & 0.000 \\
+stateSouth Carolina & -1.939 & 4.376 & -0.443 & 0.658 \\
+stateSouth Dakota & 0.394 & 3.096 & 0.127 & 0.899 \\
+stateTennessee & 3.624 & 4.378 & 0.828 & 0.408 \\
+stateTexas & -3.825 & 2.681 & -1.427 & 0.154 \\
+stateUtah & -3.243 & 4.385 & -0.740 & 0.460 \\
+stateVermont & -23.452 & 3.581 & -6.549 & 0.000 \\
+stateVirginia & -9.518 & 2.663 & -3.575 & 0.000 \\
+stateWashington & -15.876 & 3.264 & -4.864 & 0.000 \\
+stateWest Virginia & 8.265 & 4.379 & 1.887 & 0.059 \\
+stateWisconsin & -6.444 & 2.571 & -2.506 & 0.012 \\
+stateWyoming & 15.921 & 4.377 & 3.637 & 0.000 \\
+transparency\_score & -0.646 & 0.088 & -7.383 & 0.000 \\
+end\_date & 0.006 & 0.001 & 8.880 & 0.000 \\
+
+\end{longtable}
+
+\section{Diagnostic plots for the
+model}\label{diagnostic-plots-for-the-model}
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{paper_files/figure-pdf/fig-diagnosis-1.pdf}
+
+}
+
+\caption{\label{fig-diagnosis}}
+
+\end{figure}%
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{logistic\_model }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{((}\StringTok{"models/logistic\_model.rds"}\NormalTok{)))}
+\FunctionTok{library}\NormalTok{(car)}
 \end{Highlighting}
 \end{Shaded}
 
-\section{Diagnostic plots for the MLR
-model}\label{diagnostic-plots-for-the-mlr-model}
+\begin{verbatim}
+Loading required package: carData
+\end{verbatim}
 
-par(mfrow = c(2, 2)) plot(mlr\_harris\_model) par(mfrow = c(1, 1)) \#
-Reset plot layout
+\begin{verbatim}
+
+Attaching package: 'car'
+\end{verbatim}
+
+\begin{verbatim}
+The following object is masked from 'package:dplyr':
+
+    recode
+\end{verbatim}
+
+\begin{verbatim}
+The following object is masked from 'package:purrr':
+
+    some
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{vif}\NormalTok{(regression\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                       GVIF Df GVIF^(1/(2*Df))
+numeric_grade      1.294110  1        1.137590
+sample_size        1.289750  1        1.135672
+state              2.082151 44        1.008369
+transparency_score 1.263558  1        1.124081
+end_date           1.309491  1        1.144330
+\end{verbatim}
 
 \subsubsection{Model justification}\label{model-justification}
 
@@ -422,44 +594,72 @@ We can use maths by including latex between dollar signs, for instance
 
 \section{Results}\label{results}
 
-Our results are summarized in \ldots{}
+\subsection{Predict and Combine with Electroal College to
+Predict}\label{predict-and-combine-with-electroal-college-to-predict}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(rstanarm)}
-\end{Highlighting}
-\end{Shaded}
+\begin{longtable}[]{@{}lrrl@{}}
 
-\begin{verbatim}
-Loading required package: Rcpp
-\end{verbatim}
+\caption{\label{tbl-prediction}Prediction for Trump}
 
-\begin{verbatim}
-This is rstanarm version 2.32.1
-\end{verbatim}
+\tabularnewline
 
-\begin{verbatim}
-- See https://mc-stan.org/rstanarm/articles/priors for changes to default priors!
-\end{verbatim}
+\caption{Prediction for Trump by State}\tabularnewline
+\toprule\noalign{}
+State & Trump Predicted \% & Electoral Votes & Winner \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+State & Trump Predicted \% & Electoral Votes & Winner \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Alaska & 53.00 & 3 & Trump \\
+Arizona & 47.62 & 11 & Harris \\
+Arkansas & 56.60 & 6 & Trump \\
+California & 34.39 & 55 & Harris \\
+Colorado & 37.60 & 9 & Harris \\
+Connecticut & 39.09 & 7 & Harris \\
+Florida & 48.89 & 29 & Harris \\
+Georgia & 47.71 & 16 & Harris \\
+Idaho & 54.50 & 4 & Trump \\
+Illinois & 36.37 & 20 & Harris \\
+Indiana & 53.73 & 11 & Trump \\
+Iowa & 46.68 & 6 & Harris \\
+Kansas & 49.63 & 6 & Harris \\
+Maine & 41.13 & 2 & Harris \\
+Maryland & 32.88 & 10 & Harris \\
+Massachusetts & 29.80 & 11 & Harris \\
+Michigan & 45.92 & 15 & Harris \\
+Minnesota & 42.40 & 10 & Harris \\
+Missouri & 52.51 & 10 & Trump \\
+Montana & 54.20 & 3 & Trump \\
+Nebraska & 45.16 & 5 & Harris \\
+Nevada & 47.00 & 6 & Harris \\
+New Hampshire & 42.86 & 4 & Harris \\
+New Jersey & 37.60 & 14 & Harris \\
+New Mexico & 42.05 & 5 & Harris \\
+New York & 37.45 & 29 & Harris \\
+North Carolina & 47.98 & 16 & Harris \\
+North Dakota & 54.00 & 3 & Trump \\
+Ohio & 49.58 & 18 & Harris \\
+Oklahoma & 58.70 & 7 & Trump \\
+Oregon & 35.30 & 6 & Harris \\
+Pennsylvania & 46.28 & 20 & Harris \\
+Rhode Island & 39.12 & 4 & Harris \\
+South Carolina & 50.60 & 9 & Trump \\
+South Dakota & 52.18 & 3 & Trump \\
+Tennessee & 55.30 & 11 & Trump \\
+Texas & 48.51 & 38 & Harris \\
+Utah & 47.00 & 6 & Harris \\
+Vermont & 28.00 & 3 & Harris \\
+Virginia & 43.22 & 13 & Harris \\
+Washington & 36.33 & 12 & Harris \\
+West Virginia & 59.30 & 5 & Trump \\
+Wisconsin & 45.96 & 10 & Harris \\
+Wyoming & 67.60 & 3 & Trump \\
 
-\begin{verbatim}
-- Default priors may change, so it's safest to specify priors, even if equivalent to the defaults.
-\end{verbatim}
-
-\begin{verbatim}
-- For execution on a local, multicore CPU with excess RAM we recommend calling
-\end{verbatim}
-
-\begin{verbatim}
-  options(mc.cores = parallel::detectCores())
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{first\_model }\OtherTok{\textless{}{-}}
-  \FunctionTok{readRDS}\NormalTok{(}\AttributeTok{file =}\NormalTok{ (here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"models/logistic\_model.rds"}\NormalTok{)))}
-\end{Highlighting}
-\end{Shaded}
+\end{longtable}
 
 \section{Discussion}\label{discussion}
 
@@ -484,8 +684,8 @@ Weaknesses and next steps should also be included.
 
 \appendix
 
-\section*{\# Appendix}\label{appendix}
-\addcontentsline{toc}{section}{\# Appendix}
+\section*{Appendix}\label{appendix}
+\addcontentsline{toc}{section}{Appendix}
 
 \section{Pollster Methodology Overview and
 Evaluation}\label{pollster-methodology-overview-and-evaluation}
@@ -1043,12 +1243,6 @@ representative as possible.
 \subsection{Posterior predictive
 check}\label{posterior-predictive-check}
 
-In \textbf{?@fig-ppcheckandposteriorvsprior-1} we implement a posterior
-predictive check. This shows\ldots{}
-
-In \textbf{?@fig-ppcheckandposteriorvsprior-2} we compare the posterior
-with the prior. This shows\ldots{}
-
 \begin{figure}
 
 \begin{minipage}{0.50\linewidth}
@@ -1058,12 +1252,6 @@ data\end{minipage}%
 \end{figure}%
 
 \subsection{Diagnostics}\label{diagnostics}
-
-\textbf{?@fig-stanareyouokay-1} is a trace plot. It shows\ldots{} This
-suggests\ldots{}
-
-\textbf{?@fig-stanareyouokay-2} is a Rhat plot. It shows\ldots{} This
-suggests\ldots{}
 
 \begin{figure}
 
@@ -1087,25 +1275,10 @@ R Core Team (2023)
 Alexander, Rohan. 2023. \emph{Telling Stories with Data}. Chapman;
 Hall/CRC. \url{https://tellingstorieswithdata.com/}.
 
-\bibitem[\citeproctext]{ref-rstanarm}
-Goodrich, Ben, Jonah Gabry, Imad Ali, and Sam Brilleman. 2022.
-{``{rstanarm: {Bayesian} applied regression modeling via {Stan}}.''}
-\url{https://mc-stan.org/rstanarm/}.
-
-\bibitem[\citeproctext]{ref-palmerpenguins}
-Horst, Allison Marie, Alison Presmanes Hill, and Kristen B Gorman. 2020.
-\emph{{palmerpenguins: Palmer Archipelago (Antarctica) penguin data}}.
-\url{https://doi.org/10.5281/zenodo.3960218}.
-
 \bibitem[\citeproctext]{ref-citeR}
 R Core Team. 2023. \emph{{R: A Language and Environment for Statistical
 Computing}}. Vienna, Austria: R Foundation for Statistical Computing.
 \url{https://www.R-project.org/}.
-
-\bibitem[\citeproctext]{ref-shelter}
-Toronto Shelter \& Support Services. 2024. \emph{Deaths of Shelter
-Residents}.
-\url{https://open.toronto.ca/dataset/deaths-of-shelter-residents/}.
 
 \end{CSLReferences}
 

@@ -33,7 +33,7 @@ cleaned_data <- cleaned_data %>%
 # Clean raw dataset, remove columns with many missing values and keep the columns we want to make analysis on
 cleaned_data <- cleaned_data %>% dplyr::select(pollster_rating_name, methodology, numeric_grade, start_date,
                                                end_date, sample_size, population, state, 
-                                           candidate_name, pct) 
+                                           candidate_name, pct, transparency_score) 
 
 # Change name for different types of voters in population column
 cleaned_data <- cleaned_data %>%

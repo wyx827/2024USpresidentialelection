@@ -1,11 +1,11 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.10.22)  22 OCT 2024 22:55
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.10.23)  23 OCT 2024 18:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **paper.tex
 (./paper.tex
 LaTeX2e <2024-06-01> patch level 2
-L3 programming layer <2024-09-10>
+L3 programming layer <2024-10-09>
 (/Users/cassieliu/Library/TinyTeX/texmf-dist/tex/latex/koma-script/scrartcl.cls
 Document Class: scrartcl 2024/10/15 v3.42 KOMA-Script document class (article)
 (/Users/cassieliu/Library/TinyTeX/texmf-dist/tex/latex/koma-script/scrkbase.sty
@@ -192,7 +192,7 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 )) (/Users/cassieliu/Library/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2022/02/03 v1.0f TeX engine tests
 ) (/Users/cassieliu/Library/TinyTeX/texmf-dist/tex/latex/unicode-math/unicode-math.sty (/Users/cassieliu/Library/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2024-09-10 L3 programming layer (loader) 
+Package: expl3 2024-10-09 L3 programming layer (loader) 
 (/Users/cassieliu/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
 File: l3backend-xetex.def 2024-05-08 L3 backend support: XeTeX
 \g__graphics_track_int=\count277
@@ -867,32 +867,32 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 4.99947pt on input line 243.
 
-Overfull \hbox (13.13986pt too wide) in paragraph at lines 265--265
+Overfull \hbox (13.13986pt too wide) in paragraph at lines 266--266
 []\TU/lmtt/m/n/10.95 -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --[] 
  []
 
 
-Overfull \hbox (13.13986pt too wide) in paragraph at lines 265--265
+Overfull \hbox (13.13986pt too wide) in paragraph at lines 266--266
 []\TU/lmtt/m/n/10.95 -- Conflicts ------------------------------------------ tidyverse_conflicts() --[] 
  []
 
 
-Overfull \hbox (133.86359pt too wide) in paragraph at lines 265--265
+Overfull \hbox (133.86359pt too wide) in paragraph at lines 266--266
 []\TU/lmtt/m/n/10.95 i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors[] 
  []
 
 
-Overfull \hbox (13.13986pt too wide) in paragraph at lines 284--284
+Overfull \hbox (13.13986pt too wide) in paragraph at lines 285--285
 []\TU/lmtt/m/n/10.95 -- Column specification --------------------------------------------------------[] 
  []
 
 
-Overfull \hbox (7.39111pt too wide) in paragraph at lines 284--284
+Overfull \hbox (7.39111pt too wide) in paragraph at lines 285--285
 []\TU/lmtt/m/n/10.95 chr  (5): pollster_rating_name, methodology, state, candidate_name, populati...[] 
  []
 
 
-Overfull \hbox (18.88861pt too wide) in paragraph at lines 284--284
+Overfull \hbox (18.88861pt too wide) in paragraph at lines 285--285
 []\TU/lmtt/m/n/10.95 i Specify the column types or set `show_col_types = FALSE` to quiet this message.[] 
  []
 
@@ -903,179 +903,166 @@ Overfull \hbox (18.88861pt too wide) in paragraph at lines 284--284
 
 ]
 
-LaTeX Warning: Reference `sec-data' on page 2 undefined on input line 297.
+LaTeX Warning: Reference `sec-data' on page 2 undefined on input line 298.
 
 
 
 [2]
 
-LaTeX Warning: Reference `sec-model-details' on page 3 undefined on input line 344.
+LaTeX Warning: Reference `sec-model-details' on page 3 undefined on input line 347.
 
-
-Overfull \hbox (179.85358pt too wide) in paragraph at lines 370--370
-[]\TU/lmtt/m/n/10.95 •   pollster_rating_name captures the credibility of the polling firm, as rated by independent organizations.[] 
- []
-
-
-Overfull \hbox (105.11984pt too wide) in paragraph at lines 370--370
-[]\TU/lmtt/m/n/10.95 •   sample_size measures the size of the poll’s sample, which can impact the poll’s reliability.[] 
- []
-
-
-Overfull \hbox (47.63235pt too wide) in paragraph at lines 370--370
-[]\TU/lmtt/m/n/10.95 •   methodology captures how the poll was conducted (e.g., online, phone-based, etc.).[] 
- []
-
-Missing character: There is no 𝛼 (U+1D6FC) in font [lmroman10-regular]:mapping=tex-text;!
+Missing character: There is no 𝛽 (U+1D6FD) in font [lmroman10-regular]:mapping=tex-text;!
+Missing character: There is no 𝛽 (U+1D6FD) in font [lmroman10-regular]:mapping=tex-text;!
 Missing character: There is no 𝛽 (U+1D6FD) in font [lmroman10-regular]:mapping=tex-text;!
 
 
 [3]
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.665pt on input line 389.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.475pt on input line 389.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.95099pt on input line 389.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.66568pt on input line 389.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.4755pt on input line 389.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 10.94882pt on input line 389.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 7.66417pt on input line 389.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 5.47441pt on input line 389.
+Missing character: There is no 𝛽 (U+1D6FD) in font [lmroman10-regular]:mapping=tex-text;!
+Missing character: There is no 𝛽 (U+1D6FD) in font [lmroman10-regular]:mapping=tex-text;!
+Missing character: There is no 𝛽 (U+1D6FD) in font [lmroman10-regular]:mapping=tex-text;!
 
-Overfull \hbox (18.88861pt too wide) in paragraph at lines 443--443
-[]\TU/lmtt/m/n/10.95 - See https://mc-stan.org/rstanarm/articles/priors for changes to default priors![] 
- []
+LaTeX Warning: Reference `tbl-summary' on page 4 undefined on input line 433.
 
-
-
-[4]
-Overfull \hbox (116.61734pt too wide) in paragraph at lines 447--447
-[]\TU/lmtt/m/n/10.95 - Default priors may change, so it's safest to specify priors, even if equivalent to the defaults.[] 
- []
-
-
-Overfull \hbox (1.64236pt too wide) in paragraph at lines 451--451
-[]\TU/lmtt/m/n/10.95 - For execution on a local, multicore CPU with excess RAM we recommend calling[] 
- []
-
-
-
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 512--515
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 515--518
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 518--523
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 528--535
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 539--546
-
- []
-
+[4] [5]
+File: paper_files/figure-pdf/fig-diagnosis-1.pdf Graphic file (type pdf)
+<use paper_files/figure-pdf/fig-diagnosis-1.pdf>
 
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 550--561
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 7.665pt on input line 593.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 5.475pt on input line 593.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 10.95099pt on input line 593.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 7.66568pt on input line 593.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 5.4755pt on input line 593.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 10.94882pt on input line 593.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 7.66417pt on input line 593.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 5.47441pt on input line 593.
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 561--567
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 572--577
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 584--592
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 592--596
-
- []
-
-
+Package longtable Warning: Column widths have changed
+(longtable)                in table 2 on input line 662.
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 656--658
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 658--660
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 660--663
-
- []
-
-
 
 [8]
-Underfull \hbox (badness 10000) in paragraph at lines 663--666
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 666--669
-
- []
-
-
 
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 791--793
+Underfull \hbox (badness 10000) in paragraph at lines 712--715
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 715--718
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 718--723
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 728--735
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 739--746
 
  []
 
 
 
 [10]
-Underfull \hbox (badness 10000) in paragraph at lines 793--795
+Underfull \hbox (badness 10000) in paragraph at lines 750--761
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 795--798
+Underfull \hbox (badness 10000) in paragraph at lines 761--767
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 798--800
+Underfull \hbox (badness 10000) in paragraph at lines 772--777
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 784--792
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 792--796
 
  []
 
 
 
 [11]
+Underfull \hbox (badness 10000) in paragraph at lines 856--858
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 858--860
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 860--863
+
+ []
+
+
 
 [12]
+Underfull \hbox (badness 10000) in paragraph at lines 863--866
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 866--869
+
+ []
+
+
+
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 991--993
+
+ []
+
+
+
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 993--995
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 995--998
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 998--1000
+
+ []
+
+
+
+[15]
+
+[16]
 
 ! LaTeX Error: Too deeply nested.
 
@@ -1083,15 +1070,15 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1029 \begin{quote}
+l.1229 \begin{quote}
                      
 Here is how much of TeX's memory you used:
- 22161 strings out of 476234
- 427463 string characters out of 5786042
- 1108179 words of memory out of 5000000
- 44447 multiletter control sequences out of 15000+600000
- 569351 words of font info for 120 fonts, out of 8000000 for 9000
+ 22186 strings out of 476232
+ 428106 string characters out of 5786004
+ 1140179 words of memory out of 5000000
+ 44476 multiletter control sequences out of 15000+600000
+ 569335 words of font info for 118 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 108i,10n,123p,10900b,483s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 108i,9n,123p,10900b,544s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on paper.pdf (12 pages).
+Output written on paper.pdf (16 pages).

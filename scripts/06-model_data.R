@@ -9,155 +9,77 @@
 
 
 #### Workspace setup ####
-#install.packages("splines")
+#install.packages("caret")
+#install.packages("rsample")
 library(tidyverse)
 library(dplyr)
-library(splines)
 library(rstanarm)
 library(bayesplot)
-library(rstanarm)
 library(ggplot2)
-#install.packages("caret")
 library(caret)
 library(modelsummary)
+library(arrow)
+library(rsample)
+library(splines)
 
 
 #### Read data ####
-analysis_data <- read_csv("data/02-analysis_data/cleaned_US_voting.csv")
+analysis_data <- read_parquet("data/02-analysis_data/cleaned_US_voting.parquet")
+
+analysis_data <- analysis_data |>
+  filter(candidate_name == "Donald Trump") 
+
+# Build up model
+regression_model <- lm(percent ~ numeric_grade + sample_size + state + transparency_score + end_date, 
+                      data = analysis_data)
+
+#### Save model ####
+# Save the model 
+saveRDS(regression_model, file = "models/regression_model.rds")
+
+
+
 
 ### Model data ####
-# 1. Bayesian Model
-# Change 'end_date' and 'state' to factor variables
-analysis_data <- analysis_data |>
-  mutate( end_date = as.numeric(end_date), state = factor(state))
-
-# Bayesian Regression Model (Without State Effect):
-bayesian_model <- stan_glm(
-  percent ~ ns(end_date, df = 9) + pollster_rating_name, 
-  data = analysis_data,
-  family = gaussian(),
-  prior = normal(0, 2.5),  # Weakened prior to allow more spread
-  prior_intercept = normal(50, 20),  # Slightly wider prior for intercept
-  seed = 1234,
-  iter = 3000,  # Increase iterations for better convergence
-  chains = 4,
-  refresh = 0)
-
-# Bayesian Mixed-Effects Model (With Random Effects for State and Pollster):
-bayesian_model_state <- stan_glmer(
-  percent ~ ns(end_date, df = 9) + (1 | pollster_rating_name) + (1 | state),
-  data = analysis_data,
-  family = gaussian(),
-  prior = normal(0, 5),  # Moderate prior for the coefficients
-  prior_intercept = normal(50, 20),  # Adjusted prior intercept
-  seed = 1234,
-  adapt_delta = 0.99,  # Increased adapt_delta to improve convergence
-  iter = 3000,  # Increased iterations for better convergence
-  chains = 4,
-  refresh = 0)
-
-# Summarize the model
-summary(bayesian_model)
-summary(bayesian_model_state)
-
-# Posterior predictive checks
-pp_check(bayesian_model)
-pp_check(bayesian_model_state)
-
-pp_check(sim_run_data_second_model_rstanarm) +
-  theme_classic() +
-  theme(legend.position = "bottom")
-
-posterior_vs_prior(sim_run_data_second_model_rstanarm) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
-
-plot(
-  sim_run_data_second_model_rstanarm,
-  "areas"
-)
-
-
-
-# Convert pollster_rating_name to a factor with appropriate levels
-analysis_data$pollster_rating_name <- factor(analysis_data$pollster_rating_name)
-
-# Assuming "Emerson College"
-new_data <- data.frame(
-  end_date_num = seq(
-    min(analysis_data$end_date_num, na.rm = TRUE),
-    max(analysis_data$end_date_num, na.rm = TRUE),
-    length.out = 100
-  ),
-  pollster_rating_name = factor("Emerson College", levels = levels(analysis_data$pollster_rating_name))
-)
-
-posterior_preds <- posterior_predict(spline_model_random, newdata = new_data)
-
-# Summarize predictions
-pred_summary <- new_data %>%
-  mutate(
-    pred_mean = colMeans(posterior_preds),
-    pred_lower = apply(posterior_preds, 2, quantile, probs = 0.025),
-    pred_upper = apply(posterior_preds, 2, quantile, probs = 0.975)
-  )
-
-# Plot the result
-ggplot(analysis_data, aes(x = end_date_num, y = percent, color = pollster_rating_name)) +
-  geom_point() +
-  geom_line(data = pred_summary, aes(x = end_date_num, y = pred_mean), color = "blue") +
-  geom_ribbon(
-    data = pred_summary,
-    aes(x = end_date_num, ymin = pred_lower, ymax = pred_upper),
-    fill = "blue", alpha = 0.2, inherit.aes = FALSE
-  ) +
-  labs(x = "Days since earliest poll", y = "Trump Percentage", title = "Trump Polling Percentage over Time with Spline Fit") +
-  theme_minimal()
-
-
-
-
-
-
-
-#2. Logistic Regression Model
-# Read the data
-analysis_data <- read_csv("data/02-analysis_data/cleaned_US_voting.csv")
-
+#Build up Logistic Regression Model
 # For reproducibility
 set.seed(853)
 
-# Calculate Trump and Harris percentages for each state using summarise and case_when
+# Group by more detailed factors
 analysis_data <- analysis_data %>%
-  group_by(state) %>%
-  mutate(
-    Trump_percent = mean(case_when(candidate_name == "Donald Trump" ~ percent), na.rm = TRUE),
-    Harris_percent = mean(case_when(candidate_name == "Kamala Harris" ~ percent), na.rm = TRUE))
+  group_by(state, pollster_rating_name, methodology, sample_size, population_group) %>%
+  summarise(
+    Trump_percent = mean(percent[candidate_name == "Donald Trump"], na.rm = TRUE),
+    Harris_percent = mean(percent[candidate_name == "Kamala Harris"], na.rm = TRUE)
+  )
 
 # Create a binary outcome for prediction: 1 if Trump is predicted to win, 0 if Harris
 analysis_data <- analysis_data %>%
   mutate(trump_win = ifelse(Trump_percent > Harris_percent, 1, 0))
 
-# Summarize and clean the data to avoid duplicates
-analysis_data_split <- initial_split(analysis_data, prop = 0.70)
-analysis_data_train <- training(analysis_data_split)
-analysis_data_test <- testing(analysis_data_split)
+analysis_data <- na.omit(analysis_data)
+# Split the data into training (70%) and testing (30%) sets
+split <- initial_split(analysis_data, prop = 0.7)
+analysis_train_data <- training(split)
+analysis_test_data <- testing(split)
 
+
+# Build the logistic regression model using rstanarm using train data
 logistic_model <- stan_glm(
-  trump_win ~ pollster_rating_name + state + population_group + numeric_grade + sample_size + methodology,
+  trump_win ~ state + population_group + numeric_grade + sample_size + methodology,
   data = analysis_data_train,
   family = binomial(link = "logit"),
   prior = normal(location = 0, scale = 2.5, autoscale = TRUE),
   prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),
-  seed = 853
-)
+  seed = 853,
+  iter = 4000)
+
 
 modelsummary(logistic_model)
 
 
+
 #### Save model ####
 saveRDS(logistic_model, file = "models/logistic_model.rds")
-
+write_parquet(analysis_data_test, sink = "data/02-analysis_data/test_data.parquet")
 
