@@ -17,6 +17,9 @@ library(rstanarm)
 library(bayesplot)
 library(rstanarm)
 library(ggplot2)
+#install.packages("caret")
+library(caret)
+library(modelsummary)
 
 
 #### Read data ####
@@ -24,41 +27,59 @@ analysis_data <- read_csv("data/02-analysis_data/cleaned_US_voting.csv")
 
 ### Model data ####
 # 1. Bayesian Model
-# Convert end_date to a numeric
-analysis_data %>%
-  mutate(end_date_num = as.numeric(end_date - min(end_date)))
+# Change 'end_date' and 'state' to factor variables
+analysis_data <- analysis_data |>
+  mutate( end_date = as.numeric(end_date), state = factor(state))
 
-# Fit Bayesian model with spline and pollster as fixed effect
-spline_model <- stan_glm(
-  percent ~ ns(end_date_num, df = 9) + pollster_rating_name, 
+# Bayesian Regression Model (Without State Effect):
+bayesian_model <- stan_glm(
+  percent ~ ns(end_date, df = 9) + pollster_rating_name, 
   data = analysis_data,
   family = gaussian(),
-  prior = normal(0, 5),
-  prior_intercept = normal(50, 10),
+  prior = normal(0, 2.5),  # Weakened prior to allow more spread
+  prior_intercept = normal(50, 20),  # Slightly wider prior for intercept
   seed = 1234,
-  iter = 2000,
+  iter = 3000,  # Increase iterations for better convergence
   chains = 4,
   refresh = 0)
 
-# Adding random effects for pollster
-spline_model_random <- stan_glmer(
-  percent ~ ns(end_date_num, df = 9) + (1 | pollster_rating_name)+ (1 | state),
+# Bayesian Mixed-Effects Model (With Random Effects for State and Pollster):
+bayesian_model_state <- stan_glmer(
+  percent ~ ns(end_date, df = 9) + (1 | pollster_rating_name) + (1 | state),
   data = analysis_data,
   family = gaussian(),
-  prior = normal(0, 5),
-  prior_intercept = normal(50, 10),
+  prior = normal(0, 5),  # Moderate prior for the coefficients
+  prior_intercept = normal(50, 20),  # Adjusted prior intercept
   seed = 1234,
-  iter = 2000,
+  adapt_delta = 0.99,  # Increased adapt_delta to improve convergence
+  iter = 3000,  # Increased iterations for better convergence
   chains = 4,
   refresh = 0)
 
 # Summarize the model
-summary(spline_model)
-summary(spline_model_random)
+summary(bayesian_model)
+summary(bayesian_model_state)
 
 # Posterior predictive checks
-pp_check(spline_model)
-pp_check(spline_model_random)
+pp_check(bayesian_model)
+pp_check(bayesian_model_state)
+
+pp_check(sim_run_data_second_model_rstanarm) +
+  theme_classic() +
+  theme(legend.position = "bottom")
+
+posterior_vs_prior(sim_run_data_second_model_rstanarm) +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1") +
+  theme(legend.position = "bottom") +
+  coord_flip()
+
+plot(
+  sim_run_data_second_model_rstanarm,
+  "areas"
+)
+
+
 
 # Convert pollster_rating_name to a factor with appropriate levels
 analysis_data$pollster_rating_name <- factor(analysis_data$pollster_rating_name)
@@ -95,52 +116,45 @@ ggplot(analysis_data, aes(x = end_date_num, y = percent, color = pollster_rating
   labs(x = "Days since earliest poll", y = "Trump Percentage", title = "Trump Polling Percentage over Time with Spline Fit") +
   theme_minimal()
 
+
+
+
+
+
+
 #2. Logistic Regression Model
+# Read the data
 analysis_data <- read_csv("data/02-analysis_data/cleaned_US_voting.csv")
-# Create a binary outcome variable for Trump's win (1 if percent > 50%, 0 otherwise)
+
+# Calculate Trump and Harris percentages for each state
 analysis_data <- analysis_data %>%
+  group_by(state) %>%
   mutate(
-    win_trump = ifelse(percent > 50, 1, 0))
+    Trump_percent = max(percent[candidate_name == "Donald Trump"], na.rm = TRUE),
+    Harris_percent = max(percent[candidate_name == "Kamala Harris"], na.rm = TRUE)
+  )
 
-# Convert necessary variables to factors
-analysis_data %>%
-  mutate(
-    state = factor(state), 
-    pollster_rating_name = factor(pollster_rating_name), 
-    methodology = factor(methodology))
+# Create a binary outcome for prediction: 1 if Trump is predicted to win, 0 if Harris
+analysis_data <- analysis_data %>%
+  mutate(trump_win = ifelse(Trump_percent > Harris_percent, 1, 0))
 
+# Summarize and clean the data to avoid duplicates
+set.seed(853)
 
-# Check the structure of the dataset
-str(analysis_data)
+analysis_data_reduced <- 
+  analysis_data |> 
+  slice_sample(n = 1000)
 
-# Fit a logistic regression model
 logistic_model <- stan_glm(
-  win_trump ~ pollster_rating_name + state + sample_size + methodology,
-  data = analysis_data,
+  trump_win ~ pollster_rating_name + state + population_group + numeric_grade + sample_size + methodology,
+  data = analysis_data_reduced,
   family = binomial(link = "logit"),
-  prior = normal(0, 2.5),  
-  prior_intercept = normal(0, 2.5),
-  seed = 123,
-  iter = 2000,
-  chains = 4,
-  refresh = 0 )
+  prior = normal(location = 0, scale = 2.5, autoscale = TRUE),
+  prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),
+  seed = 853
+)
 
-# Summarize the model
 modelsummary(logistic_model)
-
-# Visualize model predictions vs actual data (optional)
-pp_check(logistic_model) + 
-  theme_classic() + 
-  theme(legend.position = "bottom")
-
-
-
-
-
-
-
-
-
 
 
 #### Save model ####
