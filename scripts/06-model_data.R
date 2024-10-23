@@ -126,6 +126,9 @@ ggplot(analysis_data, aes(x = end_date_num, y = percent, color = pollster_rating
 # Read the data
 analysis_data <- read_csv("data/02-analysis_data/cleaned_US_voting.csv")
 
+# For reproducibility
+set.seed(853)
+
 # Calculate Trump and Harris percentages for each state using summarise and case_when
 analysis_data <- analysis_data %>%
   group_by(state) %>%
@@ -138,15 +141,13 @@ analysis_data <- analysis_data %>%
   mutate(trump_win = ifelse(Trump_percent > Harris_percent, 1, 0))
 
 # Summarize and clean the data to avoid duplicates
-set.seed(853)
-
-analysis_data_reduced <- 
-  analysis_data |> 
-  slice_sample(n = 1000)
+analysis_data_split <- initial_split(analysis_data, prop = 0.70)
+analysis_data_train <- training(analysis_data_split)
+analysis_data_test <- testing(analysis_data_split)
 
 logistic_model <- stan_glm(
   trump_win ~ pollster_rating_name + state + population_group + numeric_grade + sample_size + methodology,
-  data = analysis_data_reduced,
+  data = analysis_data_train,
   family = binomial(link = "logit"),
   prior = normal(location = 0, scale = 2.5, autoscale = TRUE),
   prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),

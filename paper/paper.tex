@@ -386,12 +386,15 @@ deviation of 2.5. These priors were chosen to allow the data to
 influence the predictions while still reflecting reasonable uncertainty.
 Specifically:
 
-\begin{align} 
-y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta_i + \gamma_i\\
-\alpha &\sim \mbox{Normal}(0, 2.5) \\
-\beta_{i} &\sim \mbox{Normal}(0, 2.5) \\
-\end{align}
+\begin{align*}
+y_i | \mu_i &\sim \text{Bernoulli}(\mu_i) \\
+\mu_i &= \alpha + \beta_i + \gamma_i \\
+\alpha &\sim \text{Normal}(0, 2.5) \\
+\beta_i &\sim \text{Normal}(0, 2.5) \\
+\gamma_i &\sim \text{Normal}(0, 2.5)
+\end{align*}
+
+\(logit(\mu_i) = \alpha + \beta_1 \cdot \text{pollster\_rating\_name}_i + \beta_2 \cdot \text{state}_i + \beta_3 \cdot \text{population\_group}_i + \beta_4 \cdot \text{numeric\_grade}_i + \beta_5 \cdot \text{sample\_size}_i + \beta_6 \cdot \text{methodology}_i\)
 
 We run the model in R (R Core Team 2023) using the \texttt{rstanarm}
 package of Goodrich et al. (2022). We use the default priors from
