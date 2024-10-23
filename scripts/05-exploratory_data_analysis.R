@@ -38,7 +38,7 @@ ggplot(analysis_data, aes(x = sample_size)) +
   labs(title = "Distribution of Sample Size", x = "Sample Size", y = "Count") +
   theme_minimal()
 
-# Line plot of Trump's support over time by end data
+# Line plot of Trump and Harris's support over time by end data
 ggplot(analysis_data, aes(x = as.Date(end_date, format = "%y/%m/%d"), y = percent, color = candidate_name)) +
   geom_line() +
   labs(title = "Candidate Support Over Time", x = "Date", y = "Support Percentage (percent)") +
