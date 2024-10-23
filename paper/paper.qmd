@@ -99,43 +99,49 @@ Use sub-sub-headings for each outcome variable and feel free to combine a few in
 
 The goal of our modelling strategy is twofold. Firstly,...
 
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
+Here we briefly describe the logistic regression model used to investigate the winning probability of Trump. Background details and diagnostics are included in [Appendix -@sec-model-details].
 
-## Logistic Regression Model Build up
+## Logistic Regression Model Setup
 
 To predict whether Donald Trump would win over Kamala Harris based on polling data, we constructed a logistic regression model using a subset of 1,000 randomly sampled observations from our cleaned dataset. The dependent variable, trump_win, is a binary outcome representing whether Trump was predicted to win in a given state (1 for Trump win, 0 for Harris win). The independent variables included in the model are pollster_rating_name, state, population_group, numeric_grade, sample_size, and methodology.
 
 We used the logit link function given that our outcome variable is binary. The logistic regression model estimates the log odds of Trump winning as a linear function of these predictors. Each predictor variable was selected based on its relevance to polling outcomes:
 
-	•	pollster_rating_name captures the credibility of the polling firm, as rated by independent organizations.
-	•	state accounts for geographic variations in voter preferences.
-	•	population_group represents different demographic categories.
-	•	numeric_grade reflects the poll’s quality rating.
-	•	sample_size measures the size of the poll’s sample, which can impact the poll’s reliability.
-	•	methodology captures how the poll was conducted (e.g., online, phone-based, etc.).
+- pollster_rating_name captures the credibility of the polling firm, as rated by independent organizations.
+- state accounts for geographic variations in voter preferences.
+- population_group represents different demographic categories.
+- numeric_grade reflects the poll’s quality rating.
+- sample_size measures the size of the poll’s sample, which can impact the poll’s reliability.
+- methodology captures how the poll was conducted (e.g., online, phone-based, etc.).
+
 
 We applied a Bayesian approach to estimate the logistic regression model using Stan, with weakly informative priors (Normal distribution with mean 0 and standard deviation 2.5) for both the coefficients and the intercept. These priors reflect our assumption that the effect of each predictor is centered around 0, with a moderate level of uncertainty.
 By incorporating state and demographic information along with pollster quality and methodology, we aim to capture the variability in polling predictions across different regions and polling practices. The use of Bayesian inference allows us to quantify uncertainty in our predictions more effectively.
 
 We use weakly informative Normal priors for the intercept ( \alpha ) and coefficients ( \beta_i ), centered around zero with a standard deviation of 2.5. These priors were chosen to allow the data to influence the predictions while still reflecting reasonable uncertainty. Specifically:
 
-\begin{align} 
-y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta_i + \gamma_i\\
-\alpha &\sim \mbox{Normal}(0, 2.5) \\
-\beta_{i} &\sim \mbox{Normal}(0, 2.5) \\
-\end{align}
+\begin{align*}
+y_i | \mu_i &\sim \text{Bernoulli}(\mu_i) \\
+\mu_i &= \alpha + \beta_i + \gamma_i \\
+\alpha &\sim \text{Normal}(0, 2.5) \\
+\beta_i &\sim \text{Normal}(0, 2.5) \\
+\gamma_i &\sim \text{Normal}(0, 2.5)
+\end{align*}
 
-We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
+$logit(\mu_i) = \alpha + \beta_1 \cdot \text{pollster\_rating\_name}_i + \beta_2 \cdot \text{state}_i + \beta_3 \cdot \text{population\_group}_i + \beta_4 \cdot \text{numeric\_grade}_i + \beta_5 \cdot \text{sample\_size}_i + \beta_6 \cdot \text{methodology}_i$
 
 ```{r}
 logistic_model <- readRDS(here::here(("models/logistic_model.rds")))
+summary(logistic_model)
 ```
 
 # Diagnostic plots for the MLR model
+
+```{r}
 par(mfrow = c(2, 2))
-plot(mlr_harris_model)
-par(mfrow = c(1, 1))  # Reset plot layout
+plot(logistic_model)
+par(mfrow = c(1, 1))
+```
 
 
 
@@ -183,7 +189,7 @@ Weaknesses and next steps should also be included.
 \appendix
 
 # Appendix {-}
-=======
+
 # Pollster Methodology Overview and Evaluation
 
 ## Overview of SurveyUSA\
@@ -498,6 +504,8 @@ In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. Th
 
 @fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
 
+
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -508,10 +516,83 @@ In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. Th
 #| fig-subcap: ["Trace plot", "Rhat plot"]
 #| layout-ncol: 2
 
+# Load required library
+library(caret)
 
+# Set a seed for reproducibility
+set.seed(853)
+analysis_data_reduced<- analysis_data_reduced %>% na.omit(analysis_data_reduced)
+# Split the data (70% training, 30% testing)
+trainIndex <- createDataPartition(analysis_data_reduced$trump_win, p = 0.7, list=FALSE)
+train_data <- analysis_data_reduced[trainIndex, ]
+test_data <- analysis_data_reduced[-trainIndex, ]
 
 ```
 
+```{r}
+# Make predictions on the test dataset
+predicted_probabilities <- predict(logistic_model, newdata = test_data, type = "response")
+
+# Binarize the predicted probabilities using a threshold of 0.5
+predicted_classes <- ifelse(predicted_probabilities > 0.5, 1, 0)
+
+# Confusion Matrix
+conf_matrix <- confusionMatrix(factor(predicted_classes), factor(test_data$trump_win))
+print(conf_matrix)
+
+# Precision, Recall, and F1-score
+precision <- posPredValue(factor(predicted_classes), factor(test_data$trump_win))
+recall <- sensitivity(factor(predicted_classes), factor(test_data$trump_win))
+f1_score <- 2 * ((precision * recall) / (precision + recall))
+
+cat("Precision:", precision, "\n")
+cat("Recall:", recall, "\n")
+cat("F1-score:", f1_score, "\n")
+```
+
+
+```{r}
+# Load the pre-trained logistic model from RDS
+logistic_model <- readRDS(here:here("models/logistic_model.rds"))
+
+# Calculate Trump and Harris percentages for each state (you still need to prepare the data)
+analysis_data <- analysis_data %>%
+  group_by(state) %>%
+  mutate(
+    Trump_percent = mean(case_when(candidate_name == "Donald Trump" ~ percent), na.rm = TRUE),
+    Harris_percent = mean(case_when(candidate_name == "Kamala Harris" ~ percent), na.rm = TRUE)
+  ) %>%
+  # Create a binary outcome for prediction: 1 if Trump is predicted to win, 0 if Harris
+  mutate(trump_win = ifelse(Trump_percent > Harris_percent, 1, 0))
+
+# Create 10-fold cross-validation resampling
+folds <- vfold_cv(analysis_data, v = 10)
+
+# Fit the resamples using the loaded logistic model
+cross_validation <- fit_resamples(
+  logistic_model,
+  data = analysis_data,
+  resamples = folds,
+  metrics = metric_set(accuracy, roc_auc),
+  control = control_resamples(save_pred = TRUE)
+)
+
+# Collect and display metrics
+collect_metrics(cross_validation) %>%
+  select(.metric, mean) %>%
+  knitr::kable(
+    col.names = c("Metric", "Mean"),
+    digits = 2,
+    format.args = list(big.mark = ",")
+  )
+
+# Display confusion matrix for resampled results
+conf_mat_resampled(cross_validation) %>%
+  mutate(Proportion = Freq / sum(Freq)) %>%
+  knitr::kable(
+    digits = 2,
+    format.args = list(big.mark = ","))
+```
 
 
 \newpage
