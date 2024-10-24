@@ -276,14 +276,14 @@ These results indicate that based on the current model predictions, Harris is ex
 electoral_votes <- data.frame(
   state = c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", 
             "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", 
-            "Maine CD-1", "Maine CD-2", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", 
-            "Missouri", "Montana", "Nebraska", "Nebraska CD-1", "Nebraska CD-2", "Nebraska CD-3", "Nevada", 
+            "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", 
+            "Missouri", "Montana", "Nebraska", "Nevada", 
             "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", 
             "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", 
             "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", 
             "District of Columbia"),
-  electoral_votes = c(9, 3, 11, 6, 55, 9, 7, 3, 29, 16, 4, 4, 20, 11, 6, 6, 8, 8, 2, 1, 1, 10, 11, 15, 10, 6, 10, 
-                      3, 5, 1, 1, 2, 6, 4, 14, 5, 29, 16, 3, 18, 7, 6, 20, 4, 9, 3, 11, 38, 6, 3, 13, 12, 5, 10, 3, 3)
+  electoral_votes = c(9, 3, 11, 6, 55, 9, 7, 3, 29, 16, 4, 4, 20, 11, 6, 6, 8, 8, 4, 10, 11, 15, 10, 6, 10, 
+                      3, 10, 6, 4, 14, 5, 29, 16, 3, 18, 7, 6, 20, 4, 9, 3, 11, 38, 6, 3, 13, 12, 5, 10, 3, 3)
 )
 
 # Apply the regression model to predict Trump's percentage in each state

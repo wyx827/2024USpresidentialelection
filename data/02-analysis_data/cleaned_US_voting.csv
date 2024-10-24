@@ -1,8 +1,46 @@
 pollster_rating_name,methodology,numeric_grade,start_date,end_date,sample_size,state,candidate_name,percent,transparency_score,population_group
+Emerson College,Mixed,2.9,2024-10-21,2024-10-22,860,Pennsylvania,Kamala Harris,49,7,likely voters
+Emerson College,Mixed,2.9,2024-10-21,2024-10-22,860,Pennsylvania,Donald Trump,50.7,7,likely voters
+Emerson College,Mixed,2.9,2024-10-21,2024-10-22,950,North Carolina,Kamala Harris,48.2,7,likely voters
+Emerson College,Mixed,2.9,2024-10-21,2024-10-22,950,North Carolina,Donald Trump,50.2,7,likely voters
+Emerson College,Mixed,2.9,2024-10-21,2024-10-22,800,Wisconsin,Kamala Harris,49.2,7,likely voters
+Emerson College,Mixed,2.9,2024-10-21,2024-10-22,800,Wisconsin,Donald Trump,49.9,7,likely voters
+YouGov,Online Panel,3,2024-10-19,2024-10-22,1422,National,Kamala Harris,48,9,registered voters
+YouGov,Online Panel,3,2024-10-19,2024-10-22,1422,National,Donald Trump,46,9,registered voters
+YouGov,Online Panel,3,2024-10-19,2024-10-22,1293,National,Kamala Harris,49,9,likely voters
+YouGov,Online Panel,3,2024-10-19,2024-10-22,1293,National,Donald Trump,46,9,likely voters
+Emerson College,Mixed,2.9,2024-10-19,2024-10-22,825,South Dakota,Kamala Harris,36.5,7,likely voters
+Emerson College,Mixed,2.9,2024-10-19,2024-10-22,825,South Dakota,Donald Trump,62,7,likely voters
+Marist College,Mixed,2.9,2024-10-17,2024-10-22,1356,Georgia,Kamala Harris,49,9,registered voters
+Marist College,Mixed,2.9,2024-10-17,2024-10-22,1356,Georgia,Donald Trump,48,9,registered voters
+Marist College,Mixed,2.9,2024-10-17,2024-10-22,1193,Georgia,Kamala Harris,49,9,likely voters
+Marist College,Mixed,2.9,2024-10-17,2024-10-22,1193,Georgia,Donald Trump,49,9,likely voters
+Marist College,Mixed,2.9,2024-10-17,2024-10-22,1410,North Carolina,Kamala Harris,48,9,registered voters
+Marist College,Mixed,2.9,2024-10-17,2024-10-22,1410,North Carolina,Donald Trump,49,9,registered voters
+Marist College,Mixed,2.9,2024-10-17,2024-10-22,1226,North Carolina,Kamala Harris,48,9,likely voters
+Marist College,Mixed,2.9,2024-10-17,2024-10-22,1226,North Carolina,Donald Trump,50,9,likely voters
+Marist College,Mixed,2.9,2024-10-17,2024-10-22,1329,Arizona,Kamala Harris,49,9,registered voters
+Marist College,Mixed,2.9,2024-10-17,2024-10-22,1329,Arizona,Donald Trump,49,9,registered voters
+Marist College,Mixed,2.9,2024-10-17,2024-10-22,1193,Arizona,Kamala Harris,49,9,likely voters
+Marist College,Mixed,2.9,2024-10-17,2024-10-22,1193,Arizona,Donald Trump,50,9,likely voters
+Emerson College,Mixed,2.9,2024-10-19,2024-10-21,865,Maryland,Kamala Harris,64,7,likely voters
+Emerson College,Mixed,2.9,2024-10-19,2024-10-21,865,Maryland,Donald Trump,34.4,7,likely voters
 YouGov,Online Panel,3,2024-10-18,2024-10-21,1266,National,Kamala Harris,47,9,registered voters
 YouGov,Online Panel,3,2024-10-18,2024-10-21,1266,National,Donald Trump,45,9,registered voters
 YouGov,Online Panel,3,2024-10-18,2024-10-21,1189,National,Kamala Harris,48,9,likely voters
 YouGov,Online Panel,3,2024-10-18,2024-10-21,1189,National,Donald Trump,45,9,likely voters
+Emerson College,Mixed,2.9,2024-10-18,2024-10-21,815,Texas,Kamala Harris,45.9,7,likely voters
+Emerson College,Mixed,2.9,2024-10-18,2024-10-21,815,Texas,Donald Trump,53.1,7,likely voters
+Monmouth University Polling Institute,Mixed,2.9,2024-10-17,2024-10-21,802,National,Kamala Harris,47,9,registered voters
+Monmouth University Polling Institute,Mixed,2.9,2024-10-17,2024-10-21,802,National,Donald Trump,44,9,registered voters
+Quinnipiac University,Live Phone,2.8,2024-10-17,2024-10-21,1136,Michigan,Kamala Harris,49,9,likely voters
+Quinnipiac University,Live Phone,2.8,2024-10-17,2024-10-21,1136,Michigan,Donald Trump,46,9,likely voters
+Quinnipiac University,Live Phone,2.8,2024-10-17,2024-10-21,1136,Michigan,Kamala Harris,50,9,likely voters
+Quinnipiac University,Live Phone,2.8,2024-10-17,2024-10-21,1136,Michigan,Donald Trump,46,9,likely voters
+Quinnipiac University,Live Phone,2.8,2024-10-17,2024-10-21,1108,Wisconsin,Kamala Harris,48,9,likely voters
+Quinnipiac University,Live Phone,2.8,2024-10-17,2024-10-21,1108,Wisconsin,Donald Trump,48,9,likely voters
+Quinnipiac University,Live Phone,2.8,2024-10-17,2024-10-21,1108,Wisconsin,Kamala Harris,48,9,likely voters
+Quinnipiac University,Live Phone,2.8,2024-10-17,2024-10-21,1108,Wisconsin,Donald Trump,48,9,likely voters
 Ipsos,Probability Panel,2.8,2024-10-16,2024-10-21,3481,National,Kamala Harris,46,9.5,registered voters
 Ipsos,Probability Panel,2.8,2024-10-16,2024-10-21,3481,National,Donald Trump,43,9.5,registered voters
 Ipsos,Probability Panel,2.8,2024-10-16,2024-10-21,3307,National,Kamala Harris,48,9.5,likely voters
@@ -15,8 +53,12 @@ Ipsos,Probability Panel,2.8,2024-10-16,2024-10-21,3481,National,Kamala Harris,45
 Ipsos,Probability Panel,2.8,2024-10-16,2024-10-21,3481,National,Donald Trump,43,9.5,registered voters
 Ipsos,Probability Panel,2.8,2024-10-16,2024-10-21,3307,National,Kamala Harris,47,9.5,likely voters
 Ipsos,Probability Panel,2.8,2024-10-16,2024-10-21,3307,National,Donald Trump,45,9.5,likely voters
+Emerson College,Mixed,2.9,2024-10-18,2024-10-20,860,Florida,Kamala Harris,45.9,7,likely voters
+Emerson College,Mixed,2.9,2024-10-18,2024-10-20,860,Florida,Donald Trump,53.6,7,likely voters
 SurveyUSA,Online Panel,2.8,2024-10-17,2024-10-20,1164,North Carolina,Kamala Harris,47,10,registered voters
 SurveyUSA,Online Panel,2.8,2024-10-17,2024-10-20,1164,North Carolina,Donald Trump,46,10,registered voters
+Hart Research Associates/Public Opinion Strategies,Live Phone,2.6,2024-10-15,2024-10-19,1000,National,Kamala Harris,46,4,registered voters
+Hart Research Associates/Public Opinion Strategies,Live Phone,2.6,2024-10-15,2024-10-19,1000,National,Donald Trump,48,4,registered voters
 Suffolk University,Live Phone,2.9,2024-10-14,2024-10-18,1000,National,Kamala Harris,45.3,8,likely voters
 Suffolk University,Live Phone,2.9,2024-10-14,2024-10-18,1000,National,Donald Trump,44.4,8,likely voters
 Suffolk University,Live Phone,2.9,2024-10-14,2024-10-18,1000,National,Kamala Harris,49.7,8,likely voters
@@ -501,6 +543,8 @@ The New York Times/Siena College,Live Phone,3,2024-09-11,2024-09-16,1082,Pennsyl
 The New York Times/Siena College,Live Phone,3,2024-09-11,2024-09-16,1082,Pennsylvania,Donald Trump,45,9,registered voters
 The New York Times/Siena College,Live Phone,3,2024-09-11,2024-09-16,1082,Pennsylvania,Kamala Harris,49,9,likely voters
 The New York Times/Siena College,Live Phone,3,2024-09-11,2024-09-16,1082,Pennsylvania,Donald Trump,45,9,likely voters
+Monmouth University Polling Institute,Mixed,2.9,2024-09-11,2024-09-15,803,National,Kamala Harris,48,9,registered voters
+Monmouth University Polling Institute,Mixed,2.9,2024-09-11,2024-09-15,803,National,Donald Trump,44,9,registered voters
 Suffolk University,Live Phone,2.9,2024-09-11,2024-09-14,500,Pennsylvania,Kamala Harris,48.6,8,likely voters
 Suffolk University,Live Phone,2.9,2024-09-11,2024-09-14,500,Pennsylvania,Donald Trump,45.6,8,likely voters
 Data for Progress,Online Panel,2.6,2024-09-12,2024-09-13,1283,National,Kamala Harris,50,10,likely voters
