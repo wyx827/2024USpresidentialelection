@@ -231,10 +231,17 @@ state_predictions$winner <- ifelse(state_predictions$predicted_percent_trump > 5
 library(knitr)
 kable(state_predictions, col.names = c("State", "Trump Predicted %", "Electoral Votes", "Winner"),
       digits = 2, caption = "Prediction for Trump by State")
+
+# Print the results
+print(paste("Trump Electoral Votes:", trump_electoral_votes))
+print(paste("Harris Electoral Votes:", harris_electoral_votes))
 ```
 
 
 
+```{r}
+summary(regression_model)
+```
 
 
 
