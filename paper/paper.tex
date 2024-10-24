@@ -66,46 +66,6 @@
 \fi
 \makeatother
 
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{241,243,245}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
-\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
@@ -217,7 +177,7 @@
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
   pdftitle={My title},
-  pdfauthor={First author; Yongqi Liu; Yuxuan Wei},
+  pdfauthor={Xuanle Zhou; Yongqi Liu; Yuxuan Wei},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -235,7 +195,7 @@
 }
 \makeatother
 \subtitle{My subtitle if needed}
-\author{First author \and Yongqi Liu \and Yuxuan Wei}
+\author{Xuanle Zhou \and Yongqi Liu \and Yuxuan Wei}
 \date{October 23, 2024}
 
 \begin{document}
@@ -244,45 +204,6 @@
 First sentence. Second sentence. Third sentence. Fourth sentence.
 \end{abstract}
 
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\#install.packages("tidymodels")}
-\FunctionTok{library}\NormalTok{(tidyverse)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
--- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
-v dplyr     1.1.4     v readr     2.1.5
-v forcats   1.0.0     v stringr   1.5.1
-v ggplot2   3.5.1     v tibble    3.2.1
-v lubridate 1.9.3     v tidyr     1.3.1
-v purrr     1.0.2     
--- Conflicts ------------------------------------------ tidyverse_conflicts() --
-x dplyr::filter() masks stats::filter()
-x dplyr::lag()    masks stats::lag()
-i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\NormalTok{analysis\_data }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"data/02{-}analysis\_data/cleaned\_US\_voting.csv"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Rows: 1683 Columns: 11
--- Column specification --------------------------------------------------------
-Delimiter: ","
-chr  (5): pollster_rating_name, methodology, state, candidate_name, populati...
-dbl  (4): numeric_grade, sample_size, percent, transparency_score
-date (2): start_date, end_date
-
-i Use `spec()` to retrieve the full column specification for this data.
-i Specify the column types or set `show_col_types = FALSE` to quiet this message.
-\end{verbatim}
 
 \section{Introduction}\label{introduction}
 
@@ -301,50 +222,162 @@ follows. Section~\ref{sec-data}\ldots.
 
 \subsection{Overview}\label{overview}
 
-We use the statistical programming language R (R Core Team 2023)\ldots.
-Following Alexander (2023), we consider\ldots{}
+This study uses R packages (R Core Team 2023) to clean and analyz the
+dataset , including libraries from tidyverse {[}{]}, ggplot2{[}{]}.
 
-Overview text
+After cleaning the data, which included grouping and removing missing
+values, the analysis dataset consists of 1,683 observations, focusing on
+the following 11 variables: pollster name, methodology, numeric grade,
+start date, end date, sample size, candidate name, percentage,
+transparency score, and population group.
 
-\subsection{Measurement}\label{measurement}
+\subsection{Data Measurement and
+Considerations}\label{data-measurement-and-considerations}
 
-Some paragraphs about how we go from a phenomena in the world to an
-entry in the dataset.
+The dataset for this analysis is sourced from FiveThirtyEight, which
+rigorously collects and aggregates polling data from a variety of firms
+to reflect public opinion. To ensure the integrity of the data, only
+polls that adhere to specific criteria are included in the dataset. Each
+poll must provide essential information, such as the pollster's name,
+survey dates, sample sizes, and methodological details (e.g., polling
+medium, voter files, weighting criteria). Polls that are deemed
+nonscientific, that blend data from multiple sources, or that are
+conducted by hobbyists are excluded.
+
+Once a poll meets these stringent standards, it is incorporated into the
+database, enabling it to inform polling averages, forecasts, and
+political coverage. This careful selection process ensures that the
+dataset accurately captures and reflects the nuances of public sentiment
+and behavior.
 
 \subsection{Outcome variables}\label{outcome-variables}
 
-Add graphs, tables and text. Use sub-sub-headings for each outcome
-variable or update the subheading to be singular.
+The outcome variable of interest for this research is the percentage,
+representing the level of public support for Donald Trump. The
+distribution in Figure~\ref{fig-pct} indicates that most observations
+cluster around a support percentage of approximately 48\%, suggesting
+moderate backing from the electorate. Additionally, a smaller proportion
+of polls show support exceeding 55\%, indicating that while Trump has a
+core base, many voters remain either indifferent or opposed to him.
 
-Some of our data is of penguins (\textbf{?@fig-bills}),
+\begin{figure}
 
-Talk more about it.
+\centering{
 
-And also planes (\textbf{?@fig-planes}). (You can change the height and
-width, but don't worry about doing that until you have finished every
-other aspect of the paper - Quarto will try to make it look nice and the
-defaults usually work well once you have enough text.)
+\includegraphics{paper_files/figure-pdf/fig-pct-1.pdf}
 
-Talk way more about it.
+}
+
+\caption{\label{fig-pct}Distribution of Support (percent) for Donald
+Trump}
+
+\end{figure}%
 
 \subsection{Predictor variables}\label{predictor-variables}
 
-Add graphs, tables and text.
+\subsubsection{Numeric Grade}\label{numeric-grade}
 
-Use sub-sub-headings for each outcome variable and feel free to combine
-a few into one if they go together naturally.
+The numeric grade reflects the quality of the pollster, with
+FiveThirtyEight defining a scale from 0 to 3. A grade of 0 indicates a
+low-quality poll, while a grade of 3 signifies a high-quality pollster.
+After filtering for pollsters with a numeric grade higher than 2.5, we
+identified a total of 30 distinct pollsters, with half of them scoring
+between 2.6 and 2.8, as shown in Figure~\ref{fig-numeric-grade} .
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{paper_files/figure-pdf/fig-numeric-grade-1.pdf}
+
+}
+
+\caption{\label{fig-numeric-grade}Distribution of Numeric Grades (2.6 to
+3.0)}
+
+\end{figure}%
+
+\subsubsection{Sample Size}\label{sample-size}
+
+The sample size indicates the number of respondents in each poll. The
+distribution in Figure~\ref{fig-sample-size} exhibits a right-skewed
+shape, suggesting that there are more observations with smaller sample
+sizes compared to larger ones. The peak of the distribution is around
+1,000, indicating that this is the most common sample size used in the
+polls. Overall, the sample size data highlights that each poll contains
+a sufficient number of respondents to provide reliable insights.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{paper_files/figure-pdf/fig-sample-size-1.pdf}
+
+}
+
+\caption{\label{fig-sample-size}Distribution of Sample Size}
+
+\end{figure}%
+
+\subsubsection{Transparency Score}\label{transparency-score}
+
+The Transparency Score measures how transparent a pollster is,
+calculated based on the amount of information disclosed about its polls,
+weighted by recency. The highest possible score is 10, while the lowest
+is 0. The distribution of Transparency Scores for the filtered pollsters
+shows a peak around 9 as presented in
+Figure~\ref{fig-transparency-score}, indicating that this is the most
+common score. This suggests that among the selected pollsters, there is
+a predominance of high transparency scores.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{paper_files/figure-pdf/fig-transparency-score-1.pdf}
+
+}
+
+\caption{\label{fig-transparency-score}Distribution of Transparency
+Score}
+
+\end{figure}%
+
+\subsubsection{end date}\label{end-date}
+
+The end date indicates when each poll concluded.
+Figure~\ref{fig-end-date} shows that as the final result of the U.S.
+election approached, more polls were conducted and completed. This trend
+reflects an increased interest in capturing public opinion and
+predicting electoral outcomes as election day neared, emphasizing the
+significance of real-time sentiment analysis during this critical
+period.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{paper_files/figure-pdf/fig-end-date-1.pdf}
+
+}
+
+\caption{\label{fig-end-date}Distribution of End Dates}
+
+\end{figure}%
 
 \section{Model}\label{model}
 
 To model Donald Trump's polling percentages over time, we employed a
-Bayesian linear regression framework. Bayesian methods provide a
-flexible approach to inference by incorporating prior beliefs and
-updating them with observed data, allowing us to quantify uncertainty in
-both parameter estimates and predictions.
+multiple linear regression framework. This approach estimates the
+relationship between polling percentages and various predictors by
+fitting a linear equation to the data. By analyzing the coefficients, we
+can quantify the impact of each predictor on Trump's polling
+percentages, while also assessing the overall fit of the model and
+making predictions based on the observed trends.
 
-Here we briefly describe the Bayesian model used to investigate the
-winning probability of Trump. Background details and diagnostics are
-included in Appendix~\ref{sec-model-details}.
+Here we briefly describe the multiple linear regression model used to
+investigate the winning probability of Trump. Background details and
+diagnostics are included in Appendix~\ref{sec-model-details}.
 
 \subsection{Multiple Linear Regression Model
 Overview}\label{multiple-linear-regression-model-overview}
@@ -369,9 +402,21 @@ following predictors:
   capture trends over time.
 \end{itemize}
 
-The model takes the form: The model takes the form:
+The model takes the form:
 
-\section{\#Interpretation of
+\begin{align}
+\text{pct}_i &= \beta_0 + \beta_1 \cdot \text{numeric\_grade}_i + \beta_2 \cdot \text{transparency\_score}_i \\
+             &\quad + \beta_3 \cdot \text{sample\_size}_i + \beta_4 \cdot \text{state}_i + \beta_5 \cdot \text{end\_date}_i + \epsilon_i \\
+\epsilon_i &\sim \text{Normal}(0, \sigma^2)
+\end{align}
+
+Where: \begin{align}
+\beta_0 & \text{ is the intercept term} \\
+\beta_1, \beta_2, \beta_3, \beta_4, \beta_5 & \text{ are the coefficients for each predictor} \\
+\sigma^2 & \text{ is the variance of the error term}
+\end{align}
+
+\section{Interpretation of
 Coefficients:}\label{interpretation-of-coefficients}
 
 \begin{itemize}
@@ -414,16 +459,25 @@ Coefficients:}\label{interpretation-of-coefficients}
 \subsection{Interpretation}\label{interpretation}
 
 The posterior distributions of the parameters allow us to quantify the
-uncertainty around each effect: - The coefficient for end\_date informs
-us about how Trump's polling percentages have evolved over time. A
-positive coefficient would suggest an upward trend, while a negative
-coefficient would indicate a decline. - The coefficient for
-numeric\_grade captures the impact of pollster quality on the polling
-percentage. High-quality pollsters may produce different estimates
-compared to lower-quality ones. - The state-level effects account for
-regional differences in Trump's support. Some states may show
-significantly higher or lower levels of support, even after adjusting
-for the time of the poll and pollster quality.
+uncertainty around each effect:\\
+
+\begin{itemize}
+\tightlist
+\item
+  The coefficient for end\_date informs us about how Trump's polling
+  percentages have evolved over time. A positive coefficient would
+  suggest an upward trend, while a negative coefficient would indicate a
+  decline.\\
+\item
+  The coefficient for numeric\_grade captures the impact of pollster
+  quality on the polling percentage. High-quality pollsters may produce
+  different estimates compared to lower-quality ones.\\
+\item
+  The state-level effects account for regional differences in Trump's
+  support. Some states may show significantly higher or lower levels of
+  support, even after adjusting for the time of the poll and pollster
+  quality.
+\end{itemize}
 
 \section{Model Evalutation}\label{model-evalutation}
 
@@ -534,55 +588,13 @@ model}\label{diagnostic-plots-for-the-model}
 
 \centering{
 
-\includegraphics{paper_files/figure-pdf/fig-diagnosis-1.pdf}
+\includegraphics{paper_files/figure-pdf/fig-diagnosis-1-1.pdf}
 
 }
 
-\caption{\label{fig-diagnosis}}
+\caption{\label{fig-diagnosis-1}}
 
 \end{figure}%
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(car)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Loading required package: carData
-\end{verbatim}
-
-\begin{verbatim}
-
-Attaching package: 'car'
-\end{verbatim}
-
-\begin{verbatim}
-The following object is masked from 'package:dplyr':
-
-    recode
-\end{verbatim}
-
-\begin{verbatim}
-The following object is masked from 'package:purrr':
-
-    some
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{vif}\NormalTok{(regression\_model)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-                       GVIF Df GVIF^(1/(2*Df))
-numeric_grade      1.294110  1        1.137590
-sample_size        1.289750  1        1.135672
-state              2.082151 44        1.008369
-transparency_score 1.263558  1        1.124081
-end_date           1.309491  1        1.144330
-\end{verbatim}
 
 \subsubsection{Model justification}\label{model-justification}
 
@@ -807,8 +819,8 @@ limitations of fixed questionnaire options. Nevertheless, the inclusion
 of data weighting and question rotation adds credibility to its results,
 making SurveyUSA a reliable pollster for localized opinion research.
 
-\section{Appendix B: Idealized Methodology and
-Survey}\label{appendix-b-idealized-methodology-and-survey}
+\textless\textless\textless\textless\textless\textless\textless{}
+Updated upstream \# Appendix B: Idealized Methodology and Survey
 
 \subsection{\texorpdfstring{\textbf{Objective and
 Overview}}{Objective and Overview}}\label{objective-and-overview}
@@ -1220,6 +1232,12 @@ This methodology, combining rigorous sampling, data validation, and
 aggregation, ensures that the election forecast is as accurate and
 representative as possible.
 
+\section{\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater{}
+7bdf4d96b1910dc96b7cd995f3c7eccd50b162f4}\label{bdf4d96b1910dc96b7cd995f3c7eccd50b162f4}
+
+\section{Idealized Methodology and
+Survey}\label{idealized-methodology-and-survey}
+
 \begin{quote}
 \begin{quote}
 \begin{quote}
@@ -1227,7 +1245,7 @@ representative as possible.
 \begin{quote}
 \begin{quote}
 \begin{quote}
-7bdf4d96b1910dc96b7cd995f3c7eccd50b162f4
+Stashed changes
 \end{quote}
 \end{quote}
 \end{quote}
@@ -1271,10 +1289,6 @@ R Core Team (2023)
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
-\bibitem[\citeproctext]{ref-tellingstories}
-Alexander, Rohan. 2023. \emph{Telling Stories with Data}. Chapman;
-Hall/CRC. \url{https://tellingstorieswithdata.com/}.
-
 \bibitem[\citeproctext]{ref-citeR}
 R Core Team. 2023. \emph{{R: A Language and Environment for Statistical
 Computing}}. Vienna, Austria: R Foundation for Statistical Computing.
