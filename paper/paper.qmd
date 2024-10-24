@@ -1,6 +1,6 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Predicting Kamala Harris's Victory in the 2024 US Election"
+subtitle: "An Investigation into Poll Data Using Multiple Linear Regression"
 author: 
   - Xuanle Zhou
   - Yongqi Liu
