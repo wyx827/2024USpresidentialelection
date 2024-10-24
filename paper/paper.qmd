@@ -5,9 +5,10 @@ author:
   - Xuanle Zhou
   - Yongqi Liu
   - Yuxuan Wei
-thanks: "Code and data are available at: [https://github.com/wyx827/2024USpresidentialelection.git]."
+thanks: "Code and data are available at: https://github.com/wyx827/2024USpresidentialelection.git."
 date: today
 date-format: long
+toc: true
 abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
 format: pdf
 number-sections: true
@@ -20,15 +21,15 @@ bibliography: references.bib
 #| message: false
 
 #install.packages("tidymodels")
-
+#install.packages("usmap")
 library(tidyverse)
 library(ggplot2)
 library(rstanarm)
 library(knitr)
+library(usmap)
 
 analysis_data <- read_csv(here::here("data/02-analysis_data/cleaned_US_voting.csv"))
 ```
-
 
 # Introduction
 
@@ -139,7 +140,7 @@ ggplot(analysis_data %>%
   theme_minimal()
 ```
 
-### end date
+### End Date
 
 The end date indicates when each poll concluded. @fig-end-date shows that as the final result of the U.S. election approached, more polls were conducted and completed. This trend reflects an increased interest in capturing public opinion and predicting electoral outcomes as election day neared, emphasizing the significance of real-time sentiment analysis during this critical period.
 
@@ -187,84 +188,58 @@ Where:
 \sigma^2 & \text{ is the variance of the error term}
 \end{align}
 
+## Interpretation of Coefficients
 
-# Interpretation of Coefficients:
-
-- Intercept (\beta_0): This is the predicted Trump polling percentage when all predictors (numeric grade, sample size, state, transparency score, and end date) are at their baseline or zero value.
-- Numeric Grade (\beta_1): This coefficient measures how much Trump’s polling percentage changes as the pollster’s numeric grade increases. A positive and significant coefficient would indicate that higher-rated pollsters report better polling numbers for Trump, while a negative coefficient would suggest the opposite.
-- Sample Size (\beta_2): This measures the impact of the number of respondents on Trump’s polling percentage. A positive coefficient would indicate that larger sample sizes are associated with higher polling percentages for Trump.
-- State (\beta_3): The coefficients for the state variable represent differences in Trump’s polling percentage in each state compared to the reference state (baseline category). For example, if the coefficient for Florida is negative, it means Trump polls lower in Florida compared to the reference state.
-- Transparency Score (\beta_4): This coefficient shows how much Trump’s polling percentage is affected by the transparency of the poll. A positive coefficient would indicate that polls with higher transparency tend to report higher polling percentages for Trump, whereas a negative coefficient would imply the opposite.
-- End Date (\beta_5): The end date is a time-related variable, capturing trends over time. A positive and significant coefficient would suggest that Trump’s polling percentage has increased as the election date approaches, while a negative coefficient would suggest a decrease in his polling numbers over time.
+- Intercept ($\beta_0$): This is the predicted Trump polling percentage when all predictors (numeric grade, sample size, state, transparency score, and end date) are at their baseline or zero value.
+- Numeric Grade ($\beta_1$): This coefficient measures how much Trump’s polling percentage changes as the pollster’s numeric grade increases. A positive and significant coefficient would indicate that higher-rated pollsters report better polling numbers for Trump, while a negative coefficient would suggest the opposite.
+- Sample Size ($\beta_2$): This measures the impact of the number of respondents on Trump’s polling percentage. A positive coefficient would indicate that larger sample sizes are associated with higher polling percentages for Trump.
+- State ($\beta_3$): The coefficients for the state variable represent differences in Trump’s polling percentage in each state compared to the reference state (baseline category). For example, if the coefficient for Florida is negative, it means Trump polls lower in Florida compared to the reference state.
+- Transparency Score ($\beta_4$): This coefficient shows how much Trump’s polling percentage is affected by the transparency of the poll. A positive coefficient would indicate that polls with higher transparency tend to report higher polling percentages for Trump, whereas a negative coefficient would imply the opposite.
+- End Date ($\beta_5$): The end date is a time-related variable, capturing trends over time. A positive and significant coefficient would suggest that Trump’s polling percentage has increased as the election date approaches, while a negative coefficient would suggest a decrease in his polling numbers over time.
 	
-	
-
 ## Interpretation
 
 The posterior distributions of the parameters allow us to quantify the uncertainty around each effect:\
-
 * The coefficient for end_date informs us about how Trump’s polling percentages have evolved over time. A positive coefficient would suggest an upward trend, while a negative coefficient would indicate a decline.\
 * The coefficient for numeric_grade captures the impact of pollster quality on the polling percentage. High-quality pollsters may produce different estimates compared to lower-quality ones.\
 * The state-level effects account for regional differences in Trump’s support. Some states may show significantly higher or lower levels of support, even after adjusting for the time of the poll and pollster quality.
 
-
-
-
-# Model Evalutation
-- R-squared
+## Model Justification
 @tbl-summary shows the summary table for the model. And then evaluate it on the test set. It appears as though the model is having difficulty identifying Trump supporters.
 ```{r}
 #| echno: False
 #| label: tbl-summary
-#| tbl-cap: Relationship between wing length and width
+#| tbl-cap: Regression Model Estimate Summary
 #| echo: false
 #| warning: false
 #| message: false
 
-library(knitr)
 regression_model<-readRDS(here::here("models/regression_model.rds"))
 summary<-summary(regression_model)
-# Extract the coefficients (which can be formatted as a table)
+
+# Extract the coefficients to form a table
 coefficients_table <- summary$coefficients
 
-# Display the coefficients table using kable
-kable(coefficients_table, digits = 3, caption = "Regression Model Coefficients")
+# Display the first 10 rows of the coefficients table using kable, formatted to 4 decimal places
+kable(head(coefficients_table, 10), digits = 4)
 ```
 
+### VIF Evaluation
+@tbl-vif displays that
 
-
-
-# Diagnostic plots for the model
 ```{r}
 #| echno: false
-#| label: fig-diagnosis-1
-#| tbl-cap: Linear Regression Assumptions hold.
+#| label: tbl-vif
+#| tbl-cap: VIF shows a reasonable output.
 #| echo: false
 #| warning: false
 #| message: false
 
-par(mfrow = c(2, 2))  
-plot(regression_model)
+library(car)
+kable(vif(regression_model))
 ```
 
 
-
-```{r}
-#| echno: false
-#| label: fig-diagnosis-2
-#| tbl-cap: Linear Regression Assumptions hold.
-#| echo: false
-#| warning: false
-#| message: false
-
-#library(car)
-#vif(regression_model)
-```
-
-
-
-
-### Model justification
 
 We expect a positive relationship between the size of the wings and time spent aloft. In particular...
 
@@ -289,10 +264,10 @@ Electoral Vote Count:
 These results indicate that based on the current model predictions, Harris is expected to win the 2024 U.S. Presidential Election, securing 416 electoral votes, compared to Trump’s 78 electoral votes. The election outcome hinges on several battleground states, where the vote margins are predicted to be narrow.
 
 
-```{r tbl-prediction, echo=FALSE, warning=FALSE, message=FALSE}
+```{r tbl-prediction}
 #| echno: false
 #| label: tbl-prediction
-#| tbl-cap: Prediction for Trump
+#| tbl-cap: Prediction for Trump and Harris by Electoral College
 #| echo: false
 #| warning: false
 #| message: false
@@ -337,8 +312,7 @@ library(knitr)
 # Create the table using kable
 kable(state_predictions[, c("state", "predicted_percent_trump", "electoral_votes", "winner")], 
       col.names = c("State", "Trump Predicted %", "Electoral Votes", "Winner"), 
-      digits = 2, 
-      caption = "Prediction for Trump by State")
+      digits = 2)
 
 # Print the results for the total electoral votes
 print(paste("Trump Electoral Votes:", trump_electoral_votes))
@@ -347,16 +321,14 @@ print(paste("Harris Electoral Votes:", harris_electoral_votes))
 
 ## Predicted Electoral Outcomes by State
 The following map (@fig-statemap) shows the predicted winner for each state in the 2024 U.S. Presidential Election, based on the regression model's predicted vote percentages for Trump and Harris.
-```{r tbl-prediction, echo=FALSE, warning=FALSE, message=FALSE}
+
+```{r tbl-prediction}
 #| echno: false
 #| label: fig-statemap
 #| tbl-cap: Predicted Winner of 2024 US Presidential Election by State
 #| echo: false
 #| warning: false
 #| message: false
-#| 
-# Load necessary libraries
-library(usmap)
 
 # "red" for Trump and "blue" for Harris
 state_predictions$winner_color <- ifelse(state_predictions$winner == "Trump", "red", "blue")
@@ -370,7 +342,6 @@ plot_usmap(data = state_predictions, values = "winner_color", regions = "states"
 ```
 The predicted outcome in the regression model reflects the geographic voting patterns, with Trump winning in traditionally Republican-leaning states like Alabama, Missouri, and Wyoming, while Harris dominates in Democratic strongholds such as California, New York, and Illinois. However, key battleground states such as Florida and Arizona are predicted to favor Harris, potentially determining the overall election outcome.
 
-
 # Discussion {#sec-discussion}
 
 ## What Is Done in This Paper?
@@ -382,14 +353,11 @@ The study highlights the persistence of geographic voting patterns in U.S. elect
 ## Another Thing We Learn About the World
 The analysis underscores the importance of battleground states in determining the election's outcome. States like Florida and Arizona, predicted to lean toward Harris, play a decisive role in the projected electoral victory. This illustrates how close contests in a few states can influence the overall election result, emphasizing the significant impact these states have in shaping the presidency.
 
-## Weaknesses of What Was Done
-While the model offers a useful prediction, it has limitations. It relies heavily on past voting data, which may not fully capture future changes in voter behavior or external factors that could affect the election. The model also simplifies the election by focusing on state-level percentages, without accounting for variables such as turnout, third-party candidates, or unexpected political shifts. Additionally, the assumption that past voting patterns will continue might not be accurate in a rapidly changing political landscape.
-
 ## What Is Left to Learn or How Should We Proceed in the Future?
 Future research should incorporate more detailed data, including demographic shifts and economic factors that may influence voter preferences. It would be valuable to examine how emerging political movements and changes in communication strategies affect elections, particularly in closely contested states. Post-election analysis comparing predictions with actual results will also be essential to improving the accuracy of models and understanding how unforeseen events may alter outcomes.
 
-## Weaknesses and next steps
-The logistic regression model is limited by the lack of interaction terms between states, which may obscure regional trends or external factors that influence neighboring states. Additionally, the model assumes that polling data accurately reflects voter intentions, but biases or missing data in key regions could affect the predictions.
+## Weaknesses and Next Steps
+While the model offers a useful prediction, it has limitations. It relies heavily on past voting data, which may not fully capture future changes in voter behavior or external factors that could affect the election. The model also simplifies the election by focusing on state-level percentages, without accounting for variables such as turnout, third-party candidates, or unexpected political shifts. Additionally, the assumption that past voting patterns will continue might not be accurate in a rapidly changing political landscape. The logistic regression model is limited by the lack of interaction terms between states, which may obscure regional trends or external factors that influence neighboring states. Additionally, the model assumes that polling data accurately reflects voter intentions, but biases or missing data in key regions could affect the predictions.
 
 Future iterations of this model should incorporate voter turnout predictions, demographic variables, and real-time polling updates to better capture the dynamics of voter behavior. Including social media sentiment analysis and analyzing cross-state interactions could refine the prediction model, offering more nuanced insights into election forecasts.
 
@@ -678,56 +646,31 @@ If you have any questions about this survey or would like to be informed about t
 * **Neutrality**: Political questions are framed neutrally to avoid influencing respondents' answers.
 * **Pilot Testing**: The survey will undergo a pilot test to identify and resolve any issues before full deployment.
 
-
-
-# Additional data details
-
 # Model details {#sec-model-details}
-
-## Posterior predictive check
-
-
-```{r}
-#| eval: true
-#| echo: false
-#| message: false
-#| warning: false
-#| label: fig-ppcheckandposteriorvsprior
-#| layout-ncol: 2
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
-
-
-```
 
 ## Diagnostics
 
-
-
 ```{r}
+#| echno: false
+#| label: fig-diagnosis-1
+#| tbl-cap: Linear Regression Assumptions hold
 #| echo: false
-#| eval: true
-#| message: false
 #| warning: false
-#| label: fig-stanareyouokay
-#| fig-cap: "Checking the convergence of the MCMC algorithm"
-#| fig-subcap: ["Trace plot", "Rhat plot"]
-#| layout-ncol: 2
-library(caret)
-library(rstanarm)
-library(ggplot2)
-library(dplyr)
-# Split the data into training (70%) and test (30%) sets
-set.seed(853)  # For reproducibility
+#| message: false
 
+par(mfrow = c(2, 2))  
+plot(regression_model)
 
 ```
+
+## Multicolinearity Check
 
 
 \newpage
 
 # Acknowledgements
 @citeR
+Thanks to Open AI and ChatGPT 4.0 is used to write the analysis of the paper.
 
 
 
