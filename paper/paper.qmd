@@ -303,23 +303,39 @@ analysis_data$predicted_percent_trump <- predict(regression_model, newdata = ana
 # Summarize Trump's predicted percentage for each state
 total_trump <- aggregate(predicted_percent_trump ~ state, data = analysis_data, FUN = mean)
 
-# Join electoral vote data with Trump's predictions
+# Combine electoral vote data with Trump's predictions
 state_predictions <- merge(total_trump, electoral_votes, by = "state")
 
 # Determine the winner for each state based on Trump’s predicted percentage
 state_predictions$winner <- ifelse(state_predictions$predicted_percent_trump > 50, "Trump", "Harris")
 
+# Calculate the electoral votes for each candidate
+state_predictions$trump_electoral_votes <- ifelse(state_predictions$winner == "Trump", state_predictions$electoral_votes, 0)
+state_predictions$harris_electoral_votes <- ifelse(state_predictions$winner == "Harris", state_predictions$electoral_votes, 0)
+
+# Summarize total electoral votes for each candidate
+trump_electoral_votes <- sum(state_predictions$trump_electoral_votes)
+harris_electoral_votes <- sum(state_predictions$harris_electoral_votes)
+
 # Create a table showing the prediction results
 library(knitr)
-kable(state_predictions, col.names = c("State", "Trump Predicted %", "Electoral Votes", "Winner"),
-      digits = 2, caption = "Prediction for Trump by State")
 
-first_model <-
-  readRDS(file = (here::here("models/logistic_model.rds")))
+# Create the table using kable
+kable(state_predictions[, c("state", "predicted_percent_trump", "electoral_votes", "winner")], 
+      col.names = c("State", "Trump Predicted %", "Electoral Votes", "Winner"), 
+      digits = 2, 
+      caption = "Prediction for Trump by State")
+
+# Print the results for the total electoral votes
+print(paste("Trump Electoral Votes:", trump_electoral_votes))
+print(paste("Harris Electoral Votes:", harris_electoral_votes))
 ```
 
 
 
+```{r}
+summary(regression_model)
+```
 
 
 
