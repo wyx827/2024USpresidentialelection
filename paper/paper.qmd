@@ -670,7 +670,7 @@ plot(regression_model)
 
 # Acknowledgements
 @citeR
-Thanks to Open AI and ChatGPT 4.0 is used to write the analysis of the paper.
+Thanks to Open AI [@openai2024chatgpt] and ChatGPT 4.0 is used to write the analysis of the paper.
 
 
 
