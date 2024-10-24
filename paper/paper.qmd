@@ -9,7 +9,7 @@ thanks: "Code and data are available at: https://github.com/wyx827/2024USpreside
 date: today
 date-format: long
 toc: true
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "This study predicts the outcome of the 2024 U.S. presidential election using multiple regression analysis based on state-by-state electoral votes. The predictive model offers prediction that can inform campaign strategies and shape public discourse. Results suggest a strong likelihood of Kamala Harris securing victory in the 2024 election cycle."
 format: pdf
 number-sections: true
 bibliography: references.bib
