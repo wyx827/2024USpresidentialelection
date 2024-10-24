@@ -2,7 +2,7 @@
 title: "My title"
 subtitle: "My subtitle if needed"
 author: 
-  - Xuanle Zhou
+  - First author
   - Yongqi Liu
   - Yuxuan Wei
 thanks: "Code and data are available at: [https://github.com/wyx827/2024USpresidentialelection.git]."
@@ -15,17 +15,9 @@ bibliography: references.bib
 ---
 
 ```{r}
-#| include: false
-#| warning: false
-#| message: false
-
 #install.packages("tidymodels")
-
 library(tidyverse)
 library(ggplot2)
-library(rstanarm)
-library(knitr)
-
 analysis_data <- read_csv(here::here("data/02-analysis_data/cleaned_US_voting.csv"))
 ```
 
@@ -48,120 +40,64 @@ Telegraphing paragraph: The remainder of this paper is structured as follows. @s
 
 ## Overview
 
-This study uses R packages [@citeR] to clean and analyz the dataset , including libraries from tidyverse [], ggplot2[].
+We use the statistical programming language R [@citeR].... Following @tellingstories, we consider...
 
-After cleaning the data, which included grouping and removing missing values, the analysis dataset consists of 1,683 observations, focusing on the following 11 variables: pollster name, methodology, numeric grade, start date, end date, sample size, candidate name, percentage, transparency score, and population group. 
+Overview text
 
-## Data Measurement and Considerations 
-
-The dataset for this analysis is sourced from FiveThirtyEight, which rigorously collects and aggregates polling data from a variety of firms to reflect public opinion. To ensure the integrity of the data, only polls that adhere to specific criteria are included in the dataset. Each poll must provide essential information, such as the pollster’s name, survey dates, sample sizes, and methodological details (e.g., polling medium, voter files, weighting criteria). Polls that are deemed nonscientific, that blend data from multiple sources, or that are conducted by hobbyists are excluded.
-
-Once a poll meets these stringent standards, it is incorporated into the database, enabling it to inform polling averages, forecasts, and political coverage. This careful selection process ensures that the dataset accurately captures and reflects the nuances of public sentiment and behavior.
+## Measurement
+	
+Some paragraphs about how we go from a phenomena in the world to an entry in the dataset.
 
 ## Outcome variables
 
-The outcome variable of interest for this research is the percentage, representing the level of public support for Donald Trump. The distribution in @fig-pct indicates that most observations cluster around a support percentage of approximately 48%, suggesting moderate backing from the electorate. Additionally, a smaller proportion of polls show support exceeding 55%, indicating that while Trump has a core base, many voters remain either indifferent or opposed to him.
+Add graphs, tables and text. Use sub-sub-headings for each outcome variable or update the subheading to be singular.
+
+
+
+Some of our data is of penguins (fig-bills), 
 
 ```{r}
-#| label: fig-pct
-#| fig-cap: Distribution of Support (percent) for Donald Trump
+#| label: fig-bills
+#| fig-cap: Bills of penguins
+#| echo: false
+
+
+```
+
+Talk more about it.
+
+And also planes (fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
+
+```{r}
+#| label: fig-planes
+#| fig-cap: Relationship between wing length and width
 #| echo: false
 #| warning: false
 #| message: false
-ggplot(analysis_data, aes(x = percent)) +
-  geom_histogram(binwidth = 2, fill = "green", color = "black", alpha = 0.7) +
-  labs(title = "Distribution of Support (percent) for Donald Trump", x = "Support Percentage (percent)", y = "Count") +
-  theme_minimal()
+
+
 ```
+
+Talk way more about it. 
 
 ## Predictor variables
 
-### Numeric Grade
+Add graphs, tables and text.
 
-The numeric grade reflects the quality of the pollster, with FiveThirtyEight defining a scale from 0 to 3. A grade of 0 indicates a low-quality poll, while a grade of 3 signifies a high-quality pollster. After filtering for pollsters with a numeric grade higher than 2.5, we identified a total of 30 distinct pollsters, with half of them scoring between 2.6 and 2.8, as shown in @fig-numeric-grade .
+Use sub-sub-headings for each outcome variable and feel free to combine a few into one if they go together naturally.
 
-```{r}
-#| label: fig-numeric-grade
-#| fig-cap: Distribution of Numeric Grades (2.6 to 3.0)
-#| echo: false
-#| warning: false
-#| message: false
 
-summary_data <- analysis_data %>%
-    distinct(pollster_rating_name, .keep_all = TRUE) %>%
-    group_by(numeric_grade) %>%
-    summarise(count = n())
 
-ggplot(analysis_data %>% distinct(pollster_rating_name, .keep_all = TRUE), 
-       aes(x = numeric_grade)) + 
-    geom_histogram(binwidth = 0.1, fill = "green", color = "black", alpha = 0.7) + 
-    scale_x_continuous(breaks = seq(2.5, 3.0, by = 0.1)) + 
-    scale_y_continuous(breaks = seq(0, max(summary_data$count), by = 1)) + 
-    labs(title = "Distribution of Numeric Grades (2.6 to 3.0)", 
-         x = "Numeric Grade", 
-         y = "Count of Distinct Polls") + 
-    theme_minimal()
-```
-### Sample Size
 
-The sample size indicates the number of respondents in each poll. The distribution in @fig-sample-size exhibits a right-skewed shape, suggesting that there are more observations with smaller sample sizes compared to larger ones. The peak of the distribution is around 1,000, indicating that this is the most common sample size used in the polls. Overall, the sample size data highlights that each poll contains a sufficient number of respondents to provide reliable insights.
 
-```{r}
-#| label: fig-sample-size
-#| fig-cap: Distribution of Sample Size
-#| echo: false
-#| warning: false
-#| message: false
 
-ggplot(analysis_data %>% filter(sample_size < 3000), aes(x = sample_size)) +
-  geom_histogram(binwidth = 100, fill = "green", color = "black", alpha = 0.7) +
-  labs(title = "Distribution of Sample Size", x = "Sample Size", y = "Count") +
-  theme_minimal()
-```
-### Transparency Score
-
-The Transparency Score measures how transparent a pollster is, calculated based on the amount of information disclosed about its polls, weighted by recency. The highest possible score is 10, while the lowest is 0. The distribution of Transparency Scores for the filtered pollsters shows a peak around 9 as presented in @fig-transparency-score, indicating that this is the most common score. This suggests that among the selected pollsters, there is a predominance of high transparency scores.
-
-```{r}
-#| label: fig-transparency-score
-#| fig-cap: Distribution of Transparency Score
-#| echo: false
-#| warning: false
-#| message: false
-
-ggplot(analysis_data %>% 
-         distinct(pollster_rating_name, .keep_all = TRUE), 
-       aes(x = transparency_score)) + 
-  geom_histogram(binwidth = 1, fill = "green", color = "black", alpha = 0.7) + 
-  scale_x_continuous(breaks = 3:10) +
-  scale_y_continuous(breaks = seq(0, max(summary_data$count), by = 1)) +  
-  labs(title = "Distribution of Transparency Score", x = "Transparency Score", y = "Count of Distinct Polls") + 
-  theme_minimal()
-```
-
-### end date
-
-The end date indicates when each poll concluded. @fig-end-date shows that as the final result of the U.S. election approached, more polls were conducted and completed. This trend reflects an increased interest in capturing public opinion and predicting electoral outcomes as election day neared, emphasizing the significance of real-time sentiment analysis during this critical period.
-
-```{r}
-#| label: fig-end-date
-#| fig-cap: Distribution of End Dates
-#| echo: false
-#| warning: false
-#| message: false
-
-ggplot(analysis_data, aes(x = as.Date(end_date))) + 
-  geom_line(stat = "count", color = "black", size = 1) + 
-  labs(title = "Distribution of End Dates", x = "End Date", y = "Count") + 
-  theme_minimal()
-```
 
 
 # Model
 
-To model Donald Trump’s polling percentages over time, we employed a multiple linear regression framework. This approach estimates the relationship between polling percentages and various predictors by fitting a linear equation to the data. By analyzing the coefficients, we can quantify the impact of each predictor on Trump’s polling percentages, while also assessing the overall fit of the model and making predictions based on the observed trends.
+To model Donald Trump’s polling percentages over time, we employed a Bayesian linear regression framework. Bayesian methods provide a flexible approach to inference by incorporating prior beliefs and updating them with observed data, allowing us to quantify uncertainty in both parameter estimates and predictions.
 
-Here we briefly describe the multiple linear regression model used to investigate the winning probability of Trump. Background details and diagnostics are included in [Appendix -@sec-model-details].
+Here we briefly describe the Bayesian model used to investigate the winning probability of Trump. Background details and diagnostics are included in [Appendix @sec-model-details].
 
 ## Multiple Linear Regression Model Overview
 The model now predicts Trump’s polling percentage (percent) using the following predictors:
@@ -173,22 +109,13 @@ The model now predicts Trump’s polling percentage (percent) using the followin
 - End Date (end_date): The date the poll was completed, which might capture trends over time.
 
 The model takes the form:
-
-\begin{align}
-\text{pct}_i &= \beta_0 + \beta_1 \cdot \text{numeric\_grade}_i + \beta_2 \cdot \text{transparency\_score}_i \\
-             &\quad + \beta_3 \cdot \text{sample\_size}_i + \beta_4 \cdot \text{state}_i + \beta_5 \cdot \text{end\_date}_i + \epsilon_i \\
-\epsilon_i &\sim \text{Normal}(0, \sigma^2)
-\end{align}
-
-Where: 
-\begin{align}
-\beta_0 & \text{ is the intercept term} \\
-\beta_1, \beta_2, \beta_3, \beta_4, \beta_5 & \text{ are the coefficients for each predictor} \\
-\sigma^2 & \text{ is the variance of the error term}
-\end{align}
+The model takes the form:
 
 
-# Interpretation of Coefficients:
+
+
+
+## Interpretation of Coefficients:
 
 - Intercept (\beta_0): This is the predicted Trump polling percentage when all predictors (numeric grade, sample size, state, transparency score, and end date) are at their baseline or zero value.
 - Numeric Grade (\beta_1): This coefficient measures how much Trump’s polling percentage changes as the pollster’s numeric grade increases. A positive and significant coefficient would indicate that higher-rated pollsters report better polling numbers for Trump, while a negative coefficient would suggest the opposite.
@@ -200,12 +127,10 @@ Where:
 	
 
 ## Interpretation
-
-The posterior distributions of the parameters allow us to quantify the uncertainty around each effect:\
-
-* The coefficient for end_date informs us about how Trump’s polling percentages have evolved over time. A positive coefficient would suggest an upward trend, while a negative coefficient would indicate a decline.\
-* The coefficient for numeric_grade captures the impact of pollster quality on the polling percentage. High-quality pollsters may produce different estimates compared to lower-quality ones.\
-* The state-level effects account for regional differences in Trump’s support. Some states may show significantly higher or lower levels of support, even after adjusting for the time of the poll and pollster quality.
+The posterior distributions of the parameters allow us to quantify the uncertainty around each effect:
+- The coefficient for end_date informs us about how Trump’s polling percentages have evolved over time. A positive coefficient would suggest an upward trend, while a negative coefficient would indicate a decline.
+- The coefficient for numeric_grade captures the impact of pollster quality on the polling percentage. High-quality pollsters may produce different estimates compared to lower-quality ones.
+- The state-level effects account for regional differences in Trump’s support. Some states may show significantly higher or lower levels of support, even after adjusting for the time of the poll and pollster quality.
 
 
 
@@ -237,7 +162,7 @@ kable(coefficients_table, digits = 3, caption = "Regression Model Coefficients")
 # Diagnostic plots for the model
 ```{r}
 #| echno: false
-#| label: fig-diagnosis-1
+#| label: fig-diagnosis
 #| tbl-cap: Linear Regression Assumptions hold.
 #| echo: false
 #| warning: false
@@ -250,30 +175,40 @@ plot(regression_model)
 
 
 ```{r}
-#| echno: false
-#| label: fig-diagnosis-2
-#| tbl-cap: Linear Regression Assumptions hold.
-#| echo: false
-#| warning: false
-#| message: false
+library(car)
+vif(regression_model)
+```
 
-#library(car)
-#vif(regression_model)
+
+```{r}
+summary(regression_model)
 ```
 
 
 
-
-### Model justification
+## Model justification
 
 We expect a positive relationship between the size of the wings and time spent aloft. In particular...
 
 We can use maths by including latex between dollar signs, for instance $\theta$.
 
+\newpage
 
 # Results
 
-## Predict and Combine with Electroal College to Predict
+## Predicted Electoral Outcomes
+We applied a regression model to predict the percentage of votes Trump is expected to receive in each state. The model results, combined with each state's electoral vote allocation, allowed us to predict the winner in each state. Based on this, we calculated the total number of electoral votes for both Trump and Harris.
+
+The table below (@tbl-prediction) summarizes the predicted results, showing Trump’s predicted percentage, the number of electoral votes in each state, and the predicted winner (either Trump or Harris). For instance:
+- Alabama: Trump is predicted to win 53% of the vote, securing all 9 electoral votes.
+- California: Trump is predicted to receive 34.39% of the vote, resulting in a victory for Harris, who takes California's 55 electoral votes.
+- Florida: The model predicts a close race, with Trump at 48.89% of the vote, resulting in a Harris win in this critical battleground state.
+
+Electoral Vote Count:
+- Trump Electoral Votes: 78
+- Harris Electoral Votes: 416
+These results indicate that based on the current model predictions, Harris is expected to win the 2024 U.S. Presidential Election, securing 416 electoral votes, compared to Trump’s 78 electoral votes. The election outcome hinges on several battleground states, where the vote margins are predicted to be narrow.
+
 
 ```{r tbl-prediction, echo=FALSE, warning=FALSE, message=FALSE}
 #| echno: false
@@ -331,30 +266,53 @@ print(paste("Trump Electoral Votes:", trump_electoral_votes))
 print(paste("Harris Electoral Votes:", harris_electoral_votes))
 ```
 
+## Predicted Electoral Outcomes by State
+The following map (@fig-statemap) shows the predicted winner for each state in the 2024 U.S. Presidential Election, based on the regression model's predicted vote percentages for Trump and Harris.
+```{r tbl-prediction, echo=FALSE, warning=FALSE, message=FALSE}
+#| echno: false
+#| label: fig-statemap
+#| tbl-cap: Predicted Winner of 2024 US Presidential Election by State
+#| echo: false
+#| warning: false
+#| message: false
+#| 
+# Load necessary libraries
+library(usmap)
 
+# "red" for Trump and "blue" for Harris
+state_predictions$winner_color <- ifelse(state_predictions$winner == "Trump", "red", "blue")
 
-```{r}
-summary(regression_model)
+# Create a map visualization showing the predicted winner by state
+plot_usmap(data = state_predictions, values = "winner_color", regions = "states") +
+  scale_fill_manual(values = c("red" = "red", "blue" = "blue"), name = "Predicted Winner", labels = c("Harris", "Trump")) +
+  labs(title = "Predicted Winner of the 2024 U.S. Presidential Election by State") +
+  theme(legend.position = "right")
+
 ```
+The predicted outcome in the regression model reflects the geographic voting patterns, with Trump winning in traditionally Republican-leaning states like Alabama, Missouri, and Wyoming, while Harris dominates in Democratic strongholds such as California, New York, and Illinois. However, key battleground states such as Florida and Arizona are predicted to favor Harris, potentially determining the overall election outcome.
 
 
+# Discussion {#sec-discussion}
 
+## What Is Done in This Paper?
+This paper uses a regression model to predict the outcome of the 2024 U.S. Presidential Election between Donald Trump and Kamala Harris. By analyzing historical voting data, the model forecasts the percentage of votes Trump is expected to receive in each state. These predictions are combined with the state's electoral vote allocation to determine the overall winner. The findings indicate a significant electoral victory for Harris, projecting 416 electoral votes for her compared to 78 for Trump. A geographic map is also presented to visualize state-level outcomes and highlight regional voting trends.
 
-# Discussion
+## What Do We Learn About the World?
+The study highlights the persistence of geographic voting patterns in U.S. elections. Even with changes in candidates, many states follow their historical voting tendencies. Republican-leaning states like Alabama and Wyoming are projected to support Trump, while Democratic-leaning states such as California and New York favor Harris. This pattern shows the strong influence of regional political loyalties, which continue to shape election outcomes.
 
-## First discussion point {#sec-first-point}
+## Another Thing We Learn About the World
+The analysis underscores the importance of battleground states in determining the election's outcome. States like Florida and Arizona, predicted to lean toward Harris, play a decisive role in the projected electoral victory. This illustrates how close contests in a few states can influence the overall election result, emphasizing the significant impact these states have in shaping the presidency.
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+## Weaknesses of What Was Done
+While the model offers a useful prediction, it has limitations. It relies heavily on past voting data, which may not fully capture future changes in voter behavior or external factors that could affect the election. The model also simplifies the election by focusing on state-level percentages, without accounting for variables such as turnout, third-party candidates, or unexpected political shifts. Additionally, the assumption that past voting patterns will continue might not be accurate in a rapidly changing political landscape.
 
-## Second discussion point
-
-Please don't use these as sub-heading labels - change them to be what your point actually is.
-
-## Third discussion point
+## What Is Left to Learn or How Should We Proceed in the Future?
+Future research should incorporate more detailed data, including demographic shifts and economic factors that may influence voter preferences. It would be valuable to examine how emerging political movements and changes in communication strategies affect elections, particularly in closely contested states. Post-election analysis comparing predictions with actual results will also be essential to improving the accuracy of models and understanding how unforeseen events may alter outcomes.
 
 ## Weaknesses and next steps
+The logistic regression model is limited by the lack of interaction terms between states, which may obscure regional trends or external factors that influence neighboring states. Additionally, the model assumes that polling data accurately reflects voter intentions, but biases or missing data in key regions could affect the predictions.
 
-Weaknesses and next steps should also be included.
+Future iterations of this model should incorporate voter turnout predictions, demographic variables, and real-time polling updates to better capture the dynamics of voter behavior. Including social media sentiment analysis and analyzing cross-state interactions could refine the prediction model, offering more nuanced insights into election forecasts.
 
 \newpage
 
@@ -366,6 +324,7 @@ Weaknesses and next steps should also be included.
 
 ## Overview of SurveyUSA\
 SurveyUSA is a privately held opinion research company that operates nationwide, across all 50 U.S. states. Since its founding, the company has conducted over 40,000 research projects, serving a client base of 400 organizations, including media outlets, corporations, non-profits, government agencies, and academic institutions. Known for its expertise in localized opinion research, SurveyUSA focuses on gathering data at the city, county, and regional levels. The company offers timely, cost-effective surveys tailored to meet specific client needs, distinguishing itself from larger global firms.
+
 
 ## Population, Frame, and Sample\
 
@@ -397,97 +356,96 @@ Static options for party affiliation and ideology may fail to capture the nuance
 ## Summary Evaluation\
 SurveyUSA’s methodology reflects a balanced approach, leveraging various sampling approach and method to reach a representative sample. While its blend of probability and non-probability methods has strengths, such as cost-effectiveness and broad reach, it faces challenges related to telephone interview logistics, potential interviewer bias, and the limitations of fixed questionnaire options. Nevertheless, the inclusion of data weighting and question rotation adds credibility to its results, making SurveyUSA a reliable pollster for localized opinion research. 
 
-<<<<<<< Updated upstream
+
 # Appendix B: Idealized Methodology and Survey
 
-## **Objective and Overview**
-The goal of this survey methodology is to accurately forecast the outcome of the U.S. presidential election by collecting high-quality, representative data from a diverse set of respondents across the country. With a budget of $100,000, this methodology incorporates sophisticated sampling techniques, robust respondent recruitment strategies, and rigorous data validation protocols. The approach is designed to maximize accuracy, reduce bias, and account for various demographic, geographic, and political factors that influence voting behavior.
+## Objective and Overview
+The goal of this survey methodology is to accurately forecast the outcome of the U.S. presidential election by collecting high-quality, representative data from a diverse set of respondents across the country. With a budget of \$100,000, this methodology incorporates sophisticated sampling techniques, robust respondent recruitment strategies, and rigorous data validation protocols. The approach is designed to maximize accuracy, reduce bias, and account for various demographic, geographic, and political factors that influence voting behavior.
 
-### **Core Objectives**:
-1. Obtain a representative sample of the U.S. electorate.
-2. Ensure data quality through rigorous validation.
-3. Leverage statistical modeling and poll aggregation for an accurate prediction.
+## Core Objectives
+* Obtain a representative sample of the U.S. electorate.
+* Ensure data quality through rigorous validation.
+* Leverage statistical modeling and poll aggregation for an accurate prediction.
 
-## **1. Sampling Strategy**
-
+## Sampling Strategy
 The sampling strategy is designed to ensure that the survey reaches a broad, representative section of the voting population. To achieve this, we will use **stratified random sampling** combined with **quota sampling** for key demographics. This ensures that each important subgroup within the population is adequately represented.
 
-### **Stratification Variables**:
-- **Age Groups**: 18-29, 30-44, 45-64, 65+  
-- **Gender**: Male, Female, Non-binary/Other  
-- **Race/Ethnicity**: White, Black, Hispanic/Latino, Asian, Indigenous, Other  
-- **Education Level**: No high school, High school graduate, College graduate, Post-graduate  
-- **Income Bracket**: <$30,000, $30,000-$60,000, $60,000-$100,000, >$100,000  
-- **Geographic Region**: Northeast, Midwest, South, West  
+### Stratification Variables
+* **Age Groups**: 18-29, 30-44, 45-64, 65+ 
+* **Gender**: Male, Female, Non-binary/Other 
+* **Race/Ethnicity**: White, Black, Hispanic/Latino, Asian, Indigenous, Other 
+* **Education Level**: No high school, High school graduate, College graduate, Post-graduate 
+* **Income Bracket**: <$30,000, \$30,000-\$60,000, \$60,000-\$100,000, >\$100,000 
+* **Geographic Region**: Northeast, Midwest, South, West 
 
-**Sample Size**:  
-A total of **10,000 respondents** will be surveyed, providing a margin of error of approximately ±1% at a 95% confidence level. This sample size will allow for detailed subgroup analysis (e.g., by state, demographic group), yielding statistically robust predictions.
+### Sample Size
+A total of **10,000 respondents** will be surveyed, providing a margin of error of approximately ±1\% at a 95\% confidence level. This sample size will allow for detailed subgroup analysis (e.g., by state, demographic group), yielding statistically robust predictions.
 
-**Weighting**:  
-We will apply post-stratification weights to adjust for any oversampling or undersampling of specific demographic groups. For example, younger voters or underrepresented minorities will be weighted to reflect their true proportions in the voting population.
+### Weighting
+Post-stratification weights will be applied to adjust for any oversampling or undersampling of specific demographic groups. For example, younger voters or underrepresented minorities will be weighted to reflect their true proportions in the voting population.
 
-## **2. Recruitment Strategy**
-
-### **Recruitment Channels**:
+## Recruitment Strategy
 To maximize respondent diversity and ensure accurate sampling, the survey will employ **multi-channel recruitment**:
 
-- **Digital Advertisements**: Targeted ads on platforms like Facebook, Instagram, and Google will be used to recruit respondents based on their demographic profiles (age, gender, location, political interest). Custom audience features will be utilized to reach specific demographic and geographic groups.
-- **Email Outreach**: If permissible, we will access voter registration databases and send email invitations to registered voters. This will allow us to target specific voter demographics that are harder to reach via digital ads.
-- **Partnerships with Civic Organizations**: Partnering with non-profits and civic organizations that engage diverse communities (e.g., minority voter outreach programs) will further boost respondent diversity.
-- **Incentives**: To increase response rates, each participant will be entered into a lottery with a chance to win a $100 gift card, encouraging broader participation.
+* **Digital Advertisements**: Targeted ads on platforms like Facebook, Instagram, and Google will recruit respondents based on their demographic profiles (age, gender, location, political interest).
+* **Email Outreach**: If permissible, voter registration databases will be accessed to send email invitations to registered voters.
+* **Partnerships with Civic Organizations**: Partnering with non-profits and civic organizations that engage diverse communities will further boost respondent diversity.
+* **Incentives**: Each participant will be entered into a lottery with a chance to win a \$100 gift card to encourage participation.
 
-## **3. Data Validation and Quality Assurance**
 
-Maintaining data integrity and ensuring high-quality responses are critical to the accuracy of the election forecast. Therefore, several measures will be put in place to validate responses and reduce noise in the dataset.
+## Data Validation and Quality Assurance
+Maintaining data integrity and ensuring high-quality responses are critical to the accuracy of the election forecast. Several measures will be put in place to validate responses and reduce noise in the dataset.
 
-### **Data Validation Protocols**:
-1. **Real-time Captcha Verification**: This will prevent automated bots from submitting responses.
-2. **Email/Phone Verification**: Respondents will verify their email or phone number to ensure authenticity. This ensures that each respondent only participates once.
-3. **Time on Task Monitoring**: The survey platform will monitor the time respondents spend on each question. Responses completed suspiciously quickly (e.g., below 30% of the average completion time) will be flagged for review or exclusion.
-4. **Voter Registration Cross-Check**: If feasible, respondents will be cross-referenced with voter registration records to ensure they are eligible to vote in the upcoming election.
-5. **Response Audits**: Randomly selected respondents will be contacted to verify the accuracy of their responses, ensuring integrity in the dataset.
+### Data Validation Protocols
+* **Real-time Captcha Verification**: This will prevent automated bots from submitting responses.
+* **Email/Phone Verification**: Respondents will verify their email or phone number to ensure authenticity and prevent duplicate submissions.
+* **Time on Task Monitoring**: The survey platform will monitor the time respondents spend on each question. Responses completed suspiciously quickly will be flagged for review.
+* **Voter Registration Cross-Check**: If feasible, respondents will be cross-referenced with voter registration records to ensure eligibility.
+* **Response Audits**: Randomly selected respondents will be contacted to verify the accuracy of their responses, ensuring dataset integrity.
 
-## **4. Poll Aggregation and Data Analysis**
+## Poll Aggregation and Data Analysis
+### Poll Aggregation
+This survey will be combined with results from reputable polling firms (e.g., YouGov, Ipsos, Gallup) to strengthen the forecast through a **poll-of-polls** approach.
 
-### **Poll Aggregation**:
-This survey will be combined with results from reputable polling firms (e.g., YouGov, Ipsos, Gallup) to strengthen our forecast through a **poll-of-polls** approach.
+* **Weighting by Methodology and Recency**: Poll results will be weighted based on the rigor of their methodology and the recency of the poll.
+* **Handling Bias and Variability**: Aggregated results will adjust for pollster biases and variability between polls to ensure that no single poll dominates the prediction.
 
-- **Weighting by Methodology and Recency**: Poll results will be weighted based on the rigor of their methodology (e.g., online vs. phone surveys, sample size) and the recency of the poll. Recent, methodologically sound polls will receive more weight in the aggregation process.
-- **Handling Bias and Variability**: Aggregated results will adjust for pollster house effects (biases in methodology) and variability between polls, ensuring that no single poll dominates the prediction.
+### Modeling Approach
+**Bayesian hierarchical models** will account for variability across different states, demographics, and regions. This will allow for modeling the popular vote and potentially translating it into **Electoral College predictions**.
 
-### **Modeling Approach**:
-We will implement **Bayesian hierarchical models** to account for variability across different states, demographics, and regions. This will allow us to model the popular vote and potentially translate it into **Electoral College predictions**.
-
-## **5. Budget Allocation**
-
-- **Respondent Recruitment (Targeted ads, outreach)**: $70,000  
-- **Incentives (e.g., lottery prizes)**: $10,000  
-- **Survey Platform (Google Forms, Qualtrics subscription)**: $5,000  
-- **Data Validation Tools**: $5,000  
-- **Poll Aggregation & Analysis Software**: $10,000  
+## Budget Allocation
+* **Respondent Recruitment (Targeted ads, outreach)**: \$70,000
+* **Incentives (e.g., lottery prizes)**: \$10,000
+* **Survey Platform (Google Forms, Qualtrics subscription)**: \$5,000
+* **Data Validation Tools**: \$5,000
+* **Poll Aggregation \& Analysis Software**: \$10,000
 
 ---
 
-## **6. Survey Implementation**
-
-The survey will be implemented via **Google Forms**, which offers a cost-effective platform for data collection. The link to the live survey can be found here: [Google Form Survey](https://forms.gle/RC1464SvLvtoAYdv6). A copy of the questions is provided below.
+## Survey Implementation
+The survey will be implemented via **Google Forms**, which offers a cost-effective platform for data collection. You can access the survey at the following link: [Google Form Survey](https://forms.gle/XxtMTMc45d6VzNuy8)
 
 ### **Survey Structure**:
 
-1. **Introduction**:
+\begingroup
+\small
+**Introduction**:
+
 Thank you for taking part in this survey aimed at predicting the outcome of the 2024 US Presidential election. Your insights are valuable to our research.
 
 Please note:
+
 - **All responses will be kept strictly confidential.**
 - **Your participation is entirely voluntary.**
 - **We kindly request that you answer all questions honestly and to the best of your knowledge.**
 - **The survey is estimated to take approximately 10 minutes to complete.**
-If you have any inquiries or concerns regarding this survey, please don't hesitate to contact the research team at [shaw.wei@mail.utoronto.ca](mailto:shaw.wei@mail.utoronto.ca).
+
+If you have any inquiries or concerns regarding this survey, please don't hesitate to contact the research team at [shaw.wei@mail.utoronto.ca](mailto:shaw.wei@mail.utoronto.ca).(Yuxuan Wei, Xuanle Zhou, Yongqi Liu)
 
 Your contribution to this study is greatly appreciated! Each participant will be entered into a lottery with a chance to win a $100 gift card!
 
+**Section 1: Eligibility Screening**:
 
-2. **Section 1: Eligibility Screening**:
 Are you a U.S. citizen?
 - Yes
 - No [If No, end survey]
@@ -502,8 +460,8 @@ Are you registered to vote in the United States?
 - Not sure
 - Plan to register before the election
 
+**Section 2: Demographic Information**:
 
-3. **Section 2: Demographic Information**:
 What is your age group?
 - 18-29
 - 30-44
@@ -549,8 +507,8 @@ In which region of the United States do you currently reside?
 - South (DE, MD, DC, VA, WV, NC, SC, GA, FL, KY, TN, AL, MS, AR, LA, OK, TX)
 - West (MT, ID, WY, CO, NM, AZ, UT, NV, WA, OR, CA, AK, HI)
 
+**Section 3: Political Views and Voting Intentions**:
 
-4. **Section 3: Political Views and Voting Intentions**:
 How likely are you to vote in the 2024 Presidential election?
 - Definitely will vote
 - Probably will vote
@@ -593,8 +551,7 @@ Which THREE issues are most important to you in deciding your vote? (Select exac
 - Foreign policy
 - Other: [Short text answer]
 
-
-5. **Section 4: Information Sources and Engagement**:
+**Section 4: Information Sources and Engagement**:
 
 What is your primary source of political news? (Select all that apply)
 - Network TV news (ABC, CBS, NBC)
@@ -613,8 +570,8 @@ How closely have you been following news about the 2024 Presidential election?
 - Not at all
 - Not sure
 
+**Section 5: Validation and Consent**:
 
-6. **Section 5: Validation and Consent**:
 Please verify that you are a human by selecting "Blue" from the following options:
 - Red
 - Green
@@ -628,27 +585,21 @@ Consent Statement:
 
 Email Address: [Email field]
 
+**End Message**:
 
-7. **End Message**:
 "Thank you for completing this survey. Your response has been recorded.
-If you have any questions about this survey or would like to be informed about the results, please contact [Your Contact Information]."
+If you have any questions about this survey or would like to be informed about the results, please contact at [shaw.wei@mail.utoronto.ca](mailto:shaw.wei@mail.utoronto.ca)."
+
+\endgroup
     
 ---
 
-### **7. Survey Design Considerations**
+## Survey Design Considerations
+* **Question Wording**: All questions are designed to avoid bias or leading responses.
+* **Neutrality**: Political questions are framed neutrally to avoid influencing respondents' answers.
+* **Pilot Testing**: The survey will undergo a pilot test to identify and resolve any issues before full deployment.
 
-- **Question Wording**: All questions are carefully designed to avoid bias or leading responses.
-- **Neutrality**: Political questions are framed neutrally to avoid pushing respondents toward specific answers.
-- **Pilot Testing**: Before full deployment, the survey will undergo a pilot test to identify and resolve any issues.
 
----
-
-This methodology, combining rigorous sampling, data validation, and aggregation, ensures that the election forecast is as accurate and representative as possible.
-
->>>>>>> 7bdf4d96b1910dc96b7cd995f3c7eccd50b162f4
-=======
-# Idealized Methodology and Survey 
->>>>>>> Stashed changes
 
 # Additional data details
 
