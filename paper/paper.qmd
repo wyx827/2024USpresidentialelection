@@ -9,7 +9,7 @@ thanks: "Code and data are available at: https://github.com/wyx827/2024USpreside
 date: today
 date-format: long
 toc: true
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "The study predicting the 2024 U.S. presidential election is important as it provides the predicted outcomes for the US election. Analysis is based on state-by-state electoral votes, and these outcomes can influence campaign strategies and shape public discourse. The results indicate Kamala Harris will win by over 270 votes in this election cycle."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -20,13 +20,14 @@ bibliography: references.bib
 #| warning: false
 #| message: false
 
-#install.packages("tidymodels")
-#install.packages("usmap")
+# Install the required packages
+#install.packages(c("tidyverse", "ggplot2", "rstanarm", "knitr", "usmap", "arrow"))
 library(tidyverse)
 library(ggplot2)
 library(rstanarm)
 library(knitr)
 library(usmap)
+library(arrow)
 
 analysis_data <- read_csv(here::here("data/02-analysis_data/cleaned_US_voting.csv"))
 ```
@@ -41,7 +42,7 @@ Results paragraph
 
 Why it matters paragraph
 
-Telegraphing paragraph: The remainder of this paper is structured as follows. @sec-data....
+@sec-data expains the data we used to build up the prediction mode.
 
 
 
@@ -155,6 +156,7 @@ ggplot(analysis_data, aes(x = as.Date(end_date))) +
   geom_line(stat = "count", color = "black", size = 1) + 
   labs(title = "Distribution of End Dates", x = "End Date", y = "Count") + 
   theme_minimal()
+
 ```
 
 
@@ -200,14 +202,15 @@ Where:
 ## Interpretation
 
 The posterior distributions of the parameters allow us to quantify the uncertainty around each effect:\
-* The coefficient for end_date informs us about how Trump’s polling percentages have evolved over time. A positive coefficient would suggest an upward trend, while a negative coefficient would indicate a decline.\
-* The coefficient for numeric_grade captures the impact of pollster quality on the polling percentage. High-quality pollsters may produce different estimates compared to lower-quality ones.\
-* The state-level effects account for regional differences in Trump’s support. Some states may show significantly higher or lower levels of support, even after adjusting for the time of the poll and pollster quality.
+- The coefficient for end_date informs us about how Trump’s polling percentages have evolved over time. A positive coefficient would suggest an upward trend, while a negative coefficient would indicate a decline.\
+- The coefficient for numeric_grade captures the impact of pollster quality on the polling percentage. High-quality pollsters may produce different estimates compared to lower-quality ones.\
+- The state-level effects account for regional differences in Trump’s support. Some states may show significantly higher or lower levels of support, even after adjusting for the time of the poll and pollster quality.
 
 ## Model Justification
-@tbl-summary shows the summary table for the model. And then evaluate it on the test set. It appears as though the model is having difficulty identifying Trump supporters.
+@tbl-summary shows the summary table for the model. And then evaluate it on the test set. It appears as though the model is having difficulty identifying Trump supporters. The reson why the multiple regression is applied is because.....
+
 ```{r}
-#| echno: False
+#| echno: false
 #| label: tbl-summary
 #| tbl-cap: Regression Model Estimate Summary
 #| echo: false
@@ -221,22 +224,7 @@ summary<-summary(regression_model)
 coefficients_table <- summary$coefficients
 
 # Display the first 10 rows of the coefficients table using kable, formatted to 4 decimal places
-kable(head(coefficients_table, 10), digits = 4)
-```
-
-### VIF Evaluation
-@tbl-vif displays that
-
-```{r}
-#| echno: false
-#| label: tbl-vif
-#| tbl-cap: VIF shows a reasonable output.
-#| echo: false
-#| warning: false
-#| message: false
-
-library(car)
-kable(vif(regression_model))
+kable(head(coefficients_table, 10), digits = 2)
 ```
 
 
@@ -272,9 +260,17 @@ These results indicate that based on the current model predictions, Harris is ex
 #| warning: false
 #| message: false
 
+# Read the test data from the .parquet file
+analysis_data_test <- read_parquet(here::here("data/02-analysis_data/test_data.parquet"))
+analysis_data_train<- read_parquet(here::here("data/02-analysis_data/train_data.parquet"))
+# Filter out states in the test data that don't exist in the training data
+
+analysis_data_test <- analysis_data_test %>%
+ filter(state %in% unique(analysis_data_train$state))
+
 # Define electoral votes for each state
 electoral_votes <- data.frame(
-  state = c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", 
+  state = c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida",
             "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", 
             "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", 
             "Missouri", "Montana", "Nebraska", "Nevada", 
@@ -283,14 +279,13 @@ electoral_votes <- data.frame(
             "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", 
             "District of Columbia"),
   electoral_votes = c(9, 3, 11, 6, 55, 9, 7, 3, 29, 16, 4, 4, 20, 11, 6, 6, 8, 8, 4, 10, 11, 15, 10, 6, 10, 
-                      3, 10, 6, 4, 14, 5, 29, 16, 3, 18, 7, 6, 20, 4, 9, 3, 11, 38, 6, 3, 13, 12, 5, 10, 3, 3)
-)
+                      3, 10, 6, 4, 14, 5, 29, 16, 3, 18, 7, 6, 20, 4, 9, 3, 11, 38, 6, 3, 13, 12, 5, 10, 3, 3))
 
 # Apply the regression model to predict Trump's percentage in each state
-analysis_data$predicted_percent_trump <- predict(regression_model, newdata = analysis_data)
+analysis_data_test$predicted_percent_trump <- predict(regression_model, newdata = analysis_data_test)
 
 # Summarize Trump's predicted percentage for each state
-total_trump <- aggregate(predicted_percent_trump ~ state, data = analysis_data, FUN = mean)
+total_trump <- aggregate(predicted_percent_trump ~ state, data = analysis_data_test, FUN = mean)
 
 # Combine electoral vote data with Trump's predictions
 state_predictions <- merge(total_trump, electoral_votes, by = "state")
@@ -305,9 +300,6 @@ state_predictions$harris_electoral_votes <- ifelse(state_predictions$winner == "
 # Summarize total electoral votes for each candidate
 trump_electoral_votes <- sum(state_predictions$trump_electoral_votes)
 harris_electoral_votes <- sum(state_predictions$harris_electoral_votes)
-
-# Create a table showing the prediction results
-library(knitr)
 
 # Create the table using kable
 kable(state_predictions[, c("state", "predicted_percent_trump", "electoral_votes", "winner")], 
@@ -329,6 +321,9 @@ The following map (@fig-statemap) shows the predicted winner for each state in t
 #| echo: false
 #| warning: false
 #| message: false
+
+# Replace NA values in the 'winner' column with 'Trump'
+#state_predictions$winner[is.na(state_predictions$winner)] <- "Trump"
 
 # "red" for Trump and "blue" for Harris
 state_predictions$winner_color <- ifelse(state_predictions$winner == "Trump", "red", "blue")
@@ -651,19 +646,75 @@ If you have any questions about this survey or would like to be informed about t
 ## Diagnostics
 
 ```{r}
-#| echno: false
-#| label: fig-diagnosis-1
-#| tbl-cap: Linear Regression Assumptions hold
 #| echo: false
+#| label: fig-diagnosis-3
+#| tbl-cap: Linear Regression Assumptions hold
 #| warning: false
 #| message: false
+#| fig.width: 10
+#| fig.height: 8
 
 par(mfrow = c(2, 2))  
 plot(regression_model)
 
 ```
 
-## Multicolinearity Check
+## Calculate Mean Squared Error (MSE) on test data
+```{r}
+#| echo: false
+#| label: fig-diagnosis-1
+#| tbl-cap: Calculate Mean Squared Error (MSE) on test data
+#| warning: false
+#| message: false
+
+predicted_values <- predict(regression_model, newdata = analysis_data_test)
+actual_values <- analysis_data_test$percent
+
+mse <- mean((predicted_values - actual_values)^2)
+print(mse)
+```
+
+
+```{r}
+
+library(caret)
+set.seed(856)
+train_control <- trainControl(method = "cv", number = 10)
+cv_model <- train(percent ~ numeric_grade + sample_size + state + transparency_score + end_date,
+                  data = analysis_data_train,
+                  method = "lm",
+                  trControl = train_control)
+
+print(cv_model$results)
+
+```
+
+```{r}
+baseline_prediction <- mean(analysis_data_train$percent)
+baseline_mse <- mean((analysis_data_test$percent - baseline_prediction)^2)
+print(baseline_mse)
+```
+
+```{r}
+# Calculate R-squared on test data
+rss <- sum((predicted_values - actual_values)^2)  # Residual Sum of Squares
+tss <- sum((actual_values - mean(actual_values))^2)  # Total Sum of Squares
+
+r_squared <- 1 - (rss/tss)
+print(r_squared)
+```
+
+
+```{r}
+# Create a correlation matrix to check for collinearity
+cor_matrix <- cor(analysis_data_train[, c("numeric_grade", "sample_size", "transparency_score")], use = "complete.obs")
+print(cor_matrix)
+```
+```{r}
+# Check for sparse levels in 'state'
+state_counts <- table(analysis_data_train$state)
+print(state_counts)
+```
 
 
 \newpage
