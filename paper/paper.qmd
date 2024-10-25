@@ -9,11 +9,7 @@ thanks: "Code and data are available at: https://github.com/wyx827/2024USpreside
 date: today
 date-format: long
 toc: true
-<<<<<<< HEAD
 abstract: "The study predicting the 2024 U.S. presidential election is important as it provides the predicted outcomes for the US election. Analysis is based on state-by-state electoral votes, and these outcomes can influence campaign strategies and shape public discourse. The results indicate Kamala Harris will win by over 270 votes in this election cycle."
-=======
-abstract: "This study predicts the outcome of the 2024 U.S. presidential election using multiple regression analysis based on state-by-state electoral votes. The predictive model offers prediction that can inform campaign strategies and shape public discourse. Results suggest a strong likelihood of Kamala Harris securing victory in the 2024 election cycle."
->>>>>>> c6b0e4440594cdabb345d718ee9ae8c7719b8372
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -231,14 +227,6 @@ coefficients_table <- summary$coefficients
 kable(head(coefficients_table, 10), digits = 2)
 ```
 
-
-
-We expect a positive relationship between the size of the wings and time spent aloft. In particular...
-
-We can use maths by including latex between dollar signs, for instance $\theta$.
-
-
-\newpage
 
 # Results
 
@@ -680,7 +668,7 @@ print(mse)
 
 
 ```{r}
-
+#| echo: false
 library(caret)
 set.seed(856)
 train_control <- trainControl(method = "cv", number = 10)
@@ -694,12 +682,14 @@ print(cv_model$results)
 ```
 
 ```{r}
+#| echo: false
 baseline_prediction <- mean(analysis_data_train$percent)
 baseline_mse <- mean((analysis_data_test$percent - baseline_prediction)^2)
 print(baseline_mse)
 ```
 
 ```{r}
+#| echo: false
 # Calculate R-squared on test data
 rss <- sum((predicted_values - actual_values)^2)  # Residual Sum of Squares
 tss <- sum((actual_values - mean(actual_values))^2)  # Total Sum of Squares
@@ -710,11 +700,14 @@ print(r_squared)
 
 
 ```{r}
+#| echo: false
 # Create a correlation matrix to check for collinearity
 cor_matrix <- cor(analysis_data_train[, c("numeric_grade", "sample_size", "transparency_score")], use = "complete.obs")
 print(cor_matrix)
 ```
+
 ```{r}
+#| echo: false
 # Check for sparse levels in 'state'
 state_counts <- table(analysis_data_train$state)
 print(state_counts)
@@ -725,9 +718,9 @@ print(state_counts)
 
 # Acknowledgements
 @citeR
-Thanks to Open AI [@openai2024chatgpt] and ChatGPT 4.0 is used to write the analysis of the paper.
+Thanks to Open AI and ChatGPT 4.0 is used to write the analysis of the paper.
 
-
+@fivethirty provides the data. @tidyverse, @ggplot, @knitr
 
 
 # References
