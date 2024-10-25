@@ -14,13 +14,11 @@
 library(tidyverse)
 library(dplyr)
 library(rstanarm)
-library(bayesplot)
 library(ggplot2)
 library(caret)
 library(modelsummary)
 library(arrow)
 library(rsample)
-library(splines)
 
 
 #### Read data ####
@@ -29,57 +27,36 @@ analysis_data <- read_parquet("data/02-analysis_data/cleaned_US_voting.parquet")
 analysis_data <- analysis_data |>
   filter(candidate_name == "Donald Trump") 
 
-# Build up model
-regression_model <- lm(percent ~ numeric_grade + sample_size + state + transparency_score + end_date, 
-                      data = analysis_data)
+# Count occurrences of each state in the test data
+#state_counts <- table(analysis_data$state)
 
-#### Save model ####
-# Save the model 
-saveRDS(regression_model, file = "models/regression_model.rds")
+# Identify states that appear only once
+#single_occurrence_states <- names(state_counts[state_counts == 1])
 
+# Print the states that appear only once
+#print(single_occurrence_states)
 
-
+# Filter out states that appear only once in analysis_data_test
+#analysis_data<- analysis_data %>%
+  #filter(!state %in% single_occurrence_states)
 
 ### Model data ####
-#Build up Logistic Regression Model
-# For reproducibility
 set.seed(853)
 
-# Group by more detailed factors
-analysis_data <- analysis_data %>%
-  group_by(state, pollster_rating_name, methodology, sample_size, population_group) %>%
-  summarise(
-    Trump_percent = mean(percent[candidate_name == "Donald Trump"], na.rm = TRUE),
-    Harris_percent = mean(percent[candidate_name == "Kamala Harris"], na.rm = TRUE)
-  )
+# Perform a stratified split based on the 'state' variable to ensure all levels are present in both sets
+split <- initial_split(data=analysis_data, prop = 0.8, strata = state)
 
-# Create a binary outcome for prediction: 1 if Trump is predicted to win, 0 if Harris
-analysis_data <- analysis_data %>%
-  mutate(trump_win = ifelse(Trump_percent > Harris_percent, 1, 0))
-
-analysis_data <- na.omit(analysis_data)
-# Split the data into training (70%) and testing (30%) sets
-split <- initial_split(analysis_data, prop = 0.7)
-analysis_train_data <- training(split)
-analysis_test_data <- testing(split)
+# Create training and testing sets
+analysis_data_train <- training(split)
+analysis_data_test <- testing(split)
 
 
-# Build the logistic regression model using rstanarm using train data
-logistic_model <- stan_glm(
-  trump_win ~ state + population_group + numeric_grade + sample_size + methodology,
-  data = analysis_data_train,
-  family = binomial(link = "logit"),
-  prior = normal(location = 0, scale = 2.5, autoscale = TRUE),
-  prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),
-  seed = 853,
-  iter = 4000)
-
-
-modelsummary(logistic_model)
-
-
+# Build up model
+regression_model <- lm(percent ~ numeric_grade + sample_size + state + transparency_score + end_date, 
+                      data = analysis_data_train)
 
 #### Save model ####
-saveRDS(logistic_model, file = "models/logistic_model.rds")
 write_parquet(analysis_data_test, sink = "data/02-analysis_data/test_data.parquet")
+write_parquet(analysis_data_train, sink = "data/02-analysis_data/train_data.parquet")
+saveRDS(regression_model, file = "models/regression_model.rds")
 

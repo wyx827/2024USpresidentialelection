@@ -8,7 +8,7 @@
 # Any other information needed? NA
 
 #### Workspace setup ####
-install.packages("arrow")
+#install.packages("arrow")
 library(tidyverse)
 library(dplyr)
 library(arrow)
@@ -23,12 +23,13 @@ cleaned_data <- raw_data %>% filter(numeric_grade > 2.5)
 cleaned_data$mdy <- mdy(cleaned_data$end_date)
 
 # Define the cutoff date (July 21, 2024)
-cutoff_date <- as.Date("2024-07-21")
+cutoff_date <- as.Date("2023-10-01")
+cutoff_date_harris <- as.Date("2024-07-21")
 
 # Fitler trump and Harris
-cleaned_data <- cleaned_data %>%
+cleaned_data <- cleaned_data %>% filter(mdy>cutoff_date) %>%
   filter((candidate_name == "Donald Trump") | 
-           (candidate_name == "Kamala Harris" & mdy > cutoff_date))
+           (candidate_name == "Kamala Harris" & mdy > cutoff_date_harris))
 
 # Clean raw dataset, remove columns with many missing values and keep the columns we want to make analysis on
 cleaned_data <- cleaned_data %>% dplyr::select(pollster_rating_name, methodology, numeric_grade, start_date,
@@ -64,6 +65,13 @@ cleaned_data <- cleaned_data %>%
 # Revise the name of column 
 cleaned_data <- cleaned_data %>%
   rename(percent = pct)
+
+# Create the counting down column to the final election date
+final_election <- as.Date("11/5/24", format="%m/%d/%y")
+
+# Create the column
+cleaned_data <- cleaned_data %>% 
+  mutate(days_until_election = as.numeric(difftime(final_election, end_date, units = "days")))
 
 # Delete NA
 cleaned_data <- na.omit(cleaned_data)
