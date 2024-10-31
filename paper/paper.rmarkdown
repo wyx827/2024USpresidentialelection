@@ -32,6 +32,8 @@ library(arrow)
 analysis_data <- read_csv(here::here("data/02-analysis_data/cleaned_US_voting.csv"))
 ```
 
+
+
 # Introduction
 
 Overview paragraph
@@ -66,6 +68,8 @@ Once deemed credible, polls are incorporated into the FiveThirtyEight database. 
 
 The outcome variable of interest for this research is the percentage, representing the level of public support for Donald Trump. The distribution in @fig-pct indicates that most observations cluster around a support percentage of approximately 48%, suggesting moderate backing from the electorate. Additionally, a smaller proportion of polls show support exceeding 55%, indicating that while Trump has a core base, many voters remain either indifferent or opposed to him.
 
+
+
 ```{r}
 #| label: fig-pct
 #| fig-cap: Distribution of Support (percent) for Donald Trump
@@ -78,11 +82,15 @@ ggplot(analysis_data, aes(x = percent)) +
   theme_minimal()
 ```
 
+
+
 ## Predictor variables
 
 ### Numeric Grade
 
 The numeric grade reflects the quality of the pollster, with FiveThirtyEight defining a scale from 0 to 3. A grade of 0 indicates a low-quality poll, while a grade of 3 signifies a high-quality pollster. After filtering for pollsters with a numeric grade higher than 2.5, we identified a total of 30 distinct pollsters, with half of them scoring between 2.6 and 2.8, as shown in @fig-numeric-grade .
+
+
 
 ```{r}
 #| label: fig-numeric-grade
@@ -106,9 +114,13 @@ ggplot(analysis_data %>% distinct(pollster_rating_name, .keep_all = TRUE),
          y = "Count of Distinct Polls") + 
     theme_minimal()
 ```
+
+
 ### Sample Size
 
 The sample size indicates the number of respondents in each poll. The distribution in @fig-sample-size exhibits a right-skewed shape, suggesting that there are more observations with smaller sample sizes compared to larger ones. The peak of the distribution is around 1,000, indicating that this is the most common sample size used in the polls. Overall, the sample size data highlights that each poll contains a sufficient number of respondents to provide reliable insights.
+
+
 
 ```{r}
 #| label: fig-sample-size
@@ -122,9 +134,13 @@ ggplot(analysis_data %>% filter(sample_size < 3000), aes(x = sample_size)) +
   labs(title = "Distribution of Sample Size", x = "Sample Size", y = "Count") +
   theme_minimal()
 ```
+
+
 ### Transparency Score
 
 The Transparency Score measures how transparent a pollster is, calculated based on the amount of information disclosed about its polls, weighted by recency. The highest possible score is 10, while the lowest is 0. The distribution of Transparency Scores for the filtered pollsters shows a peak around 9 as presented in @fig-transparency-score, indicating that this is the most common score. This suggests that among the selected pollsters, there is a predominance of high transparency scores.
+
+
 
 ```{r}
 #| label: fig-transparency-score
@@ -143,9 +159,13 @@ ggplot(analysis_data %>%
   theme_minimal()
 ```
 
+
+
 ### End Date
 
 The end date indicates when each poll concluded. @fig-end-date shows that as the final result of the U.S. election approached, more polls were conducted and completed. This trend reflects an increased interest in capturing public opinion and predicting electoral outcomes as election day neared, emphasizing the significance of real-time sentiment analysis during this critical period.
+
+
 
 ```{r}
 #| label: fig-end-date
@@ -160,6 +180,8 @@ ggplot(analysis_data, aes(x = as.Date(end_date))) +
   theme_minimal()
 
 ```
+
+
 
 
 # Model
@@ -211,6 +233,8 @@ The posterior distributions of the parameters allow us to quantify the uncertain
 ## Model Justification
 @tbl-summary shows the summary table for the model. And then evaluate it on the test set. It appears as though the model is having difficulty identifying Trump supporters. The reson why the multiple regression is applied is because.....
 
+
+
 ```{r}
 #| echno: false
 #| label: tbl-summary
@@ -230,6 +254,8 @@ kable(head(coefficients_table, 10), digits = 2)
 ```
 
 
+
+
 # Results
 
 ## Predicted Electoral Outcomes
@@ -239,6 +265,8 @@ The table below (@tbl-prediction) summarizes the predicted results, showing Trum
 - Alabama: Trump is predicted to win 53% of the vote, securing all 9 electoral votes.
 - California: Trump is predicted to receive 34.39% of the vote, resulting in a victory for Harris, who takes California's 55 electoral votes.
 - Florida: The model predicts a close race, with Trump at 48.89% of the vote, resulting in a Harris win in this critical battleground state.
+
+
 
 ```{r tbl-prediction}
 #| echno: false
@@ -297,8 +325,12 @@ kable(state_predictions[, c("state", "predicted_percent_trump", "electoral_votes
 ```
 
 
+
+
 ## Predicted Electoral Outcomes by State
 The following table (@tbl-missing) serves as a supplement to the predicted outcomes, filling in the gaps for states where the model couldn’t provide predictions. It allows for a complete view of electoral projections by assigning a likely outcome in each missing state based on historical data. This approach ensures every state is accounted for in the final electoral vote totals.
+
+
 
 ```{r}
 #| echno: false
@@ -326,7 +358,11 @@ kable(missing_states, col.names = c("State", "Electoral Votes", "Prediction Base
 ```
 
 
+
+
 The following map (@fig-statemap) shows the predicted winner for each state in the 2024 U.S. Presidential Election, based on the regression model's predicted vote percentages for Trump and Harris. The predicted outcome in the regression model reflects the geographic voting patterns, with Trump winning in traditionally Republican-leaning states like Alabama, Missouri, and Wyoming, while Harris dominates in Democratic strongholds such as California, New York, and Illinois. However, key battleground states such as Florida and Arizona are predicted to favor Harris, potentially determining the overall election outcome.
+
+
 
 ```{r fig-statemap}
 #| echo: false
@@ -372,7 +408,11 @@ plot_usmap(data = state_predictions, values = "winner_color", regions = "states"
 
 
 
+
+
 The table below (@tbl-numstate) shows the numerical predicted winner of the 2024 US Presidential Election by state. Harris is expected to win the 2024 U.S. Presidential Election, securing 387 electoral votes, compared to Trump’s 151 electoral votes. The election outcome hinges on several battleground states, where the vote margins are predicted to be narrow.
+
+
 ```{r}
 #| echo: false
 #| label: tbl-numstate
@@ -392,6 +432,8 @@ summary_df <- data.frame(
 # Display the summary table in kable format
 kable(summary_df, col.names = c("Candidate", "Total Electoral Votes"), format = "markdown")
 ```
+
+
 
 
 
@@ -709,6 +751,8 @@ If you have any questions about this survey or would like to be informed about t
 
 ## Diagnostics
 
+
+
 ```{r}
 #| echo: false
 #| label: fig-diagnosis-3
@@ -723,7 +767,11 @@ plot(regression_model)
 
 ```
 
+
+
 ## Calculate Mean Squared Error (MSE) on test data
+
+
 ```{r}
 #| echo: false
 #| label: fig-diagnosis-1
@@ -737,7 +785,6 @@ actual_values <- analysis_data_test$percent
 mse <- mean((predicted_values - actual_values)^2)
 print(mse)
 ```
-
 
 ```{r}
 #| echo: false
@@ -770,7 +817,6 @@ r_squared <- 1 - (rss/tss)
 print(r_squared)
 ```
 
-
 ```{r}
 #| echo: false
 # Create a correlation matrix to check for collinearity
@@ -786,6 +832,8 @@ print(state_counts)
 ```
 
 
+
+
 \newpage
 
 # Acknowledgements
@@ -796,5 +844,6 @@ Thanks to Open AI and ChatGPT 4.0 is used to write the analysis of the paper.
 
 
 # References
+
 
 
