@@ -726,7 +726,7 @@ plot(regression_model)
 ```{r}
 #| echo: false
 #| label: fig-diagnosis-2
-#| tbl-cap: Calculate Mean Squared Error (MSE) on test data
+#| tbl-cap: Calculate Mean Squared Error (MSE) on Test Data
 #| warning: false
 #| message: false
 
@@ -751,7 +751,7 @@ metrics_df <- data.frame(
   Value = c(mse, mae, r_squared))
 
 # Display the metrics table using kable
-kable(metrics_df, caption = "Model Performance Metrics on Test Data")
+kable(metrics_df)
 ```
 
 ## Model Summary
@@ -791,12 +791,13 @@ colnames(additional_stats) <- colnames(coefficients_df)
 full_summary_df <- rbind(coefficients_df, additional_stats)
 
 # Display the full summary table using kable
-kable(full_summary_df, caption = "Regression Model Summary with Additional Statistics")
+kable(full_summary_df)
 ```
 
 ## Multicollinearity Check on the Training Data
 ```{r}
 #| echo: false
+#| fig-cap: Correlation Matrix of "Numeric Grade", "Sample Size", "Transparency Score"and "Days Until Election"
 #| warning: false
 #| message: false
 
@@ -807,20 +808,16 @@ cor_matrix <- cor(analysis_data_train[, c("numeric_grade", "sample_size", "trans
 colnames(cor_matrix) <- gsub("_", " ", colnames(cor_matrix))
 rownames(cor_matrix) <- gsub("_", " ", rownames(cor_matrix))
 
-# Print the correlation matrix
-print(cor_matrix)
-
 # Create a beautiful correlation plot with modified labels
 corrplot(
   cor_matrix, 
-  method = "color",      # Use color to fill the matrix
-  type = "upper",        # Show only the upper triangle
-  addCoef.col = "black", # Add correlation coefficients in black
-  tl.col = "black",      # Label text color
-  tl.srt = 45,           # Rotate labels
-  number.cex = 0.8,      # Text size for coefficients
-  col = colorRampPalette(c("red", "white", "blue"))(200) # Color gradient
-)
+  method = "color",      
+  type = "upper",        
+  addCoef.col = "black", 
+  tl.col = "black",      
+  tl.srt = 45,          
+  number.cex = 0.8,      
+  col = colorRampPalette(c("red", "white", "blue"))(200) )
 
 ```
 
