@@ -27,19 +27,6 @@ analysis_data <- read_parquet("data/02-analysis_data/cleaned_US_voting.parquet")
 analysis_data <- analysis_data |>
   filter(candidate_name == "Donald Trump") 
 
-# Count occurrences of each state in the test data
-#state_counts <- table(analysis_data$state)
-
-# Identify states that appear only once
-#single_occurrence_states <- names(state_counts[state_counts == 1])
-
-# Print the states that appear only once
-#print(single_occurrence_states)
-
-# Filter out states that appear only once in analysis_data_test
-#analysis_data<- analysis_data %>%
-  #filter(!state %in% single_occurrence_states)
-
 ### Model data ####
 set.seed(853)
 

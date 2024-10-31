@@ -71,7 +71,7 @@ The outcome variable of interest for this research is the percentage, representi
 #| warning: false
 #| message: false
 ggplot(analysis_data, aes(x = percent)) +
-  geom_histogram(binwidth = 2, fill = "green", color = "black", alpha = 0.7) +
+  geom_histogram(binwidth = 2, fill = "pink", color = "white", alpha = 0.7) +
   labs(title = "Distribution of Support (percent) for Donald Trump", x = "Support Percentage (percent)", y = "Count") +
   theme_minimal()
 ```
@@ -96,7 +96,7 @@ summary_data <- analysis_data %>%
 
 ggplot(analysis_data %>% distinct(pollster_rating_name, .keep_all = TRUE), 
        aes(x = numeric_grade)) + 
-    geom_histogram(binwidth = 0.1, fill = "green", color = "black", alpha = 0.7) + 
+    geom_histogram(binwidth = 0.1, fill = "pink", color = "white", alpha = 0.7) + 
     scale_x_continuous(breaks = seq(2.5, 3.0, by = 0.1)) + 
     scale_y_continuous(breaks = seq(0, max(summary_data$count), by = 1)) + 
     labs(title = "Distribution of Numeric Grades (2.6 to 3.0)", 
@@ -116,7 +116,7 @@ The sample size indicates the number of respondents in each poll. The distributi
 #| message: false
 
 ggplot(analysis_data %>% filter(sample_size < 3000), aes(x = sample_size)) +
-  geom_histogram(binwidth = 100, fill = "green", color = "black", alpha = 0.7) +
+  geom_histogram(binwidth = 100, fill = "pink", color = "white", alpha = 0.7) +
   labs(title = "Distribution of Sample Size", x = "Sample Size", y = "Count") +
   theme_minimal()
 ```
@@ -134,7 +134,7 @@ The Transparency Score measures how transparent a pollster is, calculated based 
 ggplot(analysis_data %>% 
          distinct(pollster_rating_name, .keep_all = TRUE), 
        aes(x = transparency_score)) + 
-  geom_histogram(binwidth = 1, fill = "green", color = "black", alpha = 0.7) + 
+  geom_histogram(binwidth = 1, fill = "pink", color = "white", alpha = 0.7) + 
   scale_x_continuous(breaks = 3:10) +
   scale_y_continuous(breaks = seq(0, max(summary_data$count), by = 1)) +  
   labs(title = "Distribution of Transparency Score", x = "Transparency Score", y = "Count of Distinct Polls") + 
@@ -153,7 +153,7 @@ The end date indicates when each poll concluded. @fig-end-date shows that as the
 #| message: false
 
 ggplot(analysis_data, aes(x = as.Date(end_date))) + 
-  geom_line(stat = "count", color = "black", size = 1) + 
+  geom_line(stat = "count", color = "pink", size = 1) + 
   labs(title = "Distribution of End Dates", x = "End Date", y = "Count") + 
   theme_minimal()
 
