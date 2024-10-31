@@ -21,10 +21,9 @@ bibliography: references.bib
 #| message: false
 
 # Install the required packages
-#install.packages(c("tidyverse", "ggplot2", "rstanarm", "knitr", "usmap", "corrplot", "arrow"))
+#install.packages(c("tidyverse", "ggplot2", "knitr", "usmap", "corrplot", "arrow"))
 library(tidyverse)
 library(ggplot2)
-library(rstanarm)
 library(knitr)
 library(usmap)
 library(corrplot)
@@ -205,7 +204,7 @@ Where:
 - Sample Size ($\beta_2$): This measures the impact of the number of respondents on Trump’s polling percentage. A positive coefficient would indicate that larger sample sizes are associated with higher polling percentages for Trump.
 - State ($\beta_3$): The coefficients for the state variable represent differences in Trump’s polling percentage in each state compared to the reference state (baseline category). For example, if the coefficient for Florida is negative, it means Trump polls lower in Florida compared to the reference state. The state-level effects account for regional differences in Trump’s support. Some states may show significantly higher or lower levels of support, even after adjusting for the time of the poll and pollster quality.
 - Transparency Score ($\beta_4$): This coefficient shows how much Trump’s polling percentage is affected by the transparency of the poll. A positive coefficient would indicate that polls with higher transparency tend to report higher polling percentages for Trump, whereas a negative coefficient would imply the opposite.
-- Days Until Election ($\beta_5$): The counting down days is a time-related variable. A positive and significant coefficient would suggest that Trump’s polling percentage has increased as the election date approaches, while a negative coefficient would suggest a decrease in his polling numbers over time.The coefficient for end_date informs us about how Trump’s polling percentages have evolved over time. A positive coefficient would suggest an upward trend, while a negative coefficient would indicate a decline.
+- Days Until Election ($\beta_5$): The counting down days is a time-related variable. A positive and significant coefficient would suggest that Trump’s polling percentage has decreased as the election date approaches, while a negative coefficient would suggest an increase in his polling percent over time.
 
 
 ## Model Justification
@@ -395,34 +394,34 @@ kable(summary_df, col.names = c("Candidate", "Total Electoral Votes"), format = 
 
 # Discussion {#sec-discussion}
 
-## Overview of Predictive Modeling for the 2024 U.S. Election
-This paper forecasts the 2024 U.S. Presidential Election outcomes between Kamala Harris and Donald Trump, presenting a predicted electoral college outcome based on a fitted model. By analyzing poll data and historical state-level voting patterns, we estimated Trump’s vote percentages across states and calculated projected electoral votes for each candidate. Our model anticipates a significant victory for Harris, who is projected to secure 387 electoral votes compared to Trump’s 151. This finding underscores the impact of demographic and geographic factors on the U.S. electoral landscape.
+## Key Findings
+This paper presents a forecast for the 2024 U.S. Presidential Election between Kamala Harris and Donald Trump, leveraging a linear regression model trained on historical state-level voting data and recent polling information. Our model projects a decisive victory for Harris, with an expected 387 electoral votes compared to Trump’s 151, reinforcing the impact of demographic and geographic factors on U.S. electoral outcomes.
 
-A geographic visualization further emphasizes the anticipated state-by-state outcomes and reveals enduring regional voting patterns. Key predictors, such as state-level variations and transparency scores, strongly influence polling outcomes for both Donald Trump and Kamala Harris. While our model projects a potential Harris victory with a majority of electoral votes, challenges inherent in electoral predictions remain. We acknowledge that regional variations, particularly in battleground states like Florida and Arizona, introduce uncertainty that may affect the final outcome.
+The analysis reveals that state-specific predictors, such as historical voting patterns and days until election day, are significant influencers of each candidate’s polling outcomes. Traditional Democratic strongholds like California and New York strongly favor Harris, while Republican-dominated states such as Alabama and Wyoming align with Trump. This distribution reflects enduring geographic voting patterns and underscores the role of regional party loyalty.
+
+Notably, the model also highlights the influence of battleground states, where even slight shifts in voter sentiment could alter the election’s outcome. For example, Florida, a key swing state, is predicted to lean narrowly towards Trump with an estimated 50.04% of the vote, emphasizing the potential volatility in these regions.
 
 ## Regional Voting Patterns and Their Impact on Electoral Outcomes
 Our analysis demonstrates the persistence of geographic voting patterns in U.S. elections. As expected, traditional Democratic strongholds such as California, New York, and Illinois favor Harris, while Republican-dominated states like Alabama and Wyoming show support for Trump. These regional preferences align with historical voting behaviors, suggesting that party loyalty and demographic factors continue to shape election results.
 
-The model also highlights the critical role of battleground states, with states such as Florida and Arizona predicted to lean toward Harris. The influence of these states, where margins are often narrow, emphasizes the importance of campaign efforts and voter mobilization in these regions. The projections illustrate that minor shifts in voter sentiment within these states could decisively impact the overall election outcome.
+The model also highlights the critical role of battleground states, with states such as Florida and Arizona predicted to lean toward Harris. The influence of these states, where margins are often narrow, emphasizes the importance of campaign efforts and voter mobilization in these regions. The projections illustrate that minor shifts in voter sentiment within these states could decisively impact the overall election outcome because of the high number of electoral votes.
 
-## Polling and Electoral Uncertainty
-The model’s reliance on historical polling data and state-level predictions reflects certain limitations inherent in election forecasting. For example, while the model captures general trends, it does not account for potential turnout variations, third-party candidates, or unexpected political events that might affect voter behavior. Furthermore, the use of polling data presents a challenge due to its variability; certain states with less frequent polling data show broader confidence intervals, indicating greater uncertainty in those regions.
-
-This variability suggests that further studies could benefit from integrating real-time data and employing Bayesian methodologies to account for evolving voter preferences. Such an approach could improve the accuracy of predictions, especially in regions with historically unpredictable outcomes. Future research may also consider factors like demographic shifts and economic conditions, which could significantly influence voter preferences over time.
+## Polling and Electoral Uncertainty Beyond the Data
+The model’s reliance on historical polling data and state-level predictions reflects certain limitations inherent in election forecasting. While the model effectively captures overall trends, it cannot account for unforeseen factors, such as shifts in voter turnout, the influence of third-party candidates, or sudden political or social events that could impact voter behavior. Additionally, the uneven distribution of survey data across states introduces further uncertainty.Sstates with infrequent polling or underrepresented demographic groups may lead to biased predictions. This variation in polling frequency and sample diversity presents a challenge in achieving a fully representative model, and these uncertainties beyond the data are much more complex. 
 
 ## Weakness
-Despite the model's strengths, it has limitations, which present a critical challenge and requires further exploration. The assumption of linear relationships between predictors may oversimplify complex voter behaviors and social influences. The dataset simplifies the potentioanl influecne behind the US election. 
+Despite the model estimating the voter's choice trend, it has limitations. For instance, assuming linear relationships between predictors may oversimplify complex voter behaviors and other external social influences. The dataset simplifies the potential influence behind the US election. 
 
-Moreover, polling averages, though valuable, are subject to biases that may skew results. For example, factors like nonresponse bias—where certain demographic groups, such as less civically engaged individuals, are less likely to participate—may influence results more heavily in this election cycle. Additionally, reliance on past election data introduces a risk of recency bias, as seen in public expectations shaped by Trump’s unexpected win in 2016 and close finish in 2020. Yet, as Nate Silver notes, intuition or prior election outcomes can be misleading, given the unique dynamics of each election. Polling errors, such as those seen in 2016 and 2020, further emphasize the need for cautious interpretation of our model’s findings.
+Furthermore, polling is susceptible to biases, which can skew results. For example, factors like nonresponse bias—where certain demographic groups, such as less civically engaged individuals, are less likely to participate—may influence results more heavily in this election cycle. Additionally, reliance on past election data introduces a risk of recency bias, as seen in public expectations shaped by Trump’s unexpected win in 2016 and close finish in 2020. As @silver2024gut notes, intuition or prior election outcomes can be misleading, given the unique dynamics of each election. Polling errors, such as those seen in 2016 and 2020, further emphasize the need to carefully interpret our model’s findings.
 
-@silver2024gut also points out that the voters for Trump are less likely to finish the polls because of “Shy Voters”. This may lead to the bias in the survey sample collection. The deficiency of education background and sample credibility both influence the prediction.
+@silver2024gut also points out that the voters for Trump are less likely to finish the polls because of “Shy Tories”. This may lead to bias in the survey sample collection. The deficiency of education background and sample credibility both influence the prediction.
 
-Additionally, due to limited data available for predicting outcomes in every state, some state projections rely on historical voting patterns, with the assumption that these trends will persist. However, this approach may be challenged by the rapidly changing political landscape in the U.S., where evolving demographics and shifting public sentiment could lead to unexpected results.
+Due to limited data available for predicting outcomes in every state, some state projections rely on historical voting patterns, with the assumption that these trends will persist. However, this approach may be challenged by the rapidly changing political landscape in the U.S., where evolving demographics and shifting public sentiment could lead to unexpected results.
 
 ## Implications for Future Electoral Modeling
-The findings from this analysis underscore the need for a nuanced approach to election forecasting. While historical voting patterns provide a solid foundation, they may not fully capture the complexities of modern elections, where factors such as social media influence and voter sentiment play increasingly prominent roles. Incorporating these additional variables, particularly in battleground states, could refine the model’s predictive power and provide a more comprehensive understanding of the electoral landscape.
+While historical voting patterns provide a solid foundation, they may not fully capture the complexities of modern elections, where factors such as social media influence and voter sentiment play increasingly prominent roles. Incorporating these additional variables, particularly in swing states, could refine the model’s predictive power and provide a more comprehensive understanding of the electoral landscape.
 
-For future iterations, we recommend expanding the model to include demographic data, such as age, education level, and income, which could reveal deeper insights into voter behavior. Additionally, real-time polling updates could offer a dynamic perspective, allowing the model to adapt to changes in public opinion as the election date approaches. Employing these enhancements would improve model reliability, particularly in closely contested states where the margin of error can significantly impact the final prediction.
+For future research, expanding the model to include demographic data, such as age, education level, and income could reveal a deeper analysis of voter behavior on a multi-sided scale. Additionally, real-time polling updates could offer a dynamic perspective, allowing the model to adapt to changes in public opinion as the election date approaches. This variability suggests that further studies could benefit from integrating real-time data and employing Bayesian methodologies to account for evolving voter preferences. Such an approach could improve the accuracy of predictions, especially in regions with historically unpredictable outcomes. These adjustments could improve model's reliability, particularly in closely contested states where the margin of error can significantly impact the final prediction.
 
 
 \newpage
@@ -462,7 +461,8 @@ Phone-based data collection tends to be time-consuming and can be affected by in
 
 ## Non-response Handling
 
-In cases of non-response, SurveyUSA attempts follow-up calls if interviews are interrupted by answering machines or busy signals. Weighting is applied to adjust for non-response bias, although this doesn't completely eliminate challenges posed by unreachable or unwilling participants.\
+Non-response in survey research is critical to address because it introduces potential bias, impacting the accuracy and representativeness of the results. When certain groups are underrepresented due to non-response, it can skew findings, making them less reflective of the actual population. For example, individuals who may be less available—such as those with demanding schedules, or limited access to technology—might be less likely to respond to a poll. Meanwhile, people with strong opinions or from specific demographic groups could be overrepresented in the results. This imbalance can create biased outcomes, where the poll data disproportionately reflects the views of a more vocal subset rather than an accurate cross-section of the entire population.\
+To mitigate non-response, SurveyUSA employs follow-up calls when interviews are interrupted by answering machines or busy signals. This extra effort helps reach individuals who may have been initially unavailable or hesitant, thereby improving the sample’s representativeness. Additionally, SurveyUSA applies weighting adjustments to balance demographic or behavioral tendencies that emerge from non-response patterns. While weighting can help realign the sample to match population characteristics more closely, it doesn’t fully eliminate the issue, as some individuals or groups may still remain unreachable or unwilling to participate.\
 
 ## Questionnaire Evaluation
 
@@ -721,6 +721,8 @@ If you have any questions about this survey or would like to be informed about t
 * **Neutrality**: Political questions are framed neutrally to avoid influencing respondents' answers.
 * **Pilot Testing**: The survey will undergo a pilot test to identify and resolve any issues before full deployment.
 
+\newpage
+
 # Model details {#sec-model-details}
 
 ## Diagnostics
@@ -738,7 +740,8 @@ par(mfrow = c(2, 2))
 plot(regression_model)
 ```
 
-## Calculate Mean Squared Error and Mean Absolute Error on Test Data
+
+## Mean Squared Error and Mean Absolute Error on Test Data
 ```{r}
 #| echo: false
 #| label: fig-diagnosis-2
@@ -761,12 +764,11 @@ ss_total <- sum((actual_values - mean(actual_values))^2)
 ss_residual <- sum((predicted_values - actual_values)^2)
 r_squared <- 1 - (ss_residual / ss_total)
 
-# Combine metrics into a data frame for display
+# Combine metrics into a data frame for display, rounding to 2 decimals
 metrics_df <- data.frame(
   Metric = c("Mean Squared Error (MSE)", "Mean Absolute Error (MAE)", "R-squared"),
-  Value = c(mse, mae, r_squared))
-
-# Display the metrics table using kable
+  Value = round(c(mse, mae, r_squared), 2)
+)
 kable(metrics_df)
 ```
 
@@ -791,9 +793,9 @@ f_statistic <- model_summary$fstatistic[1]
 p_value <- pf(f_statistic, model_summary$fstatistic[2], model_summary$fstatistic[3], lower.tail = FALSE)
 residual_se <- model_summary$sigma
 
-# Create a data frame for additional statistics with consistent column names
+# Create a data frame for additional statistics with consistent column names and rounded to 2 decimals
 additional_stats <- data.frame(
-  Estimate = c(r_squared, adj_r_squared, f_statistic, p_value, residual_se),
+  Estimate = round(c(r_squared, adj_r_squared, f_statistic, p_value, residual_se), 2),
   `Std. Error` = NA,
   `t value` = NA,
   `Pr(>|t|)` = NA,
@@ -802,6 +804,10 @@ additional_stats <- data.frame(
 
 # Ensure column names are identical between data frames
 colnames(additional_stats) <- colnames(coefficients_df)
+
+# Round coefficients to 2 decimal places in coefficients_df
+coefficients_df <- coefficients_df %>%
+  mutate(across(where(is.numeric), ~ round(., 2)))
 
 # Combine the coefficients and additional statistics
 full_summary_df <- rbind(coefficients_df, additional_stats)
@@ -813,7 +819,7 @@ kable(full_summary_df)
 ## Multicollinearity Check on the Training Data
 ```{r}
 #| echo: false
-#| fig-cap: Correlation Matrix of "Numeric Grade", "Sample Size", "Transparency Score"and "Days Until Election"
+#| fig-cap: Correlation Matrix of `Numeric Grade`, `Sample Size`, `Transparency Score` and `Days Until Election`
 #| warning: false
 #| message: false
 
@@ -843,7 +849,8 @@ corrplot(
 @citeR
 Thanks to Open AI and ChatGPT 4.0 is used to write the analysis of the paper.
 
-@fivethirty provides the data. @tidyverse, @ggplot, @knitr
+@fivethirty provides the data. @tidyverse, @ggplot2, @knitr
+This project was made possible by a variety of R packages that provided essential tools and functionality. We thank the @tidyverse and @ggplot2 teams for their extensive suite of tools for data manipulation and visualization, which were instrumental in data cleaning and graphing. We also acknowledge @usmap for its support in creating U.S. geographic visualizations, and @corrplot for facilitating clear, informative correlation plots. Finally, @arrow was crucial for efficient data storage and handling with Parquet files, ensuring data integrity throughout the project. We are grateful to the developers and maintainers of these packages for their contributions to open-source software, which greatly enhanced the scope and depth of our analysis.
 
 
 # References

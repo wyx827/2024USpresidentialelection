@@ -246,3 +246,74 @@ plot2 <- ggplot(analysis_data %>% distinct(pollster_rating_name, .keep_all = TRU
 
 # Combine the plots side-by-side
 plot1 + plot2
+
+User
+# Extract additional statistics
+r_squared <- model_summary$r.squared
+adj_r_squared <- model_summary$adj.r.squared
+f_statistic <- model_summary$fstatistic[1]
+p_value <- pf(f_statistic, model_summary$fstatistic[2], model_summary$fstatistic[3], lower.tail = FALSE)
+residual_se <- model_summary$sigma
+
+# Create a data frame for additional statistics with consistent column names
+additional_stats <- data.frame(
+  Estimate = c(r_squared, adj_r_squared, f_statistic, p_value, residual_se),
+  `Std. Error` = NA,
+  `t value` = NA,
+  `Pr(>|t|)` = NA,
+  row.names = c("R-squared", "Adjusted R-squared", "F-statistic", "F-statistic p-value", "Residual Std. Error")
+)
+
+# Ensure column names are identical between data frames
+colnames(additional_stats) <- colnames(coefficients_df)
+
+# Combine the coefficients and additional statistics
+full_summary_df <- rbind(coefficients_df, additional_stats)
+
+# Display the full summary table using kable
+kable(full_summary_df) CHANGE IT TO 2 DECIMALS
+
+ChatGPT
+# Extract additional statistics
+r_squared <- model_summary$r.squared
+adj_r_squared <- model_summary$adj.r.squared
+f_statistic <- model_summary$fstatistic[1]
+p_value <- pf(f_statistic, model_summary$fstatistic[2], model_summary$fstatistic[3], lower.tail = FALSE)
+residual_se <- model_summary$sigma
+
+# Create a data frame for additional statistics with consistent column names and rounded to 2 decimals
+additional_stats <- data.frame(
+  Estimate = round(c(r_squared, adj_r_squared, f_statistic, p_value, residual_se), 2),
+  `Std. Error` = NA,
+  `t value` = NA,
+  `Pr(>|t|)` = NA,
+  row.names = c("R-squared", "Adjusted R-squared", "F-statistic", "F-statistic p-value", "Residual Std. Error")
+)
+
+# Ensure column names are identical between data frames
+colnames(additional_stats) <- colnames(coefficients_df)
+
+# Round coefficients to 2 decimal places in coefficients_df
+coefficients_df <- coefficients_df %>%
+  mutate(across(where(is.numeric), ~ round(., 2)))
+
+# Combine the coefficients and additional statistics
+full_summary_df <- rbind(coefficients_df, additional_stats)
+
+# Display the full summary table using kable
+library(knitr)
+kable(full_summary_df, caption = "Regression Model Summary with Additional Statistics (Rounded to 2 Decimal Places)")
+
+User
+when I calculate MSE，should i do it on the test or train data
+
+ChatGPT
+When calculating Mean Squared Error (MSE) to evaluate model performance, you should calculate it on the **test data** rather than the training data. Here’s why:
+
+1. **Model Generalization**: The test data provides a set of unseen data points, which allows you to assess how well the model generalizes to new data. This gives a more realistic estimate of model performance in real-world scenarios.
+
+2. **Avoiding Overfitting**: MSE on the training data tends to be lower because the model was specifically optimized on that data. A low MSE on training data may indicate overfitting if the MSE on the test data is significantly higher.
+
+3. **Model Comparison**: MSE on the test data allows for fair comparison between models, as it reflects how the models perform on data they haven’t been trained on.
+
+In summary, always calculate and report MSE on the test data to evaluate the model’s true predictive performance.
