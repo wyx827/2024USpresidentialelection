@@ -19,10 +19,3 @@ The repo is structured as:
 ## Statement on LLM usage
 
 The ChatGPT-4 model assisted in writing some aspects of the code and refining the wording. The complete chat history can be found in `other/llm_usage/usage.txt`.
-
-## Some checks
-
-- [ ] Change the rproj file name so that it's not starter_folder.Rproj
-- [ ] Change the README title so that it's not Starter folder
-- [ ] Remove files that you're not using
-- [ ] Update comments in R scripts
