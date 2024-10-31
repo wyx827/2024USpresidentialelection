@@ -34,24 +34,13 @@ analysis_data <- read_csv(here::here("data/02-analysis_data/cleaned_US_voting.cs
 
 # Introduction
 
-Overview paragraph
+The 2024 U.S. Presidential Election is set to unfold in a climate of heightened political polarization, economic challenges, and demographic shifts, making it a pivotal event in shaping America's future. Predicting the outcome of this election is crucial for gaining insights into potential changes in political leadership and policy directions. Polling data has traditionally served as a primary tool for gauging voter sentiment; however, recent election cycles have exposed limitations in polling accuracy due to biases, non-response issues, and variations in poll quality. To address these challenges, this study proposes a model that incorporates these factors to enhance the reliability of election forecasts.
 
-Estimand paragraph
+This paper develops a prediction model aimed at forecasting the electoral outcomes between Kamala Harris and Donald Trump in the 2024 election. Using a multiple linear regression framework, we analyze aggregated polling data across U.S. states, incorporating factors such as poll quality, transparency, sample size, geographic indicators, and poll timing. By integrating these variables, our model seeks to provide a nuanced forecast that accounts for regional differences and methodological variations across polls, offering a comprehensive view of the projected support for each candidate.
 
-Results paragraph
+Our findings suggest a competitive election landscape, with Harris showing strong prospects in key battleground states while Trump retains support in traditional Republican strongholds. These projections underscore the enduring influence of geographic voting patterns and the impact of polling methodology on electoral forecasting. The study provides valuable insights for political analysts, campaign strategists, and the public, contributing to a better understanding of how polling data can be utilized to anticipate electoral outcomes.
 
-Why it matters paragraph
-
-@sec-data explains the data we used to build up the prediction mode.
-
-@sec-model
-@sec-results
-@sec-discussion
-@sec-appendixA
-@sec-appendixB
-@sec-model-details
-@sec-acknowledgements
-@sec-references
+The remainder of this paper is organized as follows: @sec-data describes the dataset and the preprocessing steps involved in preparing data for the model. @sec-model explains the modeling approach, including the selection of predictors and the structure of the regression model. @sec-results presents the primary findings, highlighting state-by-state predictions and overall electoral projections. Section @sec-discussion discusses the implications, limitations, and future directions for this analysis. The Appendix section provides supplementary information on methodology, diagnostics, technical details of the model setup, acknowledgments, and references.
 
 
 # Data {#sec-data}
@@ -429,7 +418,9 @@ Despite the model's strengths, it has limitations that requires further explorat
 
 \appendix
 
-# Appendix A: Pollster Methodology Overview and Evaluation {#sec-appendixA}
+# Appendix {-}
+
+# Pollster Methodology Overview and Evaluation
 
 ## Overview of SurveyUSA
 
@@ -474,7 +465,9 @@ Static options for party affiliation and ideology may fail to capture the nuance
 SurveyUSA’s methodology reflects a balanced approach, leveraging various sampling approach and method to reach a representative sample. While its blend of probability and non-probability methods has strengths, such as cost-effectiveness and broad reach, it faces challenges related to telephone interview logistics, potential interviewer bias, and the limitations of fixed questionnaire options. Nevertheless, the inclusion of data weighting and question rotation adds credibility to its results, making SurveyUSA a reliable pollster for localized opinion research. 
 
 
-# Appendix B: Idealized Methodology and Survey {#sec-appendixB}
+
+# Idealized Methodology and Survey
+
 
 ## Objective and Overview
 The goal of this survey methodology is to accurately forecast the outcome of the U.S. presidential election by collecting high-quality, representative data from a diverse set of respondents across the country. With a budget of \$100,000, this methodology incorporates sophisticated sampling techniques, robust respondent recruitment strategies, and rigorous data validation protocols. The approach is designed to maximize accuracy, reduce bias, and account for various demographic, geographic, and political factors that influence voting behavior.
@@ -834,11 +827,11 @@ corrplot(
 
 \newpage
 
-# Acknowledgements {#sec-acknowledgements}
+# Acknowledgements
 @citeR
 Thanks to Open AI and ChatGPT 4.0 is used to write the analysis of the paper.
 
 @fivethirty provides the data. @tidyverse, @ggplot, @knitr
 
 
-# References {#sec-references}
+# References
