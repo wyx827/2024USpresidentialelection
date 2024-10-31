@@ -5,11 +5,11 @@ author:
   - Xuanle Zhou
   - Yongqi Liu
   - Yuxuan Wei
-thanks: "Code and data are available at: https://github.com/wyx827/2024USpresidentialelection.git."
+thanks: "Code and data are available at: https://github.com/wyx827/2024USpresidentialelection.git"
 date: today
 date-format: long
 toc: true
-abstract: "The study predicting the 2024 U.S. presidential election is important as it provides the predicted outcomes for the US election. Analysis is based on state-by-state electoral votes, and these outcomes can influence campaign strategies and shape public discourse. The results indicate Kamala Harris will win by over 270 votes in this election cycle."
+abstract: "The study predicting the 2024 U.S. presidential election is important as it provides the predicted outcomes for the US election. Analysis is based on state-by-state electoral votes, and these outcomes can influence campaign strategies and shape public discourse. The result indicates Kamala Harris will win by over 270 votes in this election cycle."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -21,14 +21,14 @@ bibliography: references.bib
 #| message: false
 
 # Install the required packages
-#install.packages(c("tidyverse", "ggplot2", "rstanarm", "knitr", "usmap", "arrow"))
+#install.packages(c("tidyverse", "ggplot2", "rstanarm", "knitr", "usmap", "corrplot", "arrow"))
 library(tidyverse)
 library(ggplot2)
 library(rstanarm)
 library(knitr)
 library(usmap)
+library(corrplot)
 library(arrow)
-
 analysis_data <- read_csv(here::here("data/02-analysis_data/cleaned_US_voting.csv"))
 ```
 
@@ -42,9 +42,12 @@ Results paragraph
 
 Why it matters paragraph
 
-@sec-data expains the data we used to build up the prediction mode.
+@sec-data explains the data we used to build up the prediction mode.
 
-
+@sec-model
+@sec-results
+@sec-discussion
+@sec-appendix
 
 # Data {#sec-data}
 
@@ -56,11 +59,13 @@ After cleaning the data, which included grouping and removing missing values, th
 
 ## Data Measurement and Considerations 
 
-The dataset for this analysis is sourced from FiveThirtyEight, which rigorously collects and aggregates polling data from a variety of firms to reflect public opinion. To ensure the integrity of the data, only polls that adhere to specific criteria are included in the dataset. Each poll must provide essential information, such as the pollster’s name, survey dates, sample sizes, and methodological details (e.g., polling medium, voter files, weighting criteria). Polls that are deemed nonscientific, that blend data from multiple sources, or that are conducted by hobbyists are excluded.
+The dataset used in this analysis originates from FiveThirtyEight, a trusted source known for its rigorous methodology in collecting and aggregating polling data to represent public opinion accurately. To maintain data integrity and ensure a high standard of reliability, only polls meeting stringent quality criteria are included in the dataset. Specifically, each poll must disclose crucial information, including the pollster’s name, the exact dates of the survey, the sample size, and the full methodological details. These details encompass the polling medium (e.g., phone, online), use of verified voter files, demographic weighting criteria, and any adjustments applied to reflect a representative sample.
 
-Once a poll meets these stringent standards, it is incorporated into the database, enabling it to inform polling averages, forecasts, and political coverage. This careful selection process ensures that the dataset accurately captures and reflects the nuances of public sentiment and behavior.
+Polls are rigorously verified, and those that do not meet these requirements are excluded from the dataset. For instance, polls categorized as nonscientific, those that merge data from multiple unrelated sources, and those conducted by hobbyists or unverified entities are filtered out to prevent data quality compromise.
 
-## Outcome variables
+Once deemed credible, polls are incorporated into the FiveThirtyEight database. These polls then contribute to polling averages, forecast models, and political coverage, which depend heavily on the quality and reliability of public opinion data. This meticulous selection process ensures that the dataset captures a comprehensive and nuanced view of public sentiment, providing an accurate reflection of behavioral trends and preferences over time.
+
+## Outcome Variable
 
 The outcome variable of interest for this research is the percentage, representing the level of public support for Donald Trump. The distribution in @fig-pct indicates that most observations cluster around a support percentage of approximately 48%, suggesting moderate backing from the electorate. Additionally, a smaller proportion of polls show support exceeding 55%, indicating that while Trump has a core base, many voters remain either indifferent or opposed to him.
 
@@ -71,12 +76,12 @@ The outcome variable of interest for this research is the percentage, representi
 #| warning: false
 #| message: false
 ggplot(analysis_data, aes(x = percent)) +
-  geom_histogram(binwidth = 2, fill = "pink", color = "white", alpha = 0.7) +
+  geom_histogram(binwidth = 2, fill = "green", color = "black", alpha = 0.7) +
   labs(title = "Distribution of Support (percent) for Donald Trump", x = "Support Percentage (percent)", y = "Count") +
   theme_minimal()
 ```
 
-## Predictor variables
+## Predictor Variables
 
 ### Numeric Grade
 
@@ -96,7 +101,7 @@ summary_data <- analysis_data %>%
 
 ggplot(analysis_data %>% distinct(pollster_rating_name, .keep_all = TRUE), 
        aes(x = numeric_grade)) + 
-    geom_histogram(binwidth = 0.1, fill = "pink", color = "white", alpha = 0.7) + 
+    geom_histogram(binwidth = 0.1, fill = "green", color = "black", alpha = 0.7) + 
     scale_x_continuous(breaks = seq(2.5, 3.0, by = 0.1)) + 
     scale_y_continuous(breaks = seq(0, max(summary_data$count), by = 1)) + 
     labs(title = "Distribution of Numeric Grades (2.6 to 3.0)", 
@@ -116,7 +121,7 @@ The sample size indicates the number of respondents in each poll. The distributi
 #| message: false
 
 ggplot(analysis_data %>% filter(sample_size < 3000), aes(x = sample_size)) +
-  geom_histogram(binwidth = 100, fill = "pink", color = "white", alpha = 0.7) +
+  geom_histogram(binwidth = 100, fill = "green", color = "black", alpha = 0.7) +
   labs(title = "Distribution of Sample Size", x = "Sample Size", y = "Count") +
   theme_minimal()
 ```
@@ -134,37 +139,44 @@ The Transparency Score measures how transparent a pollster is, calculated based 
 ggplot(analysis_data %>% 
          distinct(pollster_rating_name, .keep_all = TRUE), 
        aes(x = transparency_score)) + 
-  geom_histogram(binwidth = 1, fill = "pink", color = "white", alpha = 0.7) + 
+  geom_histogram(binwidth = 1, fill = "green", color = "black", alpha = 0.7) + 
   scale_x_continuous(breaks = 3:10) +
   scale_y_continuous(breaks = seq(0, max(summary_data$count), by = 1)) +  
   labs(title = "Distribution of Transparency Score", x = "Transparency Score", y = "Count of Distinct Polls") + 
   theme_minimal()
 ```
 
-### End Date
+### Days Until Election
 
-The end date indicates when each poll concluded. @fig-end-date shows that as the final result of the U.S. election approached, more polls were conducted and completed. This trend reflects an increased interest in capturing public opinion and predicting electoral outcomes as election day neared, emphasizing the significance of real-time sentiment analysis during this critical period.
+The **days until election** represents the remaining time leading up to the final election day. As shown in the figure, the support percentage for Donald Trump fluctuated over time, with a slightly downward trend as the election approached, as indicated by the dashed trend line. This suggests that while public opinion varied significantly, there was a decrease in support as election day approached. This trend highlights the importance of monitoring real-time polling data, as sentiment may shift in the critical months leading up to a closely contested election.
 
 ```{r}
 #| label: fig-end-date
-#| fig-cap: Distribution of End Dates
+#| fig-cap: Trend of Support Percentage for Donald Trump Over Days Until Election. Fluctuations in support levels are observed as the election approaches, with a slight downward trend indicated by the dashed curve.
 #| echo: false
 #| warning: false
 #| message: false
 
-ggplot(analysis_data, aes(x = as.Date(end_date))) + 
-  geom_line(stat = "count", color = "pink", size = 1) + 
-  labs(title = "Distribution of End Dates", x = "End Date", y = "Count") + 
-  theme_minimal()
-
+ggplot(analysis_data, aes(x = days_until_election, y = percent)) + 
+  geom_line(color = "skyblue", size = 1.2) +  
+  geom_smooth(method = "loess", color = "pink", linetype = "dashed", size = 1) +  
+  labs(x = "Days Until Election", y = "Support Percentage") + 
+  theme_minimal(base_size = 14) +  
+  theme(
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),  #
+    axis.title.x = element_text(margin = margin(t = 10)),  
+    axis.title.y = element_text(margin = margin(r = 10)),  
+    axis.text = element_text(color = "#555555"),  
+    panel.grid.minor = element_blank()  )
 ```
 
+# Model {#sec-model}
 
-# Model
+To model Donald Trump’s polling percentages over time, we used a multiple linear regression framework, which estimates the relationship between polling percentages and various predictors by fitting a linear equation to the data. Analyzing the coefficients allows us to quantify the impact of each predictor on Trump’s polling percentages, while also assessing the overall fit of the model for reliable predictions.
 
-To model Donald Trump’s polling percentages over time, we employed a multiple linear regression framework. This approach estimates the relationship between polling percentages and various predictors by fitting a linear equation to the data. By analyzing the coefficients, we can quantify the impact of each predictor on Trump’s polling percentages, while also assessing the overall fit of the model and making predictions based on the observed trends.
+To prevent overfitting, we applied a train-test data split. The training data is used to build the model, enabling it to learn patterns and relationships within the data. The test data, which the model has not seen before, serves to evaluate its performance on new, unseen data. This separation ensures that the model captures patterns that will generalize beyond the training dataset, rather than just memorizing it.
 
-Here we briefly describe the multiple linear regression model used to investigate the winning probability of Trump. Background details and diagnostics are included in [Appendix -@sec-model-details].
+Below, we briefly describe the multiple linear regression model used to examine Trump’s winning probability. Additional details and model diagnostics are provided in [Appendix -@sec-model-details].
 
 ## Multiple Linear Regression Model Overview
 The model now predicts Trump’s polling percentage (percent) using the following predictors:
@@ -173,13 +185,13 @@ The model now predicts Trump’s polling percentage (percent) using the followin
 - Sample Size (sample_size): The number of respondents in the poll.
 - State (state): A categorical variable for different U.S. states.
 - Transparency Score (transparency_score): A measure of how transparent the polling data and methodology are.
-- End Date (end_date): The date the poll was completed, which might capture trends over time.
+- Days Until Election (days_until_election): The left days until the US election.
 
 The model takes the form:
 
 \begin{align}
 \text{pct}_i &= \beta_0 + \beta_1 \cdot \text{numeric\_grade}_i + \beta_2 \cdot \text{transparency\_score}_i \\
-             &\quad + \beta_3 \cdot \text{sample\_size}_i + \beta_4 \cdot \text{state}_i + \beta_5 \cdot \text{end\_date}_i + \epsilon_i \\
+             &\quad + \beta_3 \cdot \text{sample\_size}_i + \beta_4 \cdot \text{state}_i + \beta_5 \cdot \text{days\_until\_election}_i + \epsilon_i \\
 \epsilon_i &\sim \text{Normal}(0, \sigma^2)
 \end{align}
 
@@ -195,40 +207,36 @@ Where:
 - Intercept ($\beta_0$): This is the predicted Trump polling percentage when all predictors (numeric grade, sample size, state, transparency score, and end date) are at their baseline or zero value.
 - Numeric Grade ($\beta_1$): This coefficient measures how much Trump’s polling percentage changes as the pollster’s numeric grade increases. A positive and significant coefficient would indicate that higher-rated pollsters report better polling numbers for Trump, while a negative coefficient would suggest the opposite.
 - Sample Size ($\beta_2$): This measures the impact of the number of respondents on Trump’s polling percentage. A positive coefficient would indicate that larger sample sizes are associated with higher polling percentages for Trump.
-- State ($\beta_3$): The coefficients for the state variable represent differences in Trump’s polling percentage in each state compared to the reference state (baseline category). For example, if the coefficient for Florida is negative, it means Trump polls lower in Florida compared to the reference state.
+- State ($\beta_3$): The coefficients for the state variable represent differences in Trump’s polling percentage in each state compared to the reference state (baseline category). For example, if the coefficient for Florida is negative, it means Trump polls lower in Florida compared to the reference state. The state-level effects account for regional differences in Trump’s support. Some states may show significantly higher or lower levels of support, even after adjusting for the time of the poll and pollster quality.
 - Transparency Score ($\beta_4$): This coefficient shows how much Trump’s polling percentage is affected by the transparency of the poll. A positive coefficient would indicate that polls with higher transparency tend to report higher polling percentages for Trump, whereas a negative coefficient would imply the opposite.
-- End Date ($\beta_5$): The end date is a time-related variable, capturing trends over time. A positive and significant coefficient would suggest that Trump’s polling percentage has increased as the election date approaches, while a negative coefficient would suggest a decrease in his polling numbers over time.
-	
-## Interpretation
+- Days Until Election ($\beta_5$): The counting down days is a time-related variable. A positive and significant coefficient would suggest that Trump’s polling percentage has increased as the election date approaches, while a negative coefficient would suggest a decrease in his polling numbers over time.The coefficient for end_date informs us about how Trump’s polling percentages have evolved over time. A positive coefficient would suggest an upward trend, while a negative coefficient would indicate a decline.
 
-The posterior distributions of the parameters allow us to quantify the uncertainty around each effect:\
-- The coefficient for end_date informs us about how Trump’s polling percentages have evolved over time. A positive coefficient would suggest an upward trend, while a negative coefficient would indicate a decline.\
-- The coefficient for numeric_grade captures the impact of pollster quality on the polling percentage. High-quality pollsters may produce different estimates compared to lower-quality ones.\
-- The state-level effects account for regional differences in Trump’s support. Some states may show significantly higher or lower levels of support, even after adjusting for the time of the poll and pollster quality.
 
 ## Model Justification
-@tbl-summary shows the summary table for the model. And then evaluate it on the test set. It appears as though the model is having difficulty identifying Trump supporters. The reson why the multiple regression is applied is because.....
+Based on the model summary shown in @tbl-summary-model, we observe that several state-level coefficients are statistically significant, indicating regional variations in support for Trump. Additionally, the coefficients for `transparency_score` and `days_until_election` are both highly significant, suggesting that pollster quality and the timing of the polls have notable effects on Trump’s polling percentages. A negative coefficient for `days_until_election` suggests a slight decline in support as the election approaches.
+
+When evaluated on the test set, the model appears to struggle with accurately identifying Trump supporters, possibly due to unobserved factors or limitations in capturing the complexity of voter behavior.
+
+The rationale for applying multiple regression in this context is to control for various influential factors simultaneously—such as time trends (`days_until_election`), pollster quality (`transparency_score`), and regional differences (`state-level effects`). This approach allows us to isolate the individual impact of each variable, providing a more detailed understanding of how each factor contributes to Trump’s polling outcomes. The full coefficient output is shown in the [Appendix -@sec-model-details]
 
 ```{r}
-#| echno: false
-#| label: tbl-summary
-#| tbl-cap: Regression Model Estimate Summary
 #| echo: false
+#| label: tbl-summary-model
+#| tbl-cap: Regression Model Summary Table
 #| warning: false
 #| message: false
 
 regression_model<-readRDS(here::here("models/regression_model.rds"))
 summary<-summary(regression_model)
-
 # Extract the coefficients to form a table
 coefficients_table <- summary$coefficients
 
-# Display the first 10 rows of the coefficients table using kable, formatted to 4 decimal places
+# Display the first 10 rows of the coefficients table using kable, formatted to 2 decimal places
 kable(head(coefficients_table, 10), digits = 2)
 ```
 
 
-# Results
+# Results {#sec-results}
 
 ## Predicted Electoral Outcomes
 We applied a regression model to predict the percentage of votes Trump is expected to receive in each state. The model results, combined with each state's electoral vote allocation, allowed us to predict the winner in each state. Based on this, we calculated the total number of electoral votes for both Trump and Harris.
@@ -238,17 +246,10 @@ The table below (@tbl-prediction) summarizes the predicted results, showing Trum
 - California: Trump is predicted to receive 34.39% of the vote, resulting in a victory for Harris, who takes California's 55 electoral votes.
 - Florida: The model predicts a close race, with Trump at 48.89% of the vote, resulting in a Harris win in this critical battleground state.
 
-Electoral Vote Count:
-- Trump Electoral Votes: 78
-- Harris Electoral Votes: 416
-These results indicate that based on the current model predictions, Harris is expected to win the 2024 U.S. Presidential Election, securing 416 electoral votes, compared to Trump’s 78 electoral votes. The election outcome hinges on several battleground states, where the vote margins are predicted to be narrow.
-
-
-```{r tbl-prediction}
-#| echno: false
+```{r}
+#| echo: false
 #| label: tbl-prediction
 #| tbl-cap: Prediction for Trump and Harris by Electoral College
-#| echo: false
 #| warning: false
 #| message: false
 
@@ -256,7 +257,6 @@ These results indicate that based on the current model predictions, Harris is ex
 analysis_data_test <- read_parquet(here::here("data/02-analysis_data/test_data.parquet"))
 analysis_data_train<- read_parquet(here::here("data/02-analysis_data/train_data.parquet"))
 # Filter out states in the test data that don't exist in the training data
-
 analysis_data_test <- analysis_data_test %>%
  filter(state %in% unique(analysis_data_train$state))
 
@@ -270,8 +270,8 @@ electoral_votes <- data.frame(
             "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", 
             "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", 
             "District of Columbia"),
-  electoral_votes = c(9, 3, 11, 6, 55, 9, 7, 3, 29, 16, 4, 4, 20, 11, 6, 6, 8, 8, 4, 10, 11, 15, 10, 6, 10, 
-                      3, 10, 6, 4, 14, 5, 29, 16, 3, 18, 7, 6, 20, 4, 9, 3, 11, 38, 6, 3, 13, 12, 5, 10, 3, 3))
+  electoral_votes = c(9, 3, 11, 6, 54, 10, 7, 3, 30, 16, 4, 4, 20, 11, 6, 6, 8, 8, 4, 10, 11, 15, 10, 6, 10, 
+                      4, 5, 6, 4, 14, 5, 28, 16, 3, 17, 7, 6, 19, 4, 9, 3, 11, 40, 6, 3, 13, 12, 5, 10, 3, 3))
 
 # Apply the regression model to predict Trump's percentage in each state
 analysis_data_test$predicted_percent_trump <- predict(regression_model, newdata = analysis_data_test)
@@ -297,62 +297,134 @@ harris_electoral_votes <- sum(state_predictions$harris_electoral_votes)
 kable(state_predictions[, c("state", "predicted_percent_trump", "electoral_votes", "winner")], 
       col.names = c("State", "Trump Predicted %", "Electoral Votes", "Winner"), 
       digits = 2)
-
-# Print the results for the total electoral votes
-print(paste("Trump Electoral Votes:", trump_electoral_votes))
-print(paste("Harris Electoral Votes:", harris_electoral_votes))
 ```
 
-## Predicted Electoral Outcomes by State
-The following map (@fig-statemap) shows the predicted winner for each state in the 2024 U.S. Presidential Election, based on the regression model's predicted vote percentages for Trump and Harris.
 
-```{r tbl-prediction}
-#| echno: false
+## Predicted Electoral Outcomes by State
+The following table (@tbl-missing) serves as a supplement to the predicted outcomes, filling in the gaps for states where the model couldn’t provide predictions. It allows for a complete view of electoral projections by assigning a likely outcome in each missing state based on historical data. This approach ensures every state is accounted for in the final electoral vote totals.
+
+```{r}
+#| echo: false
+#| label: tbl-missing
+#| tbl-cap: Missing States with Predicted Winner Based on Historical Lean
+#| warning: false
+#| message: false
+# Create the data frame with missing states, electoral votes, and predicted winner based on historical lean
+missing_states <- data.frame(
+  state = c("Alabama", "Alaska", "Arkansas", "Connecticut", "Delaware", "Hawaii", "Idaho", 
+            "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana", "Mississippi", "North Dakota", 
+            "Oklahoma", "Oregon", "South Carolina", "Tennessee", "Utah", "Washington", 
+            "West Virginia", "Wyoming", "District of Columbia"),
+  Electoral_Votes = c(9, 3, 6, 7, 3, 4, 4, 19, 11, 6, 8, 8, 6, 3, 7, 8, 9, 11, 6, 12, 4, 3, 3),
+  Prediction_Based_on_Historical_Lean = c("Trump", "Trump", "Trump", "Harris", "Harris", 
+                                          "Harris", "Trump", "Harris", "Trump", "Trump", 
+                                          "Trump", "Trump", "Trump", "Trump", "Trump", 
+                                          "Harris", "Trump", "Trump", "Trump", "Harris", 
+                                          "Trump", "Trump", "Harris")
+)
+
+# Display the table with kable
+kable(missing_states, col.names = c("State", "Electoral Votes", "Prediction Based on Historical Lean"))
+```
+
+
+The following map (@fig-statemap) shows the predicted winner for each state in the 2024 U.S. Presidential Election, based on the regression model's predicted vote percentages for Trump and Harris. The predicted outcome in the regression model reflects the geographic voting patterns, with Trump winning in traditionally Republican-leaning states like Alabama, Missouri, and Wyoming, while Harris dominates in Democratic strongholds such as California, New York, and Illinois. However, key battleground states such as Florida and Arizona are predicted to favor Harris, potentially determining the overall election outcome.
+
+```{r fig-statemap}
+#| echo: false
 #| label: fig-statemap
 #| tbl-cap: Predicted Winner of 2024 US Presidential Election by State
-#| echo: false
 #| warning: false
 #| message: false
 
-# Replace NA values in the 'winner' column with 'Trump'
-#state_predictions$winner[is.na(state_predictions$winner)] <- "Trump"
+state_predictions <- merge(state_predictions, missing_states, by = "state", all = TRUE)
 
-# "red" for Trump and "blue" for Harris
+state_predictions <- state_predictions %>%
+  mutate(
+    trump_electoral_votes = case_when(
+      is.na(Prediction_Based_on_Historical_Lean) ~ trump_electoral_votes,  # Keep original if NA
+      Prediction_Based_on_Historical_Lean == "Trump" ~ Electoral_Votes,    # Assign Electoral_Votes if "Trump"
+      TRUE ~ 0  # Set to 0 otherwise
+    ),
+    harris_electoral_votes = case_when(
+      is.na(Prediction_Based_on_Historical_Lean) ~ harris_electoral_votes,  # Keep original if NA
+      Prediction_Based_on_Historical_Lean == "Harris" ~ Electoral_Votes,    # Assign Electoral_Votes if "Harris"
+      TRUE ~ 0  # Set to 0 otherwise
+    )
+  )
+
+# Replace NA values in the 'winner' column with historical lean predictions for missing states
+state_predictions$winner <- ifelse(
+  is.na(state_predictions$winner),
+  state_predictions$Prediction_Based_on_Historical_Lean,
+  state_predictions$winner
+)
+
+# Assign colors based on the updated 'winner' column
 state_predictions$winner_color <- ifelse(state_predictions$winner == "Trump", "red", "blue")
 
 # Create a map visualization showing the predicted winner by state
 plot_usmap(data = state_predictions, values = "winner_color", regions = "states") +
-  scale_fill_manual(values = c("red" = "red", "blue" = "blue"), name = "Predicted Winner", labels = c("Harris", "Trump")) +
+  scale_fill_manual(values = c("red" = "red", "blue" = "blue"), 
+                    name = "Predicted Winner", labels = c("Harris", "Trump")) +
   labs(title = "Predicted Winner of the 2024 U.S. Presidential Election by State") +
   theme(legend.position = "right")
 
 ```
-The predicted outcome in the regression model reflects the geographic voting patterns, with Trump winning in traditionally Republican-leaning states like Alabama, Missouri, and Wyoming, while Harris dominates in Democratic strongholds such as California, New York, and Illinois. However, key battleground states such as Florida and Arizona are predicted to favor Harris, potentially determining the overall election outcome.
+
+
+
+The table below (@tbl-numstate) shows the numerical predicted winner of the 2024 US Presidential Election by state. Harris is expected to win the 2024 U.S. Presidential Election, securing 387 electoral votes, compared to Trump’s 151 electoral votes. The election outcome hinges on several battleground states, where the vote margins are predicted to be narrow.
+```{r}
+#| echo: false
+#| label: tbl-numstate
+#| tbl-cap: Numerical Predicted Winner of 2024 US Presidential Election by State
+#| warning: false
+#| message: false
+
+trump_total <- sum(state_predictions$trump_electoral_votes, na.rm = TRUE)
+harris_total <- sum(state_predictions$harris_electoral_votes, na.rm = TRUE)
+
+# Create a summary data frame
+summary_df <- data.frame(
+  Candidate = c("Trump", "Harris"),
+  Total_Electoral_Votes = c(trump_total, harris_total)
+)
+
+# Display the summary table in kable format
+kable(summary_df, col.names = c("Candidate", "Total Electoral Votes"), format = "markdown")
+```
+
+
 
 # Discussion {#sec-discussion}
 
-## What Is Done in This Paper?
-This paper uses a regression model to predict the outcome of the 2024 U.S. Presidential Election between Donald Trump and Kamala Harris. By analyzing historical voting data, the model forecasts the percentage of votes Trump is expected to receive in each state. These predictions are combined with the state's electoral vote allocation to determine the overall winner. The findings indicate a significant electoral victory for Harris, projecting 416 electoral votes for her compared to 78 for Trump. A geographic map is also presented to visualize state-level outcomes and highlight regional voting trends.
+## Overview of Predictive Modeling for the 2024 U.S. Election
+This paper employs a regression model to forecast the 2024 U.S. Presidential Election outcomes between Kamala Harris and Donald Trump. By analyzing historical state-level voting data, we estimated Trump’s vote percentages across states and calculated each candidate’s projected electoral votes. Our model predicts a significant victory for Harris, who is projected to secure 387 electoral votes compared to Trump’s 151. This finding underscores the impact of demographic and geographic factors on the U.S. electoral landscape. A geographic visualization further emphasizes the anticipated state-by-state outcomes and reveals enduring regional voting patterns.
 
-## What Do We Learn About the World?
-The study highlights the persistence of geographic voting patterns in U.S. elections. Even with changes in candidates, many states follow their historical voting tendencies. Republican-leaning states like Alabama and Wyoming are projected to support Trump, while Democratic-leaning states such as California and New York favor Harris. This pattern shows the strong influence of regional political loyalties, which continue to shape election outcomes.
+## Regional Voting Patterns and Their Impact on Electoral Outcomes
+Our analysis demonstrates the persistence of geographic voting patterns in U.S. elections. As expected, traditional Democratic strongholds such as California, New York, and Illinois favor Harris, while Republican-dominated states like Alabama and Wyoming show support for Trump. These regional preferences align with historical voting behaviors, suggesting that party loyalty and demographic factors continue to shape election results.
 
-## Another Thing We Learn About the World
-The analysis underscores the importance of battleground states in determining the election's outcome. States like Florida and Arizona, predicted to lean toward Harris, play a decisive role in the projected electoral victory. This illustrates how close contests in a few states can influence the overall election result, emphasizing the significant impact these states have in shaping the presidency.
+The model also highlights the critical role of battleground states, with states such as Florida and Arizona predicted to lean toward Harris. The influence of these states, where margins are often narrow, emphasizes the importance of campaign efforts and voter mobilization in these regions. The projections illustrate that minor shifts in voter sentiment within these states could decisively impact the overall election outcome.
 
-## What Is Left to Learn or How Should We Proceed in the Future?
-Future research should incorporate more detailed data, including demographic shifts and economic factors that may influence voter preferences. It would be valuable to examine how emerging political movements and changes in communication strategies affect elections, particularly in closely contested states. Post-election analysis comparing predictions with actual results will also be essential to improving the accuracy of models and understanding how unforeseen events may alter outcomes.
+## Polling and Electoral Uncertainty
+The model’s reliance on historical polling data and state-level predictions reflects certain limitations inherent in election forecasting. For example, while the model captures general trends, it does not account for potential turnout variations, third-party candidates, or unexpected political events that might affect voter behavior. Furthermore, the use of polling data presents a challenge due to its variability; certain states with less frequent polling data show broader confidence intervals, indicating greater uncertainty in those regions.
 
-## Weaknesses and Next Steps
-While the model offers a useful prediction, it has limitations. It relies heavily on past voting data, which may not fully capture future changes in voter behavior or external factors that could affect the election. The model also simplifies the election by focusing on state-level percentages, without accounting for variables such as turnout, third-party candidates, or unexpected political shifts. Additionally, the assumption that past voting patterns will continue might not be accurate in a rapidly changing political landscape. The logistic regression model is limited by the lack of interaction terms between states, which may obscure regional trends or external factors that influence neighboring states. Additionally, the model assumes that polling data accurately reflects voter intentions, but biases or missing data in key regions could affect the predictions.
+This variability suggests that further studies could benefit from integrating real-time data and employing Bayesian methodologies to account for evolving voter preferences. Such an approach could improve the accuracy of predictions, especially in regions with historically unpredictable outcomes. Future research may also consider factors like demographic shifts and economic conditions, which could significantly influence voter preferences over time.
 
-Future iterations of this model should incorporate voter turnout predictions, demographic variables, and real-time polling updates to better capture the dynamics of voter behavior. Including social media sentiment analysis and analyzing cross-state interactions could refine the prediction model, offering more nuanced insights into election forecasts.
+## Implications for Future Electoral Modeling
+The findings from this analysis underscore the need for a nuanced approach to election forecasting. While historical voting patterns provide a solid foundation, they may not fully capture the complexities of modern elections, where factors such as social media influence and voter sentiment play increasingly prominent roles. Incorporating these additional variables, particularly in battleground states, could refine the model’s predictive power and provide a more comprehensive understanding of the electoral landscape.
+
+For future iterations, we recommend expanding the model to include demographic data, such as age, education level, and income, which could reveal deeper insights into voter behavior. Additionally, real-time polling updates could offer a dynamic perspective, allowing the model to adapt to changes in public opinion as the election date approaches. Employing these enhancements would improve model reliability, particularly in closely contested states where the margin of error can significantly impact the final prediction.
+
+## Weakness
+Despite the model's strengths, it has limitations that requires further exploration. The assumption of linear relationships between predictors may oversimplify complex voter behaviors and social influences. The dataset simplifies the potentioanl influecne behind the US election. Additionally, the reliance on past data assumes that historical trends will persist, which may not hold true in the rapidly shifting political climate of the U.S. To address these issues, future models could benefit from incorporating voter turnout projections and real-time sentiment analysis, potentially drawing data from social media platforms and news sources to gauge public opinion. Moreover, a comparative post-election analysis could offer valuable insights, revealing areas where the model succeeded and where it may need refinement. This iterative approach would help create a more resilient and adaptable electoral forecasting model.
 
 \newpage
 
 \appendix
 
-# Appendix {-}
+# Appendix {#sec-appendix}
 
 # Pollster Methodology Overview and Evaluation
 
@@ -459,7 +531,7 @@ This survey will be combined with results from reputable polling firms (e.g., Yo
 ## Survey Implementation
 The survey will be implemented via **Google Forms**, which offers a cost-effective platform for data collection. You can access the survey at the following link: [Google Form Survey](https://forms.gle/XxtMTMc45d6VzNuy8)
 
-### **Survey Structure**:
+### **Survey Structure**
 
 \begingroup
 \small
@@ -639,8 +711,8 @@ If you have any questions about this survey or would like to be informed about t
 
 ```{r}
 #| echo: false
-#| label: fig-diagnosis-3
-#| tbl-cap: Linear Regression Assumptions hold
+#| label: fig-diagnosis-1
+#| tbl-cap: Linear regression assumptions hold.
 #| warning: false
 #| message: false
 #| fig.width: 10
@@ -648,71 +720,109 @@ If you have any questions about this survey or would like to be informed about t
 
 par(mfrow = c(2, 2))  
 plot(regression_model)
-
 ```
 
-## Calculate Mean Squared Error (MSE) on test data
+## Calculate Mean Squared Error and Mean Absolute Error on Test Data
 ```{r}
 #| echo: false
-#| label: fig-diagnosis-1
+#| label: fig-diagnosis-2
 #| tbl-cap: Calculate Mean Squared Error (MSE) on test data
 #| warning: false
 #| message: false
 
+# Predicted and actual values
 predicted_values <- predict(regression_model, newdata = analysis_data_test)
 actual_values <- analysis_data_test$percent
 
+# Calculate Mean Squared Error (MSE)
 mse <- mean((predicted_values - actual_values)^2)
-print(mse)
+
+# Calculate Mean Absolute Error (MAE)
+mae <- mean(abs(predicted_values - actual_values))
+
+# Calculate R-squared
+ss_total <- sum((actual_values - mean(actual_values))^2)
+ss_residual <- sum((predicted_values - actual_values)^2)
+r_squared <- 1 - (ss_residual / ss_total)
+
+# Combine metrics into a data frame for display
+metrics_df <- data.frame(
+  Metric = c("Mean Squared Error (MSE)", "Mean Absolute Error (MAE)", "R-squared"),
+  Value = c(mse, mae, r_squared))
+
+# Display the metrics table using kable
+kable(metrics_df, caption = "Model Performance Metrics on Test Data")
 ```
 
-
+## Model Summary
 ```{r}
 #| echo: false
-library(caret)
-set.seed(856)
-train_control <- trainControl(method = "cv", number = 10)
-cv_model <- train(percent ~ numeric_grade + sample_size + state + transparency_score + end_date,
-                  data = analysis_data_train,
-                  method = "lm",
-                  trControl = train_control)
+#| tbl-cap: Complete Model Coefficient Summary Table
+#| warning: false
+#| message: false
 
-print(cv_model$results)
+# Get summary of the regression model
+model_summary <- summary(regression_model)
 
+# Extract and convert the coefficients summary to a data frame
+coefficients_df <- as.data.frame(model_summary$coefficients)
+colnames(coefficients_df) <- c("Estimate", "Std. Error", "t value", "Pr(>|t|)")
+
+# Extract additional statistics
+r_squared <- model_summary$r.squared
+adj_r_squared <- model_summary$adj.r.squared
+f_statistic <- model_summary$fstatistic[1]
+p_value <- pf(f_statistic, model_summary$fstatistic[2], model_summary$fstatistic[3], lower.tail = FALSE)
+residual_se <- model_summary$sigma
+
+# Create a data frame for additional statistics with consistent column names
+additional_stats <- data.frame(
+  Estimate = c(r_squared, adj_r_squared, f_statistic, p_value, residual_se),
+  `Std. Error` = NA,
+  `t value` = NA,
+  `Pr(>|t|)` = NA,
+  row.names = c("R-squared", "Adjusted R-squared", "F-statistic", "F-statistic p-value", "Residual Std. Error")
+)
+
+# Ensure column names are identical between data frames
+colnames(additional_stats) <- colnames(coefficients_df)
+
+# Combine the coefficients and additional statistics
+full_summary_df <- rbind(coefficients_df, additional_stats)
+
+# Display the full summary table using kable
+kable(full_summary_df, caption = "Regression Model Summary with Additional Statistics")
 ```
 
+## Multicollinearity Check on the Training Data
 ```{r}
 #| echo: false
-baseline_prediction <- mean(analysis_data_train$percent)
-baseline_mse <- mean((analysis_data_test$percent - baseline_prediction)^2)
-print(baseline_mse)
-```
+#| warning: false
+#| message: false
 
-```{r}
-#| echo: false
-# Calculate R-squared on test data
-rss <- sum((predicted_values - actual_values)^2)  # Residual Sum of Squares
-tss <- sum((actual_values - mean(actual_values))^2)  # Total Sum of Squares
+# Calculate the correlation matrix
+cor_matrix <- cor(analysis_data_train[, c("numeric_grade", "sample_size", "transparency_score", "days_until_election")], use = "complete.obs")
 
-r_squared <- 1 - (rss/tss)
-print(r_squared)
-```
+# Rename the row and column names of the correlation matrix to remove underscores
+colnames(cor_matrix) <- gsub("_", " ", colnames(cor_matrix))
+rownames(cor_matrix) <- gsub("_", " ", rownames(cor_matrix))
 
-
-```{r}
-#| echo: false
-# Create a correlation matrix to check for collinearity
-cor_matrix <- cor(analysis_data_train[, c("numeric_grade", "sample_size", "transparency_score")], use = "complete.obs")
+# Print the correlation matrix
 print(cor_matrix)
-```
 
-```{r}
-#| echo: false
-# Check for sparse levels in 'state'
-state_counts <- table(analysis_data_train$state)
-print(state_counts)
-```
+# Create a beautiful correlation plot with modified labels
+corrplot(
+  cor_matrix, 
+  method = "color",      # Use color to fill the matrix
+  type = "upper",        # Show only the upper triangle
+  addCoef.col = "black", # Add correlation coefficients in black
+  tl.col = "black",      # Label text color
+  tl.srt = 45,           # Rotate labels
+  number.cex = 0.8,      # Text size for coefficients
+  col = colorRampPalette(c("red", "white", "blue"))(200) # Color gradient
+)
 
+```
 
 \newpage
 
@@ -724,5 +834,3 @@ Thanks to Open AI and ChatGPT 4.0 is used to write the analysis of the paper.
 
 
 # References
-
-
