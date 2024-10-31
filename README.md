@@ -2,24 +2,23 @@
 
 ## Overview
 
-This repo provides students with a foundation for their own projects associated with *Telling Stories with Data*. You do not need every aspect for every paper and you should delete aspects that you do not need.
-
+This repository contains the code, data, and analysis used to forecast the outcome of the 2024 US Presidential Election based on polling data. The analysis is conducted in R, utilizing a publicly available dataset of high-quality polls. The primary objective of this project is to develop a linear or generalized linear model to predict the election results, with a particular emphasis on polls featuring Donald Trump as a candidate.
 
 ## File Structure
 
 The repo is structured as:
 
--   `data/raw_data` contains the raw data as obtained from X.
--   `data/analysis_data` contains the cleaned dataset that was constructed.
--   `model` contains fitted models. 
--   `other` contains relevant literature, details about LLM chat interactions, and sketches.
--   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper. 
--   `scripts` contains the R scripts used to simulate, download and clean data.
-
+-   `data/00-simulated_data` contains the simulated dataset.
+-   `data/01-raw_data` contains the raw data as obtained from https://projects.fivethirtyeight.com/polls/president-general/2024/national/.
+-   `data/02-analysis_data` contains the cleaned dataset that was constructed.
+-   `model` contains the RDS file for the fitted model. 
+-   `other` contains details about LLM usage, and sketches.
+-   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper.
+-   `scripts` contains the R scripts used to download, simulate, clean, and test data.
 
 ## Statement on LLM usage
 
-Aspects of the code were written with the help of the auto-complete tool, Codriver. The abstract and introduction were written with the help of ChatHorse and the entire chat history is available in inputs/llms/usage.txt.
+The ChatGPT-4 model assisted in writing some aspects of the code and refining the wording. The complete chat history can be found in `other/llm_usage/usage.txt`.
 
 ## Some checks
 
@@ -27,4 +26,3 @@ Aspects of the code were written with the help of the auto-complete tool, Codriv
 - [ ] Change the README title so that it's not Starter folder
 - [ ] Remove files that you're not using
 - [ ] Update comments in R scripts
-- [ ] Remove this checklist
