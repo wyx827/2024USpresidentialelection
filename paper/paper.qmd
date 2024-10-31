@@ -1,6 +1,6 @@
 ---
 title: "Predicting Kamala Harris's Victory in the 2024 US Election"
-subtitle: "An Investigation into Poll Data Using Multiple Linear Regression"
+subtitle: "Poll Data Predicts Kamala Harris Win with 387 Electoral Votes"
 author: 
   - Xuanle Zhou
   - Yongqi Liu
@@ -9,7 +9,7 @@ thanks: "Code and data are available at: https://github.com/wyx827/2024USpreside
 date: today
 date-format: long
 toc: true
-abstract: "The study predicting the 2024 U.S. presidential election is important as it provides the predicted outcomes for the US election. Analysis is based on state-by-state electoral votes, and these outcomes can influence campaign strategies and shape public discourse. The result indicates Kamala Harris will win by over 270 votes in this election cycle."
+abstract: "This study provides a prediction for the 2024 U.S. presidential election, presenting potential outcomes based on a state-by-state electoral vote analysis. These projections can guide campaign strategies and influence public discourse. The results suggest Kamala Harris will secure a win with 387 electoral votes, significantly surpassing the 270 needed for victory. In contrast, Donald Trump is predicted to receive 151 electoral votes."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -150,18 +150,20 @@ The **days until election** represents the remaining time leading up to the fina
 #| echo: false
 #| warning: false
 #| message: false
-
 ggplot(analysis_data, aes(x = days_until_election, y = percent)) + 
-  geom_line(color = "skyblue", size = 1.2) +  
-  geom_smooth(method = "loess", color = "pink", linetype = "dashed", size = 1) +  
-  labs(x = "Days Until Election", y = "Support Percentage") + 
-  theme_minimal(base_size = 14) +  
-  theme(
-    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),  #
-    axis.title.x = element_text(margin = margin(t = 10)),  
-    axis.title.y = element_text(margin = margin(r = 10)),  
-    axis.text = element_text(color = "#555555"),  
-    panel.grid.minor = element_blank()  )
+    geom_line(color = "skyblue", size = 1) + 
+    geom_smooth(method = "loess", color = "pink", linetype = "dashed", size = 1) + 
+    labs(x = "Days Until Election", y = "Support Percentage") + 
+    theme_minimal(base_size = 14) + 
+    scale_x_reverse() + 
+    theme(
+        plot.title = element_text(face = "bold", size = 16, hjust = 0.5),  
+        axis.title.x = element_text(margin = margin(t = 10)), 
+        axis.title.y = element_text(margin = margin(r = 10)), 
+        axis.text = element_text(color = "#555555"), 
+        panel.grid.minor = element_blank()
+    )
+
 ```
 
 # Model {#sec-model}
@@ -394,7 +396,9 @@ kable(summary_df, col.names = c("Candidate", "Total Electoral Votes"), format = 
 # Discussion {#sec-discussion}
 
 ## Overview of Predictive Modeling for the 2024 U.S. Election
-This paper employs a regression model to forecast the 2024 U.S. Presidential Election outcomes between Kamala Harris and Donald Trump. By analyzing historical state-level voting data, we estimated Trump’s vote percentages across states and calculated each candidate’s projected electoral votes. Our model predicts a significant victory for Harris, who is projected to secure 387 electoral votes compared to Trump’s 151. This finding underscores the impact of demographic and geographic factors on the U.S. electoral landscape. A geographic visualization further emphasizes the anticipated state-by-state outcomes and reveals enduring regional voting patterns.
+This paper forecasts the 2024 U.S. Presidential Election outcomes between Kamala Harris and Donald Trump, presenting a predicted electoral college outcome based on a fitted model. By analyzing poll data and historical state-level voting patterns, we estimated Trump’s vote percentages across states and calculated projected electoral votes for each candidate. Our model anticipates a significant victory for Harris, who is projected to secure 387 electoral votes compared to Trump’s 151. This finding underscores the impact of demographic and geographic factors on the U.S. electoral landscape.
+
+A geographic visualization further emphasizes the anticipated state-by-state outcomes and reveals enduring regional voting patterns. Key predictors, such as state-level variations and transparency scores, strongly influence polling outcomes for both Donald Trump and Kamala Harris. While our model projects a potential Harris victory with a majority of electoral votes, challenges inherent in electoral predictions remain. We acknowledge that regional variations, particularly in battleground states like Florida and Arizona, introduce uncertainty that may affect the final outcome.
 
 ## Regional Voting Patterns and Their Impact on Electoral Outcomes
 Our analysis demonstrates the persistence of geographic voting patterns in U.S. elections. As expected, traditional Democratic strongholds such as California, New York, and Illinois favor Harris, while Republican-dominated states like Alabama and Wyoming show support for Trump. These regional preferences align with historical voting behaviors, suggesting that party loyalty and demographic factors continue to shape election results.
@@ -406,13 +410,20 @@ The model’s reliance on historical polling data and state-level predictions re
 
 This variability suggests that further studies could benefit from integrating real-time data and employing Bayesian methodologies to account for evolving voter preferences. Such an approach could improve the accuracy of predictions, especially in regions with historically unpredictable outcomes. Future research may also consider factors like demographic shifts and economic conditions, which could significantly influence voter preferences over time.
 
+## Weakness
+Despite the model's strengths, it has limitations, which present a critical challenge and requires further exploration. The assumption of linear relationships between predictors may oversimplify complex voter behaviors and social influences. The dataset simplifies the potentioanl influecne behind the US election. 
+
+Moreover, polling averages, though valuable, are subject to biases that may skew results. For example, factors like nonresponse bias—where certain demographic groups, such as less civically engaged individuals, are less likely to participate—may influence results more heavily in this election cycle. Additionally, reliance on past election data introduces a risk of recency bias, as seen in public expectations shaped by Trump’s unexpected win in 2016 and close finish in 2020. Yet, as Nate Silver notes, intuition or prior election outcomes can be misleading, given the unique dynamics of each election. Polling errors, such as those seen in 2016 and 2020, further emphasize the need for cautious interpretation of our model’s findings.
+
+@silver2024gut also points out that the voters for Trump are less likely to finish the polls because of “Shy Voters”. This may lead to the bias in the survey sample collection. The deficiency of education background and sample credibility both influence the prediction.
+
+Additionally, due to limited data available for predicting outcomes in every state, some state projections rely on historical voting patterns, with the assumption that these trends will persist. However, this approach may be challenged by the rapidly changing political landscape in the U.S., where evolving demographics and shifting public sentiment could lead to unexpected results.
+
 ## Implications for Future Electoral Modeling
 The findings from this analysis underscore the need for a nuanced approach to election forecasting. While historical voting patterns provide a solid foundation, they may not fully capture the complexities of modern elections, where factors such as social media influence and voter sentiment play increasingly prominent roles. Incorporating these additional variables, particularly in battleground states, could refine the model’s predictive power and provide a more comprehensive understanding of the electoral landscape.
 
 For future iterations, we recommend expanding the model to include demographic data, such as age, education level, and income, which could reveal deeper insights into voter behavior. Additionally, real-time polling updates could offer a dynamic perspective, allowing the model to adapt to changes in public opinion as the election date approaches. Employing these enhancements would improve model reliability, particularly in closely contested states where the margin of error can significantly impact the final prediction.
 
-## Weakness
-Despite the model's strengths, it has limitations that requires further exploration. The assumption of linear relationships between predictors may oversimplify complex voter behaviors and social influences. The dataset simplifies the potentioanl influecne behind the US election. Additionally, the reliance on past data assumes that historical trends will persist, which may not hold true in the rapidly shifting political climate of the U.S. To address these issues, future models could benefit from incorporating voter turnout projections and real-time sentiment analysis, potentially drawing data from social media platforms and news sources to gauge public opinion. Moreover, a comparative post-election analysis could offer valuable insights, revealing areas where the model succeeded and where it may need refinement. This iterative approach would help create a more resilient and adaptable electoral forecasting model.
 
 \newpage
 
@@ -444,6 +455,7 @@ SurveyUSA uses a blend of probability and non-probability sampling methods. Some
 * **Advantages:**
 
 The diverse sampling approach not only ensures a broad range of opinions is captured but also complements probability-based sampling, which accurately reflects the overall population. Furthermore, reweighting the data according to U.S. Census demographics strengthens the credibility of the results by ensuring demographic accuracy. Additionally, rotating questions and answer choices helps mitigate bias, further improving the reliability of the data. Finally, the use of online surveys offers a cost-effective solution for efficient data collection.\
+
 * **Disadvantages:**
 
 Phone-based data collection tends to be time-consuming and can be affected by interviewer effects during telephone interviews. Additionally, challenges like non-response issues, such as busy signals or refusals to participate, can hinder the effectiveness of the data collection process.\
