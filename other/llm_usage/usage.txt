@@ -139,11 +139,110 @@ This text is part of the next paragraph.
 By ensuring you have either two spaces or a blank line where needed, you should see proper line breaks when rendering the document.
 
 User
+#| label: fig-end-date
+#| fig-cap: Distribution of End Dates
+#| echo: false
+#| warning: false
+#| message: false
+
+ggplot(analysis_data, aes(x = days_until_election, y = percent)) + 
+  geom_line(color = "black", size = 1) + 
+  geom_smooth(method = "loess", color = "blue", linetype = "dashed") + 
+  labs(
+    title = "Support Percent Over Days Until Election for Donald Trump", 
+    x = "Days Until Election", 
+    y = "Support Percentage"
+  ) + 
+  theme_minimal()
+make it beautiful
 
 ChatGPT
+#| label: fig-end-date
+#| fig-cap: Distribution of Support Percent Over Days Until Election for Donald Trump
+#| echo: false
+#| warning: false
+#| message: false
+
+ggplot(analysis_data, aes(x = days_until_election, y = percent)) + 
+  geom_line(color = "#1f77b4", size = 1.2) +  # Use a vibrant color for the line
+  geom_smooth(method = "loess", color = "#ff7f0e", linetype = "dashed", size = 1) +  # Distinct color for smoother
+  labs(
+    title = "Support Percentage Over Days Until Election for Donald Trump", 
+    x = "Days Until Election", 
+    y = "Support Percentage"
+  ) + 
+  theme_minimal(base_size = 14) +  # Base font size for readability
+  theme(
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5, color = "#333333"),  # Centered, bold title
+    axis.title.x = element_text(margin = margin(t = 10), color = "#333333"),  # Space for x-axis title
+    axis.title.y = element_text(margin = margin(r = 10), color = "#333333"),  # Space for y-axis title
+    axis.text = element_text(color = "#555555"),  # Subtle color for axis text
+    panel.grid.minor = element_blank()  # Remove minor gridlines for a cleaner look
+  )
+  
+User
+```{r}
+#| label: fig-pct
+#| fig-cap: Distribution of Support (percent) for Donald Trump
+#| echo: false
+#| warning: false
+#| message: false
+ggplot(analysis_data, aes(x = percent)) +
+  geom_histogram(binwidth = 2, fill = "pink", color = "white", alpha = 0.7) +
+  labs(title = "Distribution of Support (percent) for Donald Trump", x = "Support Percentage (percent)", y = "Count") +
+  theme_minimal()
+``````{r}
+#| label: fig-numeric-grade
+#| fig-cap: Distribution of Numeric Grades (2.6 to 3.0)
+#| echo: false
+#| warning: false
+#| message: false
+
+summary_data <- analysis_data %>%
+    distinct(pollster_rating_name, .keep_all = TRUE) %>%
+    group_by(numeric_grade) %>%
+    summarise(count = n())
+
+ggplot(analysis_data %>% distinct(pollster_rating_name, .keep_all = TRUE), 
+       aes(x = numeric_grade)) + 
+    geom_histogram(binwidth = 0.1, fill = "pink", color = "white", alpha = 0.7) + 
+    scale_x_continuous(breaks = seq(2.5, 3.0, by = 0.1)) + 
+    scale_y_continuous(breaks = seq(0, max(summary_data$count), by = 1)) + 
+    labs(title = "Distribution of Numeric Grades (2.6 to 3.0)", 
+         x = "Numeric Grade", 
+         y = "Count of Distinct Polls") + 
+    theme_minimal() how to make this 2 graph together
 
 
+ChatGPT
+library(ggplot2)
+library(dplyr)
+library(patchwork)
 
+# First plot: Distribution of Support (percent) for Donald Trump
+plot1 <- ggplot(analysis_data, aes(x = percent)) +
+  geom_histogram(binwidth = 2, fill = "pink", color = "white", alpha = 0.7) +
+  labs(title = "Distribution of Support (percent) for Donald Trump", 
+       x = "Support Percentage (percent)", 
+       y = "Count") +
+  theme_minimal()
 
+# Prepare data for the second plot
+summary_data <- analysis_data %>%
+  distinct(pollster_rating_name, .keep_all = TRUE) %>%
+  group_by(numeric_grade) %>%
+  summarise(count = n())
 
+# Second plot: Distribution of Numeric Grades (2.6 to 3.0)
+plot2 <- ggplot(analysis_data %>% distinct(pollster_rating_name, .keep_all = TRUE), 
+               aes(x = numeric_grade)) + 
+  geom_histogram(binwidth = 0.1, fill = "pink", color = "white", alpha = 0.7) + 
+  scale_x_continuous(breaks = seq(2.5, 3.0, by = 0.1)) + 
+  scale_y_continuous(breaks = seq(0, max(summary_data$count), by = 1)) + 
+  labs(title = "Distribution of Numeric Grades (2.6 to 3.0)", 
+       x = "Numeric Grade", 
+       y = "Count of Distinct Polls") + 
+  theme_minimal()
 
+# Combine the plots side-by-side
+plot1 + plot2
