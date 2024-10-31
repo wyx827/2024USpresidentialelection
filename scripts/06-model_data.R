@@ -39,7 +39,7 @@ analysis_data_test <- testing(split)
 
 
 # Build up model
-regression_model <- lm(percent ~ numeric_grade + sample_size + state + transparency_score + end_date, 
+regression_model <- lm(percent ~ numeric_grade + sample_size + state + transparency_score + days_until_election, 
                       data = analysis_data_train)
 
 #### Save model ####
