@@ -5,7 +5,7 @@
 # Date: 18 October 2024
 # Contact: isabella.zhou@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: Get the raw data from the US election pollsters from fivethirtyeight
+# Pre-requisites: Construct the overview of how the dataset should look like.
 # Any other information needed? Make sure you are in the `2024USpresidentialelection` rproj
 
 
