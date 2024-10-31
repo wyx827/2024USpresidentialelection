@@ -56,9 +56,11 @@ After cleaning the data, which included grouping and removing missing values, th
 
 ## Data Measurement and Considerations 
 
-The dataset for this analysis is sourced from FiveThirtyEight, which rigorously collects and aggregates polling data from a variety of firms to reflect public opinion. To ensure the integrity of the data, only polls that adhere to specific criteria are included in the dataset. Each poll must provide essential information, such as the pollster’s name, survey dates, sample sizes, and methodological details (e.g., polling medium, voter files, weighting criteria). Polls that are deemed nonscientific, that blend data from multiple sources, or that are conducted by hobbyists are excluded.
+The dataset used in this analysis originates from FiveThirtyEight, a trusted source known for its rigorous methodology in collecting and aggregating polling data to represent public opinion accurately. To maintain data integrity and ensure a high standard of reliability, only polls meeting stringent quality criteria are included in the dataset. Specifically, each poll must disclose crucial information, including the pollster’s name, the exact dates of the survey, the sample size, and the full methodological details. These details encompass the polling medium (e.g., phone, online), use of verified voter files, demographic weighting criteria, and any adjustments applied to reflect a representative sample.
 
-Once a poll meets these stringent standards, it is incorporated into the database, enabling it to inform polling averages, forecasts, and political coverage. This careful selection process ensures that the dataset accurately captures and reflects the nuances of public sentiment and behavior.
+Polls are rigorously verified, and those that do not meet these requirements are excluded from the dataset. For instance, polls categorized as nonscientific, those that merge data from multiple unrelated sources, and those conducted by hobbyists or unverified entities are filtered out to prevent data quality compromise.
+
+Once deemed credible, polls are incorporated into the FiveThirtyEight database. These polls then contribute to polling averages, forecast models, and political coverage, which depend heavily on the quality and reliability of public opinion data. This meticulous selection process ensures that the dataset captures a comprehensive and nuanced view of public sentiment, providing an accurate reflection of behavioral trends and preferences over time.
 
 ## Outcome variables
 
@@ -270,8 +272,8 @@ electoral_votes <- data.frame(
             "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", 
             "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", 
             "District of Columbia"),
-  electoral_votes = c(9, 3, 11, 6, 55, 9, 7, 3, 29, 16, 4, 4, 20, 11, 6, 6, 8, 8, 4, 10, 11, 15, 10, 6, 10, 
-                      3, 10, 6, 4, 14, 5, 29, 16, 3, 18, 7, 6, 20, 4, 9, 3, 11, 38, 6, 3, 13, 12, 5, 10, 3, 3))
+  electoral_votes = c(9, 3, 11, 6, 54, 10, 7, 3, 30, 16, 4, 4, 20, 11, 6, 6, 8, 8, 4, 10, 11, 15, 10, 6, 10, 
+                      4, 5, 6, 4, 14, 5, 28, 16, 3, 17, 7, 6, 19, 4, 9, 3, 11, 40, 6, 3, 13, 12, 5, 10, 3, 3))
 
 # Apply the regression model to predict Trump's percentage in each state
 analysis_data_test$predicted_percent_trump <- predict(regression_model, newdata = analysis_data_test)
@@ -298,9 +300,33 @@ kable(state_predictions[, c("state", "predicted_percent_trump", "electoral_votes
       col.names = c("State", "Trump Predicted %", "Electoral Votes", "Winner"), 
       digits = 2)
 
-# Print the results for the total electoral votes
-print(paste("Trump Electoral Votes:", trump_electoral_votes))
-print(paste("Harris Electoral Votes:", harris_electoral_votes))
+```
+
+```{r}
+#| echno: false
+#| label: tbl-missing
+#| tbl-cap: Missing States with Predicted Winner Based on Historical Lean
+#| echo: false
+#| warning: false
+#| message: false
+# Create the data frame with missing states, electoral votes, and predicted winner based on historical lean
+missing_states <- data.frame(
+  state = c("Alabama", "Alaska", "Arkansas", "Connecticut", "Delaware", "Hawaii", "Idaho", 
+            "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana", "Mississippi", "North Dakota", 
+            "Oklahoma", "Oregon", "South Carolina", "Tennessee", "Utah", "Washington", 
+            "West Virginia", "Wyoming", "District of Columbia"),
+  Electoral_Votes = c(9, 3, 6, 7, 3, 4, 4, 19, 11, 6, 8, 8, 6, 3, 7, 8, 9, 11, 6, 12, 4, 3, 3),
+  Prediction_Based_on_Historical_Lean = c("Trump", "Trump", "Trump", "Harris", "Harris", 
+                                          "Harris", "Trump", "Harris", "Trump", "Trump", 
+                                          "Trump", "Trump", "Trump", "Trump", "Trump", 
+                                          "Harris", "Trump", "Trump", "Trump", "Harris", 
+                                          "Trump", "Trump", "Harris")
+)
+
+# Display the table with kable
+kable(missing_states, col.names = c("State", "Electoral Votes", "Prediction Based on Historical Lean"))
+
+
 ```
 
 ## Predicted Electoral Outcomes by State
@@ -313,21 +339,64 @@ The following map (@fig-statemap) shows the predicted winner for each state in t
 #| echo: false
 #| warning: false
 #| message: false
+state_predictions <- merge(state_predictions, missing_states, by = "state", all = TRUE)
 
-# Replace NA values in the 'winner' column with 'Trump'
-#state_predictions$winner[is.na(state_predictions$winner)] <- "Trump"
+state_predictions <- state_predictions %>%
+  mutate(
+    trump_electoral_votes = case_when(
+      is.na(Prediction_Based_on_Historical_Lean) ~ trump_electoral_votes,  # Keep original if NA
+      Prediction_Based_on_Historical_Lean == "Trump" ~ Electoral_Votes,    # Assign Electoral_Votes if "Trump"
+      TRUE ~ 0  # Set to 0 otherwise
+    ),
+    harris_electoral_votes = case_when(
+      is.na(Prediction_Based_on_Historical_Lean) ~ harris_electoral_votes,  # Keep original if NA
+      Prediction_Based_on_Historical_Lean == "Harris" ~ Electoral_Votes,    # Assign Electoral_Votes if "Harris"
+      TRUE ~ 0  # Set to 0 otherwise
+    )
+  )
 
-# "red" for Trump and "blue" for Harris
+# Replace NA values in the 'winner' column with historical lean predictions for missing states
+state_predictions$winner <- ifelse(
+  is.na(state_predictions$winner),
+  state_predictions$Prediction_Based_on_Historical_Lean,
+  state_predictions$winner
+)
+
+# Assign colors based on the updated 'winner' column
 state_predictions$winner_color <- ifelse(state_predictions$winner == "Trump", "red", "blue")
 
 # Create a map visualization showing the predicted winner by state
 plot_usmap(data = state_predictions, values = "winner_color", regions = "states") +
-  scale_fill_manual(values = c("red" = "red", "blue" = "blue"), name = "Predicted Winner", labels = c("Harris", "Trump")) +
+  scale_fill_manual(values = c("red" = "red", "blue" = "blue"), 
+                    name = "Predicted Winner", labels = c("Harris", "Trump")) +
   labs(title = "Predicted Winner of the 2024 U.S. Presidential Election by State") +
   theme(legend.position = "right")
 
 ```
 The predicted outcome in the regression model reflects the geographic voting patterns, with Trump winning in traditionally Republican-leaning states like Alabama, Missouri, and Wyoming, while Harris dominates in Democratic strongholds such as California, New York, and Illinois. However, key battleground states such as Florida and Arizona are predicted to favor Harris, potentially determining the overall election outcome.
+
+```{r}
+#| echno: false
+#| label: fig-statenum
+#| tbl-cap: Numerical Predicted Winner of 2024 US Presidential Election by State
+#| echo: false
+#| warning: false
+#| message: false
+
+trump_total <- sum(state_predictions$trump_electoral_votes, na.rm = TRUE)
+harris_total <- sum(state_predictions$harris_electoral_votes, na.rm = TRUE)
+
+# Create a summary data frame
+summary_df <- data.frame(
+  Candidate = c("Trump", "Harris"),
+  Total_Electoral_Votes = c(trump_total, harris_total)
+)
+
+# Display the summary table in kable format
+cat("\nTotal Electoral Votes:\n")
+kable(summary_df, col.names = c("Candidate", "Total Electoral Votes"), format = "markdown")
+```
+
 
 # Discussion {#sec-discussion}
 
