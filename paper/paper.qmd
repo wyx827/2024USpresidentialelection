@@ -794,6 +794,7 @@ colnames(coefficients_df) <- c("Estimate", "Std. Error", "t value", "Pr(>|t|)")
 r_squared <- model_summary$r.squared
 adj_r_squared <- model_summary$adj.r.squared
 f_statistic <- model_summary$fstatistic[1]
+p_value <- pf(f_statistic, model_summary$fstatistic[2], model_summary$fstatistic[3], lower.tail = FALSE)
 residual_se <- model_summary$sigma
 
 # Create a data frame for additional statistics with consistent column names and rounded to 2 decimals
@@ -808,6 +809,9 @@ additional_stats <- data.frame(
 # Ensure column names are identical between data frames
 colnames(additional_stats) <- colnames(coefficients_df)
 
+# Load necessary library
+library(dplyr)
+
 # Round coefficients to 2 decimal places in coefficients_df
 coefficients_df <- coefficients_df %>%
   mutate(across(where(is.numeric), ~ round(., 2)))
@@ -815,7 +819,8 @@ coefficients_df <- coefficients_df %>%
 # Combine the coefficients and additional statistics
 full_summary_df <- rbind(coefficients_df, additional_stats)
 
-# Display the full summary table using kable
+# Display the full summary table using kable, excluding "F-statistic p-value" row
+library(knitr)
 kable(full_summary_df[!rownames(full_summary_df) %in% "F-statistic p-value", c("Estimate", "Std. Error", "t value")])
 ```
 
