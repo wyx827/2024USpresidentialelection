@@ -487,7 +487,7 @@ The primary goal of this survey methodology is to forecast the outcome of the U.
 ## Core Objectives
 * Obtain a representative sample of the U.S. electorate, with demographic diversity mirroring national voting patterns.
 * Ensure data quality through rigorous validation processes, including screening and cross-verification.
-* Utilize statistical modeling and poll aggregation techniques to provide accurate predictions, as outlined in prior studies of electoral polling [@silver_nytimes].
+* Utilize statistical modeling and poll aggregation techniques to provide accurate predictions, as outlined in prior studies of electoral polling 
 
 ## Sampling Strategy
 Our sampling strategy combines **stratified random sampling** with **quota sampling** to ensure broad representation across key demographics. This method has been shown to improve the accuracy of electoral predictions by reducing demographic and geographic sampling bias [@fivethirty].
@@ -527,11 +527,11 @@ Maintaining data integrity and ensuring high-quality responses are critical to t
 * **Voter Registration Cross-Check**: If feasible, respondents will be cross-referenced with voter registration records to ensure eligibility.
 * **Response Audits**: Randomly selected respondents will be contacted to verify the accuracy of their responses, ensuring dataset integrity.
 
-These practices align with standards for data integrity and quality control in electoral polling [@fivethirty; @silver_nytimes].
+These practices align with standards for data integrity and quality control in electoral polling [@fivethirty; @pew_survey_methodology].
 
 ## Poll Aggregation and Data Analysis
 ### Poll Aggregation
-This survey will be combined with results from reputable polling firms (e.g., YouGov, Ipsos, Gallup) to strengthen the forecast through a **poll-of-polls** approach [@silver_nytimes].
+This survey will be combined with results from reputable polling firms (e.g., YouGov, Ipsos, Gallup) to strengthen the forecast through a **poll-of-polls** approach [@pew_survey_methodology].
 
 * **Weighting by Methodology and Recency**: Poll results will be weighted based on the rigor of their methodology and the recency of the poll.
 * **Handling Bias and Variability**: Aggregated results will adjust for pollster biases and variability between polls to ensure that no single poll dominates the prediction.
