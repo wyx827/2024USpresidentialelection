@@ -482,15 +482,15 @@ SurveyUSA’s methodology reflects a balanced approach, leveraging various sampl
 
 
 ## Objective and Overview
-The goal of this survey methodology is to accurately forecast the outcome of the U.S. presidential election by collecting high-quality, representative data from a diverse set of respondents across the country. With a budget of \$100,000, this methodology incorporates sophisticated sampling techniques, robust respondent recruitment strategies, and rigorous data validation protocols. The approach is designed to maximize accuracy, reduce bias, and account for various demographic, geographic, and political factors that influence voting behavior.
+The primary goal of this survey methodology is to forecast the outcome of the U.S. presidential election by collecting high-quality, representative data from a diverse cross-section of American voters. Given a budget of $100,000, this methodology leverages sophisticated sampling techniques, effective respondent recruitment strategies, and robust data validation protocols to ensure maximum accuracy and minimal bias. This approach is designed to account for demographic, geographic, and political factors that can influence voting behavior, thereby enhancing the reliability of predictions [@fivethirty; @pewresearch].
 
 ## Core Objectives
-* Obtain a representative sample of the U.S. electorate.
-* Ensure data quality through rigorous validation.
-* Leverage statistical modeling and poll aggregation for an accurate prediction.
+* Obtain a representative sample of the U.S. electorate, with demographic diversity mirroring national voting patterns.
+* Ensure data quality through rigorous validation processes, including screening and cross-verification.
+* Utilize statistical modeling and poll aggregation techniques to provide accurate predictions, as outlined in prior studies of electoral polling [@silver_nytimes].
 
 ## Sampling Strategy
-The sampling strategy is designed to ensure that the survey reaches a broad, representative section of the voting population. To achieve this, we will use **stratified random sampling** combined with **quota sampling** for key demographics. This ensures that each important subgroup within the population is adequately represented.
+Our sampling strategy combines **stratified random sampling** with **quota sampling** to ensure broad representation across key demographics. This method has been shown to improve the accuracy of electoral predictions by reducing demographic and geographic sampling bias [@fivethirty].
 
 ### Stratification Variables
 * **Age Groups**: 18-29, 30-44, 45-64, 65+ 
@@ -500,6 +500,8 @@ The sampling strategy is designed to ensure that the survey reaches a broad, rep
 * **Income Bracket**: <$30,000, \$30,000-\$60,000, \$60,000-\$100,000, >\$100,000 
 * **Geographic Region**: Northeast, Midwest, South, West 
 
+This stratification aligns with best practices in survey sampling, allowing for improved accuracy and generalizability in election forecasting [@pewresearch].
+
 ### Sample Size
 A total of **10,000 respondents** will be surveyed, providing a margin of error of approximately ±1\% at a 95\% confidence level. This sample size will allow for detailed subgroup analysis (e.g., by state, demographic group), yielding statistically robust predictions.
 
@@ -507,7 +509,7 @@ A total of **10,000 respondents** will be surveyed, providing a margin of error 
 Post-stratification weights will be applied to adjust for any oversampling or undersampling of specific demographic groups. For example, younger voters or underrepresented minorities will be weighted to reflect their true proportions in the voting population.
 
 ## Recruitment Strategy
-To maximize respondent diversity and ensure accurate sampling, the survey will employ **multi-channel recruitment**:
+Recruitment is executed through  **multi-channel outreach**, combining digital advertisements, email outreach, and partnerships with civic organizations. This diverse recruitment strategy helps to capture a representative sample and has been identified as a best practice in survey methodologies [@pewresearch].
 
 * **Digital Advertisements**: Targeted ads on platforms like Facebook, Instagram, and Google will recruit respondents based on their demographic profiles (age, gender, location, political interest).
 * **Email Outreach**: If permissible, voter registration databases will be accessed to send email invitations to registered voters.
@@ -525,9 +527,11 @@ Maintaining data integrity and ensuring high-quality responses are critical to t
 * **Voter Registration Cross-Check**: If feasible, respondents will be cross-referenced with voter registration records to ensure eligibility.
 * **Response Audits**: Randomly selected respondents will be contacted to verify the accuracy of their responses, ensuring dataset integrity.
 
+These practices align with standards for data integrity and quality control in electoral polling [@fivethirty; @silver_nytimes].
+
 ## Poll Aggregation and Data Analysis
 ### Poll Aggregation
-This survey will be combined with results from reputable polling firms (e.g., YouGov, Ipsos, Gallup) to strengthen the forecast through a **poll-of-polls** approach.
+This survey will be combined with results from reputable polling firms (e.g., YouGov, Ipsos, Gallup) to strengthen the forecast through a **poll-of-polls** approach [@silver_nytimes].
 
 * **Weighting by Methodology and Recency**: Poll results will be weighted based on the rigor of their methodology and the recency of the poll.
 * **Handling Bias and Variability**: Aggregated results will adjust for pollster biases and variability between polls to ensure that no single poll dominates the prediction.
@@ -545,7 +549,7 @@ This survey will be combined with results from reputable polling firms (e.g., Yo
 ---
 
 ## Survey Implementation
-The survey will be implemented via **Google Forms**, which offers a cost-effective platform for data collection. You can access the survey at the following link: [Google Form Survey](https://forms.gle/XxtMTMc45d6VzNuy8)
+The survey will be implemented via **Google Forms**, which offers a cost-effective platform for data collection. You can access the survey at the following link: [Google Form Survey](https://forms.gle/sAxVuk3n9gV8e2odA)
 
 ### **Survey Structure**
 
