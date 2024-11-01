@@ -782,32 +782,34 @@ kable(metrics_df)
 #| tbl-cap: Complete Model Coefficient Summary Table
 #| warning: false
 #| message: false
-
 # Get summary of the regression model
 model_summary <- summary(regression_model)
 
 # Extract and convert the coefficients summary to a data frame
 coefficients_df <- as.data.frame(model_summary$coefficients)
-colnames(coefficients_df) <- c("Estimate", "Std. Error", "t value", "Pr(>|t|)")
+
+# Set column names for coefficients_df
+colnames(coefficients_df) <- c("Estimate", "Std. Error", "t value")[1:ncol(coefficients_df)]
 
 # Extract additional statistics
 r_squared <- model_summary$r.squared
 adj_r_squared <- model_summary$adj.r.squared
 f_statistic <- model_summary$fstatistic[1]
-p_value <- pf(f_statistic, model_summary$fstatistic[2], model_summary$fstatistic[3], lower.tail = FALSE)
 residual_se <- model_summary$sigma
 
 # Create a data frame for additional statistics with consistent column names and rounded to 2 decimals
 additional_stats <- data.frame(
-  Estimate = round(c(r_squared, adj_r_squared, f_statistic, p_value, residual_se), 2),
+  Estimate = round(c(r_squared, adj_r_squared, f_statistic, residual_se), 2),
   `Std. Error` = NA,
   `t value` = NA,
-  `Pr(>|t|)` = NA,
-  row.names = c("R-squared", "Adjusted R-squared", "F-statistic", "F-statistic p-value", "Residual Std. Error")
+  row.names = c("R-squared", "Adjusted R-squared", "F-statistic", "Residual Std. Error")
 )
 
 # Ensure column names are identical between data frames
-colnames(additional_stats) <- colnames(coefficients_df)
+additional_stats <- additional_stats[, colnames(coefficients_df), drop = FALSE]
+
+# Load dplyr
+library(dplyr)
 
 # Round coefficients to 2 decimal places in coefficients_df
 coefficients_df <- coefficients_df %>%
@@ -817,13 +819,14 @@ coefficients_df <- coefficients_df %>%
 full_summary_df <- rbind(coefficients_df, additional_stats)
 
 # Display the full summary table using kable
+library(knitr)
 kable(full_summary_df)
 ```
 
 ## Multicollinearity Check on the Training Data
 ```{r}
 #| echo: false
-#| fig-cap: Correlation Matrix of `Numeric Grade`, `Sample Size`, `Transparency Score` and `Days Until Election`
+#| fig-cap: Correlation Matrix of Numeric Grade, Sample Size, Transparency Score and `Days Until Election`
 #| warning: false
 #| message: false
 
@@ -858,7 +861,7 @@ corrplot(
 # Display the table with kable
 kable(missing_states, 
       col.names = c("State", "Electoral Votes", "Prediction Based on Historical Lean"),
-      align = "c")  # Center align all columns
+      align = "c")  
 
 ```
 
@@ -866,11 +869,9 @@ kable(missing_states,
 \newpage
 
 # Acknowledgements
-@citeR
-Thanks to Open AI and ChatGPT 4.0 is used to write the analysis of the paper.
 
-@fivethirty provides the data. @tidyverse, @ggplot2, @knitr
-This project was made possible by a variety of R packages that provided essential tools and functionality. We thank the @tidyverse and @ggplot2 teams for their extensive suite of tools for data manipulation and visualization, which were instrumental in data cleaning and graphing. We also acknowledge @usmap for its support in creating U.S. geographic visualizations, and @corrplot for facilitating clear, informative correlation plots. Finally, @arrow was crucial for efficient data storage and handling with Parquet files, ensuring data integrity throughout the project. We are grateful to the developers and maintainers of these packages for their contributions to open-source software, which greatly enhanced the scope and depth of our analysis.
+Thanks to Open AI and ChatGPT 4.0 is used to write the paper.
+This project utilized R @citeR and a variety of R packages that provided essential tools and functionality. We thank the @tidyverse, @ggplot2 and @knitr teams for their extensive suite of tools for data manipulation and visualization, which were instrumental in data cleaning and graphing. We also acknowledge @usmap for its support in creating U.S. geographic visualizations, and @corrplot for facilitating clear, informative correlation plots. Finally, @arrow was crucial for efficient data storage and handling with Parquet files. We are grateful to the developers and maintainers of these packages for their contributions to open-source software.
 
 
 # References
