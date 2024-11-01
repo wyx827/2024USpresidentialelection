@@ -42,7 +42,7 @@ Our findings suggest a competitive election landscape, with Harris showing stron
 The remainder of this paper is organized as follows: @sec-data describes the dataset and the preprocessing steps involved in preparing data for the model. @sec-model explains the modeling approach, including the selection of predictors and the structure of the regression model. @sec-results presents the primary findings, highlighting state-by-state predictions and overall electoral projections. Section @sec-discussion discusses the implications, limitations, and future directions for this analysis. The Appendix section provides supplementary information on methodology, diagnostics, technical details of the model setup, acknowledgments, and references.
 
 ## Estimand
-
+In this analysis, the estimand is the true effect of polling factors on the projected support for Trump and Harris in the 2024 U.S. election. Specifically, this effect encompasses how variables like poll quality, transparency, sample size, and timing influence predicted vote percentages for Kamala Harris and Donald Trump across states. This build-up of estimand ensures consistency by clarifying that our target effect is the overall impact of these factors on candidates’ state-by-state electoral prospects. The estimand guides the model design and interpretation to achieve our goal of predicting the election outcome.
 
 
 # Data {#sec-data}
@@ -782,14 +782,13 @@ kable(metrics_df)
 #| tbl-cap: Complete Model Coefficient Summary Table
 #| warning: false
 #| message: false
+
 # Get summary of the regression model
 model_summary <- summary(regression_model)
 
 # Extract and convert the coefficients summary to a data frame
 coefficients_df <- as.data.frame(model_summary$coefficients)
-
-# Set column names for coefficients_df
-colnames(coefficients_df) <- c("Estimate", "Std. Error", "t value")[1:ncol(coefficients_df)]
+colnames(coefficients_df) <- c("Estimate", "Std. Error", "t value", "Pr(>|t|)")
 
 # Extract additional statistics
 r_squared <- model_summary$r.squared
@@ -799,17 +798,15 @@ residual_se <- model_summary$sigma
 
 # Create a data frame for additional statistics with consistent column names and rounded to 2 decimals
 additional_stats <- data.frame(
-  Estimate = round(c(r_squared, adj_r_squared, f_statistic, residual_se), 2),
+  Estimate = round(c(r_squared, adj_r_squared, f_statistic, p_value, residual_se), 2),
   `Std. Error` = NA,
   `t value` = NA,
-  row.names = c("R-squared", "Adjusted R-squared", "F-statistic", "Residual Std. Error")
+  `Pr(>|t|)` = NA,
+  row.names = c("R-squared", "Adjusted R-squared", "F-statistic", "F-statistic p-value", "Residual Std. Error")
 )
 
 # Ensure column names are identical between data frames
-additional_stats <- additional_stats[, colnames(coefficients_df), drop = FALSE]
-
-# Load dplyr
-library(dplyr)
+colnames(additional_stats) <- colnames(coefficients_df)
 
 # Round coefficients to 2 decimal places in coefficients_df
 coefficients_df <- coefficients_df %>%
@@ -819,8 +816,7 @@ coefficients_df <- coefficients_df %>%
 full_summary_df <- rbind(coefficients_df, additional_stats)
 
 # Display the full summary table using kable
-library(knitr)
-kable(full_summary_df)
+kable(full_summary_df[!rownames(full_summary_df) %in% "F-statistic p-value", c("Estimate", "Std. Error", "t value")])
 ```
 
 ## Multicollinearity Check on the Training Data
