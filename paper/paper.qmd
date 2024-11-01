@@ -49,13 +49,13 @@ In this analysis, the estimand is the true effect of polling factors on the proj
 
 ## Overview
 
-This study uses R packages [@citeR] to clean and analyz the dataset, including libraries from tidyverse [@tidyverse], ggplot2[@ggplot2], knitr[@knitr],usmap[@usmap], corrplot[@corrplot], and arrow [@arrow].
+This study uses R packages [@citeR] to clean and analyz the dataset, including libraries from tidyverse [@tidyverse], ggplot2[@ggplot2], knitr[@knitr],usmap[@usmap], corrplot[@corrplot], arrow [@arrow]. 
 
 After cleaning the data, which included grouping and removing missing values, the analysis dataset consists of 1,683 observations, focusing on the following 11 variables: pollster name, methodology, numeric grade, start date, end date, sample size, candidate name, percentage, transparency score, and population group. 
 
 ## Data Measurement and Considerations 
 
-The dataset used in this analysis originates from FiveThirtyEight, a trusted source known for its rigorous methodology in collecting and aggregating polling data to represent public opinion accurately. To maintain data integrity and ensure a high standard of reliability, only polls meeting stringent quality criteria are included in the dataset. Specifically, each poll must disclose crucial information, including the pollster’s name, the exact dates of the survey, the sample size, and the full methodological details. These details encompass the polling medium (e.g., phone, online), use of verified voter files, demographic weighting criteria, and any adjustments applied to reflect a representative sample.
+The dataset used in this analysis originates from @fivethirty, a trusted source known for its rigorous methodology in collecting and aggregating polling data to represent public opinion accurately. To maintain data integrity and ensure a high standard of reliability, only polls meeting stringent quality criteria are included in the dataset. Specifically, each poll must disclose crucial information, including the pollster’s name, the exact dates of the survey, the sample size, and the full methodological details. These details encompass the polling medium (e.g., phone, online), use of verified voter files, demographic weighting criteria, and any adjustments applied to reflect a representative sample.
 
 Polls are rigorously verified, and those that do not meet these requirements are excluded from the dataset. For instance, polls categorized as nonscientific, those that merge data from multiple unrelated sources, and those conducted by hobbyists or unverified entities are filtered out to prevent data quality compromise.
 
@@ -63,17 +63,20 @@ Once deemed credible, polls are incorporated into the FiveThirtyEight database. 
 
 ## Outcome Variable
 
-The outcome variable of interest for this research is the percentage representing the level of public support for Donald Trump. The distribution is shown in @fig-pct, where the x-axis represents the support percentage, ranging from approximately 20% to 70%, and the y-axis displays the count of poll surveys reporting each support level. The distribution reveals that most observations cluster around a support percentage of approximately 48%, indicating a substantial level of backing from the electorate. Additionally, a smaller proportion of polls show support exceeding 55%, suggesting that while Trump has a core base, many voters remain either indifferent or opposed to him. This visualization provides insight into both the concentration and variability of support within the surveyed population.
+The outcome variable of interest for this research is the percentage representing the level of public support for Donald Trump. The distribution is shown in @fig-pct, where the x-axis represents the support percentage, ranging from approximately 20% to 70%, and the y-axis displays the count of poll surveys reporting each support level. The red dashed line at the 50% mark acts as a benchmark, indicating the threshold needed for majority support.
+
+The distribution reveals that most observations cluster around a support percentage of approximately 48%, indicating a substantial level of backing from the electorate. Additionally, a smaller proportion of polls show support exceeding 55%, suggesting that while Trump has a core base, many voters remain either indifferent or opposed to him. This visualization provides insight into both the concentration and variability of support within the surveyed population.
 
 ```{r}
 #| label: fig-pct
-#| fig-cap: Distribution of Support for Donald Trump in Percentage Across Poll Survey Responses
+#| fig-cap: Distribution of Support for Donald Trump in Percentage Across Poll Survey Responses. The red dashed line at the 50% mark serves as a reference point, highlighting the threshold for majority support. 
 #| echo: false
 #| warning: false
 #| message: false
 ggplot(analysis_data, aes(x = percent)) +
   geom_histogram(binwidth = 2, fill = "skyblue", color = "black", alpha = 0.7) +
-  labs(x = "Percentage of Respondents Supporting Donald Trump (%)", 
+  geom_vline(xintercept = 50, linetype = "dashed", color = "red") +
+  labs(x = "Percentage of Respondents Supporting Donald Trump (%)",
        y = "Count of Poll Surveys") +
   theme_minimal()
 ```
@@ -152,7 +155,7 @@ As shown in the @fig-end-date, the support percentage for Donald Trump fluctuate
 
 ```{r}
 #| label: fig-end-date
-#| fig-cap: Trend of Support Percentage for Donald Trump Over Days Until Election
+#| fig-cap: Trend of Support Percentage for Donald Trump Over Days Until Election. The red dashed line indicates the average support rate for Donald Trump at that point in time. Renew the data to the October 24.2024
 #| echo: false
 #| warning: false
 #| message: false
@@ -448,7 +451,7 @@ SurveyUSA employs a mixed-method approach to recruitment, including online panel
 
 ## Sampling approach and Trade-offs
 
-SurveyUSA uses a blend of probability and non-probability sampling methods. Some respondents are drawn from non-probability online panels, while others are recruited using probability-based telephone sampling. Responses are weighted based on the latest U.S. Census estimates for age, gender, ethnicity, and region, ensuring alignment with the target population. Questions and answer choices are rotated to reduce order bias, recency effects, and latency effects.[@surveyusa_methodology]\
+SurveyUSA uses a blend of probability and non-probability sampling methods. Some respondents are drawn from non-probability online panels, while others are recruited using probability-based telephone sampling. Responses are weighted based on the latest U.S. Census estimates for age, gender, ethnicity, and region, ensuring alignment with the target population. Questions and answer choices are rotated to reduce order bias, recency effects, and latency effects[@surveyusa_methodology].\
 
 * **Advantages:** The diverse sampling approach not only ensures a broad range of opinions is captured but also complements probability-based sampling, which accurately reflects the overall population. Furthermore, reweighting the data according to U.S. Census demographics strengthens the credibility of the results by ensuring demographic accuracy. Additionally, rotating questions and answer choices helps mitigate bias, further improving the reliability of the data. Finally, the use of online surveys offers a cost-effective solution for efficient data collection.\
 
@@ -777,6 +780,7 @@ kable(metrics_df)
 ```
 
 ## Model Summary
+
 ```{r}
 #| echo: false
 #| tbl-cap: Complete Model Coefficient Summary Table
@@ -809,8 +813,6 @@ additional_stats <- data.frame(
 # Ensure column names are identical between data frames
 colnames(additional_stats) <- colnames(coefficients_df)
 
-# Load necessary library
-library(dplyr)
 
 # Round coefficients to 2 decimal places in coefficients_df
 coefficients_df <- coefficients_df %>%
@@ -819,9 +821,14 @@ coefficients_df <- coefficients_df %>%
 # Combine the coefficients and additional statistics
 full_summary_df <- rbind(coefficients_df, additional_stats)
 
+
 # Display the full summary table using kable, excluding "F-statistic p-value" row
 library(knitr)
 kable(full_summary_df[!rownames(full_summary_df) %in% "F-statistic p-value", c("Estimate", "Std. Error", "t value")])
+
+# Display the full summary table using kable
+kable(full_summary_df)
+
 ```
 
 ## Multicollinearity Check on the Training Data
@@ -872,7 +879,7 @@ kable(missing_states,
 # Acknowledgements
 
 Thanks to Open AI and ChatGPT 4.0 is used to write the paper.
-This project utilized R @citeR and a variety of R packages that provided essential tools and functionality. We thank the @tidyverse, @ggplot2 and @knitr teams for their extensive suite of tools for data manipulation and visualization, which were instrumental in data cleaning and graphing. We also acknowledge @usmap for its support in creating U.S. geographic visualizations, and @corrplot for facilitating clear, informative correlation plots. Finally, @arrow was crucial for efficient data storage and handling with Parquet files. We are grateful to the developers and maintainers of these packages for their contributions to open-source software.
+This project utilized @citeR and a variety of R packages that provided essential tools and functionality. We thank the @tidyverse, @ggplot2 and @knitr teams for their extensive suite of tools for data manipulation and visualization, which were instrumental in data cleaning and graphing. We also acknowledge @usmap for its support in creating U.S. geographic visualizations, and @corrplot for facilitating clear, informative correlation plots. Finally, @arrow was crucial for efficient data storage and handling with Parquet files. We are grateful to the developers and maintainers of these packages for their contributions to open-source software.
 
 
 # References
