@@ -51,7 +51,7 @@ In this analysis, the estimand is the true effect of polling factors on projecte
 
 ## Overview
 
-This study uses R packages [@citeR] to clean and analyz the dataset, including libraries from tidyverse [@tidyverse], ggplot2 [@ggplot2], knitr [@knitr],usmap [@usmap], corrplot [@corrplot], arrow [@arrow]. 
+This study uses R packages [@citeR] to clean and analyz the dataset, including libraries from tidyverse [@tidyverse], ggplot2 [@ggplot2], knitr [@knitr], usmap [@usmap], corrplot [@corrplot], arrow [@arrow]. 
 
 After cleaning the data, which included grouping and removing missing values, the analysis dataset consists of 1,683 observations, focusing on the following 11 variables: pollster name, methodology, numeric grade, start date, end date, sample size, candidate name, percentage, transparency score, and population group. 
 
@@ -66,9 +66,9 @@ The goal of measurement here is to translate individual voter opinions into a re
 
 ## Outcome Variable
 
-The outcome variable of interest for this research is the percentage representing the level of public support for Donald Trump. The distribution is shown in @fig-pct, where the x-axis represents the support percentage, ranging from approximately 20% to 70%, and the y-axis displays the count of poll surveys reporting each support level. The red dashed line at the 50% mark acts as a benchmark, indicating the threshold needed for majority support.
+The outcome variable of interest for this research is the percentage representing the level of public support for Donald Trump. The distribution is shown in @fig-pct, where support percentage for Donald Trump ranges from approximately 20% to 70%. The red dashed line at the 50% mark acts as a benchmark, indicating the threshold needed for majority support.
 
-The distribution shows that most observations cluster around a support level of approximately 48%, indicating significant backing from the electorate. A smaller portion of polls report support above 55%, suggesting that while Trump has a core base, many voters remain either undecided or opposed. This visualization highlights both the concentration and variability of support within the surveyed population.
+The distribution shows that most observations cluster around a support level of approximately 48%, indicating significant backing from the electorate. A smaller portion of polls report support above 55%, suggesting that while Trump has a core base, many voters remain either undecided or opposed. @fig-pct highlights both the concentration and variability of support for Donald Trump within the surveyed population.
 
 ```{r}
 #| label: fig-pct
@@ -130,7 +130,7 @@ ggplot(analysis_data %>% filter(sample_size < 3000), aes(x = sample_size)) +
 ```
 ### Transparency Score
 
-The Transparency Score measures how transparent a pollster is, calculated based on the amount of information disclosed about its polls, weighted by recency. The highest possible score is 10, while the lowest is 0. The distribution of Transparency Scores for the filtered pollsters shows a peak around 9 as presented in @fig-transparency-score, indicating that this is the most common score. This suggests that among the selected pollsters, there is a predominance of high transparency scores.
+The Transparency Score measures how transparent a pollster is, calculated based on the amount of information disclosed about its polls, weighted by recency. The highest possible score is 10, while the lowest is 0. The distribution of Transparency Scores for the filtered pollsters shows a peak around 9 as presented in @fig-transparency-score, indicating that nine the most common transparency score. @fig-transparency-score suggests that among the selected pollsters, there is a predominance of high transparency scores.
 
 ```{r}
 #| label: fig-transparency-score
@@ -146,7 +146,7 @@ ggplot(analysis_data %>%
   scale_x_continuous(breaks = 3:10) +
   scale_y_continuous(breaks = seq(0, max(summary_data$count), by = 1)) +  
   labs(x = "Transparency Score of Poll", 
-       y = "Count of Distinct Pollsters with Each Transparency Score") + 
+       y = "Count of Distinct Pollsters\nwith Each Transparency Score") + 
   theme_minimal()
 ```
 
@@ -154,25 +154,28 @@ ggplot(analysis_data %>%
 
 The days until election represents the remaining time leading up to the final election day. This variable is calculated by finding the difference between the end date of each poll survey and the final election date, which is November 5, 2024. 
 
-As shown in the @fig-end-date, the support percentage for Donald Trump fluctuated over time, with a slight upward trend as the election approached, indicated by the dashed trend line. This suggests that public opinion varied throughout the period, and Trump’s support percentage experienced an increase as election day drew closer. However, it still remained below 50%. This trend highlights the importance of monitoring real-time polling data, as sentiment may shift in these months leading up to a closely contested election.
+As shown in the @fig-end-date, at the beginning, fewer pollsters are conducting surveys, as indicated by the sparse dots on the graph. As election day approaches, the number of polls increases, reflected by the denser clustering of dots. Additionally, the support percentage for Donald Trump fluctuated over time, with a slight upward trend as election day drew closer, as shown by the red dashed trend line. This pattern suggests that public opinion shifted throughout the period, with Trump’s support percentage gradually rising, though it remained below 50%. This trend highlights the importance of monitoring real-time polling data, as voter sentiment can shift significantly in the months leading up to a closely contested election.
 
 ```{r}
 #| label: fig-end-date
-#| fig-cap: Trend of Support Percentage for Donald Trump Over Days Until Election. The red dashed line indicates the average support rate for Donald Trump at that point in time. Renew the data to the October 24.2024
+#| fig-cap: Trend of Support Percentage for Donald Trump Over Time Leading Up to the 2024 Election Day. The red dashed line represents the smoothed trend of average support for Donald Trump at each point in time, showing fluctuations and a gradual increase in support as the election day approaches.Renew the data to the October 24.2024
 #| echo: false
 #| warning: false
 #| message: false
 ggplot(analysis_data, aes(x = days_until_election, y = percent)) + 
-    geom_line(color = "skyblue", size = 1) + 
+    geom_point(color = "skyblue", size = 1) +  # Smaller dots
     geom_smooth(method = "loess", color = "red", linetype = "dashed", size = 1) + 
-    labs(x = "Days Until Election", y = "Support Percentage") + 
+    labs(
+        x = "Days Remaining Until Election Day", 
+        y = "Support Percentage for Donald Trump (%)"
+    ) + 
     theme_minimal(base_size = 14) + 
     scale_x_reverse() + 
     theme(
-        plot.title = element_text(face = "bold", size = 16, hjust = 0.5),  
-        axis.title.x = element_text(margin = margin(t = 10)), 
-        axis.title.y = element_text(margin = margin(r = 10)), 
-        axis.text = element_text(color = "#555555"), 
+        plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+        axis.title.x = element_text(margin = margin(t = 10)),
+        axis.title.y = element_text(margin = margin(r = 10)),
+        axis.text = element_text(color = "#555555"),
         panel.grid.minor = element_blank()
     )
 
@@ -231,7 +234,7 @@ The rationale for applying multiple regression in this context is to control for
 ```{r}
 #| echo: false
 #| label: tbl-summary-model
-#| tbl-cap: Regression Model Summary Table（Display the first 10 rows）
+#| tbl-cap: Regression Model Summary Table (Display the first 10 rows)
 #| warning: false
 #| message: false
 
@@ -258,7 +261,7 @@ The table below (@tbl-prediction) summarizes the predicted results, showing Trum
 ```{r}
 #| echo: false
 #| label: tbl-prediction
-#| tbl-cap: Prediction for Trump and Harris by Electoral College
+#| tbl-cap: Prediction Outcomes for the 2024 U.S. Presidential Election by State. Showing the predicted percentage of votes for Donald Trump, the number of electoral votes each state holds, and the expected winning candidate (either Kamala Harris or Donald Trump)
 #| warning: false
 #| message: false
 
@@ -310,14 +313,14 @@ kable(state_predictions[, c("state", "predicted_percent_trump", "electoral_votes
 
 
 ## Predicted Electoral Outcomes by State
-The table in the [Appendix -@tbl-missing-states] supplements the predicted electoral outcomes by providing likely results for states where the model could not generate predictions. Using historical data to estimate outcomes for these missing states ensures a complete view of electoral projections and accounts for every state in the final electoral vote totals.
+The table in the [Appendix -@tbl-missing-states] supplements the predicted electoral outcomes by providing likely results for states where the model could not generate predictions. Using historical data and winner information to estimate outcomes for these missing states ensures a complete view of electoral projections and accounts for every state in the final electoral vote totals.
 
-The following map (@fig-statemap) shows the predicted winner for each state in the 2024 U.S. Presidential Election, based on the regression model's predicted vote percentages for Trump and Harris. The predicted outcome in the regression model reflects the geographic voting patterns, with Trump winning in traditionally Republican-leaning states like Alabama, Missouri, and Wyoming, while Harris dominates in Democratic strongholds such as California, New York, and Illinois. However, key battleground states such as Florida and Arizona are predicted to favor Harris, potentially determining the overall election outcome.
+@fig-statemap shows the predicted winner for each state in the 2024 U.S. Presidential Election, based on the regression model's predicted vote percentages for Trump and Harris. The color distribution across the country highlights regional preferences, with Harris winning most of the West Coast, Northeast, and parts of the Midwest, while Trump is favored in much of the South and Mountain West regions. Swing states, including Pennsylvania, Michigan, and Wisconsin, are currently projected to lean blue, suggesting a shift toward Harris in these critical battleground areas. @fig-statemap serves as a snapshot of the anticipated electoral landscape, indicating where each candidate may focus campaign efforts leading up to election day.
 
 ```{r fig-statemap}
 #| echo: false
 #| label: fig-statemap
-#| tbl-cap: Predicted Winner of 2024 US Presidential Election by State
+#| fig-cap: Predicted Winner of the 2024 U.S. Presidential Election by State (Based on Polling Data and Historical Trends)
 #| warning: false
 #| message: false
 
@@ -367,18 +370,15 @@ state_predictions$winner_color <- ifelse(state_predictions$winner == "Trump", "r
 plot_usmap(data = state_predictions, values = "winner_color", regions = "states") +
   scale_fill_manual(values = c("red" = "red", "blue" = "blue"),
                     name = "Predicted Winner", labels = c("Harris", "Trump")) +
-  labs(title = "Predicted Winner of the 2024 U.S. Presidential Election by State") +
   theme(legend.position = "right")
-
-
 ```
 
 
-The table below (@tbl-numstate) shows the numerical predicted winner of the 2024 US Presidential Election by state. Harris is expected to win the 2024 U.S. Presidential Election, securing 387 electoral votes, compared to Trump’s 151 electoral votes. The election outcome hinges on several battleground states, where the vote margins are predicted to be narrow.
+@tbl-numstate shows the numerical predicted winner of the 2024 US Presidential Election by state. Harris is expected to win the 2024 U.S. Presidential Election, securing 387 electoral votes, compared to Trump’s 151 electoral votes. The election outcome hinges on several battleground states, where the vote margins are predicted to be narrow.
 ```{r}
 #| echo: false
 #| label: tbl-numstate
-#| tbl-cap: Numerical Predicted Winner of 2024 US Presidential Election by State
+#| tbl-cap: Numerical Projected Electoral Vote Count for the 2024 U.S. Presidential Election (Based on Polling Data and Historical Trends). 
 #| warning: false
 #| message: false
 
@@ -387,7 +387,7 @@ harris_total <- sum(state_predictions$harris_electoral_votes, na.rm = TRUE)
 
 # Create a summary data frame
 summary_df <- data.frame(
-  Candidate = c("Trump", "Harris"),
+  Candidate = c("Donald Trump", "Kamala Harris"),
   Total_Electoral_Votes = c(trump_total, harris_total)
 )
 
@@ -412,7 +412,7 @@ Our analysis demonstrates the persistence of geographic voting patterns in U.S. 
 The model also highlights the significant role of battleground states, with states such as Florida and Arizona predicted to lean toward Harris. The influence of these states, where margins are often narrow, emphasizes the importance of campaign efforts and voter mobilization in these regions. The projections illustrate that minor shifts in voter sentiment within these states could decisively impact the overall election outcome because of the high number of electoral votes.
 
 ## Polling and Electoral Uncertainty Beyond the Data
-The model’s reliance on historical polling data and state-level predictions reflects certain limitations inherent in election forecasting. While the model effectively captures overall trends, it cannot account for unforeseen factors, such as shifts in voter turnout, the influence of third-party candidates, or sudden political or social events that could impact voter behavior. Additionally, the uneven distribution of survey data across states introduces further uncertainty.Sstates with infrequent polling or underrepresented demographic groups may lead to biased predictions. This variation in polling frequency and sample diversity presents a challenge in achieving a fully representative model, and these uncertainties beyond the data are much more complex. 
+The model’s reliance on historical polling data and state-level predictions reflects certain limitations inherent in election forecasting. While the model effectively captures overall trends, it cannot account for unforeseen factors, such as shifts in voter turnout, the influence of third-party candidates, or sudden political or social events that could impact voter behavior. Additionally, the uneven distribution of survey data across states introduces further uncertainty. States with infrequent polling or underrepresented demographic groups may lead to biased predictions. This variation in polling frequency and sample diversity presents a challenge in achieving a fully representative model, and these uncertainties beyond the data are much more complex. 
 
 ## Weakness
 Despite the model estimating the voter's choice trend, it has limitations. For instance, assuming linear relationships between predictors may oversimplify complex voter behaviors and other external social influences. The dataset simplifies the potential influence behind the US election. 
@@ -444,15 +444,25 @@ SurveyUSA is a privately held opinion research company that operates nationwide,
 
 ## Population, Frame, and Sample
 
-* Target Population: U.S. citizens eligible to vote in the 2024 presidential election.\
-* Sample Frame:  U.S. households with either home telephones or access to devices such as phones or tablets. \
-* Sample Size: Sample sizes vary across different polls. For the 2024 U.S. presidential election cycle, SurveyUSA conducted 49 polls, with sample sizes ranging from 507 to 2,330 for registered voters or likely voters. The average sample size for these polls is approximately 1,045 households.\
+To address research questions, collecting data from every case in the target population is often impractical. Defining an appropriate target population, sampling frame, and sample size is essential to ensure accurate representation and feasible data collection , according to @taherdoost2016sampling. This is especially crucial in polling, where precise results rely on selecting a sample that reflects the broader population. Without clear definitions, polls risk producing biased or inaccurate outcomes.
+
+A target population is a complete set of individuals sharing specific characteristics, but identifying the precise target population can be challenging [@banerjee2010statistics]. For the poll conducted by SurveyUSA, the target population consists of U.S. citizens eligible to vote in the 2024 presidential election, whether nationwide or within specific geographic areas.
+
+The sampling frame is the list of actual cases from which the sample is drawn [@taherdoost2016sampling]. In SurveyUSA’s methodology, the sampling frame consists of U.S. households with access to devices such as home telephones, mobile phones, or tablets. When using voter-list (RBS) samples to contact landline phones, SurveyUSA sources these samples from Aristotle. For non-probability samples, online adult panelists are randomly chosen from Cint. For respondents without a home telephone, SurveyUSA purchases samples from Cint or from Aristotle of Washington, D.C. Aristotle specializes in providing data and identity verification services for campaigns and public affairs [@aristotle_website], while Cint is a global provider of digital insights gathering, connecting researchers with a diverse online panel for survey sampling needs [@cint_website]. The selection of the sampling frame must be representative of the population to ensure that the sample reflects the full diversity and characteristics of the target group. A well-defined, representative sampling frame enhances the validity and reliability of research findings by avoiding overrepresentation or underrepresentation of specific groups [@taherdoost2016sampling].
+
+A sample is a subset of individuals or cases selected from the target population or sample frame to make inferences about that population [@fowler2013survey]. In the context of polls conducted by SurveyUSA, the sample refers to the survey respondents. Sample sizes vary across different SurveyUSA polls. For the 2024 U.S. presidential election cycle, SurveyUSA conducted 49 polls with sample sizes ranging from 507 to 2,330 registered or likely voters. The average sample size for these polls is approximately 1,045 households.
 
 ## Recruitment
 
-SurveyUSA employs a mixed-method approach to recruitment, including online panels, telephone calls, and a text-to-web method. Some respondents are recruited through Random Digit Dialing (RDD) using telephone samples purchased from Aristotle. RDD allows them to generate phone numbers at random, helping avoid biases that can result from using pre-existing contact lists. For those who do not use home telephones, SurveyUSA invite them to complete the survey on an electronic device such as a phone or tablet. Respondents from non-probability online panels are selected randomly by Cint Lucid Holdings LLC [@surveyusa_methodology].\
+SurveyUSA employs a mixed-method approach to recruitment, designed to reach a diverse and representative sample by incorporating online panels, telephone calls, and a text-to-web method. Some respondents are recruited using Random Digit Dialing (RDD) with telephone samples purchased from Aristotle. RDD generates phone numbers randomly, allowing SurveyUSA to reach both listed and unlisted numbers, thereby reducing bias associated with pre-existing contact lists. This technique is valuable for recruiting a broad demographic across various age groups, regions, and socioeconomic backgrounds for polls, such as voter preference surveys.
+
+For respondents without home telephones, SurveyUSA sends text-to-web invitations, enabling participants to complete surveys on electronic devices like smartphones or tablets. This approach broadens accessibility and inclusivity across diverse demographic groups.
+
+Additionally, respondents from non-probability online panels are randomly selected by Cint, which recruits individuals who have pre-registered for surveys, allowing for the quick generation of a large, diverse respondent pool [@surveyusa_methodology]. This mixed approach allows SurveyUSA to obtain a more comprehensive and representative sample, ultimately enhancing the reliability and accuracy of survey results.
 
 ## Sampling approach and Trade-offs
+
+Selecting an appropriate sampling technique can help researchers to obtain reliable research results. In general, sampling techniques fall into two categories: probability (random) sampling and non-probability (non-random) sampling. Probability sampling includes methods such as simple random sampling, stratified random sampling, cluster sampling, systematic sampling, and multi-stage sampling. In contrast, non-probability sampling encompasses techniques like quota sampling, snowball sampling, judgment sampling, and convenience sampling.
 
 SurveyUSA uses a blend of probability and non-probability sampling methods. Some respondents are drawn from non-probability online panels, while others are recruited using probability-based telephone sampling. Responses are weighted based on the latest U.S. Census estimates for age, gender, ethnicity, and region, ensuring alignment with the target population. Questions and answer choices are rotated to reduce order bias, recency effects, and latency effects [@surveyusa_methodology].\
 
@@ -462,7 +472,7 @@ SurveyUSA uses a blend of probability and non-probability sampling methods. Some
 
 ## Non-response Handling
 
-Non-response in survey research is important to address because it introduces potential bias, impacting the accuracy and representativeness of the results.As mentioned by @groves2012nonresponse, when certain groups are underrepresented due to non-response, it can skew findings, making them less reflective of the actual population.For example, individuals who with demanding schedules, lower income or limited access to technology might be less likely to respond to a poll. Meanwhile, people with strong opinions or from specific demographic groups could be overrepresented in the results. This imbalance can create biased outcomes, where the poll data disproportionately reflects the views of a more vocal subset rather than an accurate cross-section of the entire population.\
+Non-response in survey research is important to address because it introduces potential bias, impacting the accuracy and representativeness of the results.As mentioned by @groves2012nonresponse, when certain groups are underrepresented due to non-response, it can skew findings, making them less reflective of the actual population. For example, individuals who with demanding schedules, lower income or limited access to technology might be less likely to respond to a poll. Meanwhile, people with strong opinions or from specific demographic groups could be overrepresented in the results. As a result of non-response, the findings may misinform decision-makers, leading to conclusions that don’t truly represent the diverse views of the entire population. Addressing non-response is thus essential for producing balanced, reliable survey results that can genuinely inform policies, programs, and public opinion.\
 
 To mitigate non-response, SurveyUSA employs follow-up calls when interviews are interrupted by answering machines or busy signals. This additional effort helps reach individuals who may have been initially unavailable or hesitant, thereby improving the sample’s representativeness. This method aligns with one of the practical strategies discussed by @groves2012nonresponse to reduce non-response. However, SurveyUSA need to be caution that excessive or overly persistent follow-ups can lead to respondent discomfort, raise ethical concerns, and introduce potential biases if respondents feel obligated or pressured to participate.
 
@@ -495,7 +505,9 @@ The primary goal of this survey methodology is to forecast the U.S. presidential
 * Utilize statistical modeling and poll aggregation techniques to provide accurate predictions, as outlined in prior studies of electoral polling.
 
 ## Sampling Strategy
-Our sampling strategy combines **stratified** random sampling with **quota sampling** to ensure broad representation across key demographics. Stratified random sampling involves dividing the target population into subgroups (strata) based on demographic characteristics, then randomly sampling from each stratum. This technique enhances the representativeness of the sample and improves prediction accuracy by reducing demographic and geographic sampling bias [@fivethirty].
+Our sampling strategy combines **stratified** random sampling with **quota sampling** to ensure broad representation across key demographics. Stratified random sampling involves dividing the target population into subgroups (strata) based on demographic characteristics, then randomly sampling from each stratum. This technique enhances the representativeness of the sample and improves prediction accuracy by includes all important subpopulation [@taherdoost2016sampling] and reducing demographic and geographic sampling bias [@fivethirty].
+
+Quota Sampling complements this by setting specific quotas to ensure each subgroup meets minimum representation levels within the sample, based on key demographic categories. While not truly random, quota sampling helps ensure that important demographics are represented even when probability sampling is challenging or costly.
 
 ### Stratification Variables
 * **Age Groups**: 18-29, 30-44, 45-64, 65+ 
@@ -505,7 +517,7 @@ Our sampling strategy combines **stratified** random sampling with **quota sampl
 * **Income Bracket**: <$30,000, \$30,000-\$60,000, \$60,000-\$100,000, >\$100,000 
 * **Geographic Region**: Northeast, Midwest, South, West 
 
-This stratification aligns with best practices in survey sampling, allowing for improved accuracy and generalizability in election forecasting by ensuring that subgroups are proportionately represented [@pewresearch].
+This stratification aligns with best practices in survey sampling, allowing for improved accuracy and generalizability in election forecasting by ensuring that subgroups are proportionately represented [@pewresearch]. However, in stratified sampling, selecting relevant stratification variables can be challenging, and it is neither feasible nor cost-effective to stratify across numerous variables simultaneously. For quota sampling, there is a risk of selection bias, and it does not guarantee the randomness, which may impact the sample’s representativeness.
 
 ### Sample Size
 A total of **10,000 respondents** will be surveyed, providing a margin of error of approximately ±1\% at a 95\% confidence level. This sample size allows for detailed subgroup analysis (e.g., by state or demographic group), yielding statistically robust predictions that represent the target population.
