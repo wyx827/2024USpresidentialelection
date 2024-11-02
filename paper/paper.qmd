@@ -484,17 +484,16 @@ SurveyUSA’s methodology reflects a balanced approach, leveraging various sampl
 
 # Idealized Methodology and Survey
 
-
 ## Objective and Overview
-The primary goal of this survey methodology is to forecast the U.S. presidential election outcome by collecting representative data from a diverse cross-section of American voters. With a $100,000 budget, this methodology employs sampling techniques, effective recruitment strategies, and data validation protocols to ensure accuracy and minimize bias. This approach is designed to account for demographic, geographic, and political factors that can influence voting behavior, thereby enhancing the reliability of predictions [@fivethirty; @pewresearch].
+The primary goal of this survey methodology is to forecast the U.S. presidential election outcome by collecting representative data from a diverse cross-section of American voters (the target population). The target population refers to the entire group about which we want to make predictions—in this case, eligible U.S. voters across all demographics. With a $100,000 budget, this methodology employs probability sampling techniques, effective recruitment strategies, and data validation protocols to ensure accuracy and minimize bias. Probability sampling ensures that every individual in the target population has a known, non-zero chance of selection, making the results statistically valid and generalizable to the broader population. This approach is designed to account for demographic, geographic, and political factors that can influence voting behavior, thereby enhancing the reliability of predictions [@fivethirty; @pewresearch].
 
 ## Core Objectives
-* Obtain a representative sample of the U.S. electorate, with demographic diversity mirroring national voting patterns.
-* Ensure data quality through validation processes, including screening and cross-verification.
-* Utilize statistical modeling and poll aggregation techniques to provide accurate predictions, as outlined in prior studies of electoral polling 
+* Obtain a probability sample that represents the U.S. electorate, with demographic diversity reflecting national voting patterns. This helps ensure that conclusions drawn from the sample are applicable to the target population.
+* Ensure data quality through validation processes, including screening and cross-verification, to address potential errors and improve the accuracy of the data.
+* Utilize statistical modeling and poll aggregation techniques to provide accurate predictions, as outlined in prior studies of electoral polling.
 
 ## Sampling Strategy
-Our sampling strategy combines **stratified random sampling** with **quota sampling** to ensure broad representation across key demographics. This method improves electoral prediction accuracy by reducing demographic and geographic sampling bias [@fivethirty].
+Our sampling strategy combines **stratified** random sampling with **quota sampling** to ensure broad representation across key demographics. Stratified random sampling involves dividing the target population into subgroups (strata) based on demographic characteristics, then randomly sampling from each stratum. This technique enhances the representativeness of the sample and improves prediction accuracy by reducing demographic and geographic sampling bias [@fivethirty].
 
 ### Stratification Variables
 * **Age Groups**: 18-29, 30-44, 45-64, 65+ 
@@ -504,44 +503,45 @@ Our sampling strategy combines **stratified random sampling** with **quota sampl
 * **Income Bracket**: <$30,000, \$30,000-\$60,000, \$60,000-\$100,000, >\$100,000 
 * **Geographic Region**: Northeast, Midwest, South, West 
 
-This stratification aligns with best practices in survey sampling, allowing for improved accuracy and generalizability in election forecasting [@pewresearch].
+This stratification aligns with best practices in survey sampling, allowing for improved accuracy and generalizability in election forecasting by ensuring that subgroups are proportionately represented [@pewresearch].
 
 ### Sample Size
-A total of **10,000 respondents** will be surveyed, providing a margin of error of approximately ±1\% at a 95\% confidence level. This sample size will allow for detailed subgroup analysis (e.g., by state, demographic group), yielding statistically robust predictions.
+A total of **10,000 respondents** will be surveyed, providing a margin of error of approximately ±1\% at a 95\% confidence level. This sample size allows for detailed subgroup analysis (e.g., by state or demographic group), yielding statistically robust predictions that represent the target population.
 
 ### Weighting
-Post-stratification weights will be applied to adjust for any oversampling or undersampling of specific demographic groups. For example, younger voters or underrepresented minorities will be weighted to reflect their true proportions in the voting population.
+Post-stratification weights will be applied to adjust for any oversampling or undersampling of specific demographic groups. For instance, younger voters or underrepresented minorities will be weighted to reflect their true proportions in the voting population. This weighting ensures that the final sample aligns closely with the demographic makeup of the target population.
 
 ## Recruitment Strategy
-Recruitment is executed through  **multi-channel outreach**, combining digital advertisements, email outreach, and partnerships with civic organizations. This recruitment strategy helps capture a representative sample and aligns with best practices in survey methodologies [@pewresearch].
+Recruitment is executed through **multi-channel outreach**, combining digital advertisements, email outreach, and partnerships with civic organizations. This strategy is designed to capture a probability sample and follows best practices in survey methodologies to minimize non-response bias—errors that occur when certain groups in the target population are less likely to respond to the survey. Non-response matters because it can distort the results if certain demographics are underrepresented in the final data [@pewresearch].
 
 * **Digital Advertisements**: Targeted ads on platforms like Facebook, Instagram, and Google will recruit respondents based on their demographic profiles (age, gender, location, political interest).
 * **Email Outreach**: If permissible, voter registration databases will be accessed to send email invitations to registered voters.
-* **Partnerships with Civic Organizations**: Partnering with non-profits and civic organizations that engage diverse communities will further boost respondent diversity.
-* **Incentives**: Each participant will be entered into a lottery with a chance to win a \$100 gift card to encourage participation.
+* **Partnerships with Civic Organizations**: Partnering with non-profits and civic organizations that engage diverse communities will help improve respondent diversity and reduce non-response bias.
+* **Incentives**: Each participant will be entered into a lottery with a chance to win a $100 gift card to encourage participation and mitigate non-response.
 
 
 ## Data Validation and Quality Assurance
-Maintaining data integrity and ensuring high-quality responses are important to the accuracy of the election forecast. Several measures will be put in place to validate responses and reduce noise in the dataset.
+Maintaining data integrity and ensuring high-quality responses are essential to the accuracy of the election forecast. Several measures will be implemented to validate responses and reduce noise in the dataset.
 
 ### Data Validation Protocols
 * **Real-time Captcha Verification**: This will prevent automated bots from submitting responses.
 * **Email/Phone Verification**: Respondents will verify their email or phone number to ensure authenticity and prevent duplicate submissions.
-* **Time on Task Monitoring**: The survey platform will monitor the time respondents spend on each question. Responses completed suspiciously quickly will be flagged for review.
+* **Time on Task Monitoring**: The survey platform will monitor the time respondents spend on each question. Responses completed unusually quickly will be flagged for review.
 * **Voter Registration Cross-Check**: If feasible, respondents will be cross-referenced with voter registration records to ensure eligibility.
 * **Response Audits**: Randomly selected respondents will be contacted to verify the accuracy of their responses, ensuring dataset integrity.
 
-These practices align with data integrity and quality control standards in electoral polling [@fivethirty; @pew_survey_methodology].
+These practices align with standards for data integrity and quality control in electoral polling [@fivethirty; @pew_survey_methodology].
+
 
 ## Poll Aggregation and Data Analysis
 ### Poll Aggregation
-This survey will be combined with results from reputable polling firms (e.g., YouGov, Ipsos, Gallup) using a **poll-of-polls** approach to strengthen the forecast [@pew_survey_methodology].
+This survey will be combined with results from reputable polling firms (e.g., YouGov, Ipsos, Gallup) using a poll-of-polls approach to strengthen the forecast [@pew_survey_methodology].
 
 * **Weighting by Methodology and Recency**: Poll results will be weighted based on the rigor of their methodology and the recency of the poll.
 * **Handling Bias and Variability**: Aggregated results will adjust for pollster biases and variability between polls to ensure that no single poll dominates the prediction.
 
 ### Modeling Approach
-**Bayesian hierarchical models** will account for variability across different states, demographics, and regions. This will allow for modeling the popular vote and potentially translating it into **Electoral College predictions**.
+**Bayesian hierarchical models** will account for variability across different states, demographics, and regions. This approach allows us to model the popular vote and potentially translate it into **Electoral College predictions**.
 
 ## Budget Allocation
 * **Respondent Recruitment (Targeted ads, outreach)**: \$70,000
