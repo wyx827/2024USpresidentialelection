@@ -41,9 +41,7 @@ The findings indicate a competitive election landscape, with Harris showing stro
 
 The remainder of this paper is organized as follows: @sec-data describes the dataset and the preprocessing steps for model preparation. @sec-model explains the modeling approach, including predictor selection and the regression model structure. @sec-results presents the primary findings, detailing state-by-state predictions and overall electoral projections. @sec-discussion discusses the implications, limitations, and potential directions for future research. The Appendix provides supplementary information on methodology, diagnostics, technical details of the model setup, acknowledgments, and references.
 
-
-## Estimand
-In this analysis, the estimand is the true effect of polling factors on the projected support for Trump and Harris in the 2024 U.S. election. Specifically, this effect encompasses how variables like poll quality, transparency, sample size, and timing influence predicted vote percentages for Kamala Harris and Donald Trump across states. This build-up of estimand ensures consistency by clarifying that our target effect is the overall impact of these factors on candidates’ state-by-state electoral prospects. The estimand guides the model design and interpretation to achieve our goal of predicting the election outcome.
+In this analysis, the estimand is the true effect of polling factors on projected support for Trump and Harris in the 2024 U.S. election. Specifically, it reflects how variables such as poll quality, transparency, sample size, and timing influence the predicted vote percentages for Kamala Harris and Donald Trump across states. Defining the estimand clearly ensures consistency in the analysis by guiding model design and interpretation, preventing unintended shifts in focus due to minor methodological changes.
 
 
 # Data {#sec-data}
