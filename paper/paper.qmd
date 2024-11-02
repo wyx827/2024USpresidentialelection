@@ -188,10 +188,20 @@ To model Donald Trump’s polling percentages over time, we used a multiple line
 
 To prevent overfitting, we applied a train-test data split. The training data is used to build the model, enabling it to learn patterns and relationships within the data. The test data, which the model has not seen before, serves to evaluate its performance on new, unseen data. This separation ensures that the model captures patterns that will generalize beyond the training dataset, rather than just memorizing it.
 
-Below, we briefly describe the multiple linear regression model used to examine Trump’s winning probability. Additional details and model diagnostics are provided in [Appendix -@sec-model-details].
+One alternative model considered is logistic regression, commonly used for binary outcomes to predict the probability of an event occurring versus not occurring. While logistic regression is effective for classification tasks, it is not suitable here, as the goal of this paper is to predict a continuous percentage of voters likely to vote for Donald Trump. Logistic regression restricts outputs to probabilities between 0 and 1, which does not align with the requirements of this analysis. Therefore, a multiple linear regression framework is selected for this paper.
 
 ## Multiple Linear Regression Model Overview
-The model now predicts Trump’s polling percentage (percent) using the following predictors:
+Key assumptions for Multiple linear regression: 
+
+- Linearity: The relationship between the independent variables (predictors) and the dependent variable(Percentage of Respondents Supporting Donald Trump) is linear. 
+- Independence: The outcome of one observation(respondents) should not influence another
+- Homoscedasticity: The variance of the residuals (errors) is constant across all levels of the independent variables.
+- Normality of Residuals: The residuals (errors) of the model are normally distributed.
+- No Multicollinearity: Independent variables should not be highly correlated with each other. Multicollinearity will make some predictors appear insignificant when they might actually have an effect.
+
+Additional details and model diagnostics are provided in [Appendix -@sec-model-details].
+
+The model predicts Trump’s polling percentage (percent) using the following predictors:
 
 - Numeric Grade (numeric_grade): Reflects the quality rating of the pollster.
 - Sample Size (sample_size): The number of respondents in the poll.
@@ -234,19 +244,46 @@ The rationale for applying multiple regression in this context is to control for
 ```{r}
 #| echo: false
 #| label: tbl-summary-model
-#| tbl-cap: Regression Model Summary Table (Display the first 10 rows)
+#| tbl-cap: Regression Model Summary Table. This table displays the top 10 predictors with the largest absolute coefficients, along with Transparency Score and Days Until Election. The standard errors represent the variability in the coefficient estimates, while the t-values indicate the strength and significance of each predictor’s relationship with the outcome variable.
 #| warning: false
 #| message: false
 
-regression_model<-readRDS(here::here("models/regression_model.rds"))
-summary<-summary(regression_model)
-# Extract the coefficients to form a table
-coefficients_table <- summary$coefficients[, 1:3]
+# Load the regression model
+regression_model <- readRDS(here::here("models/regression_model.rds"))
+summary <- summary(regression_model)
 
-# Display the first 10 rows of the coefficients table using kable, formatted to 2 decimal places
-kable(head(coefficients_table, 10), digits = 2)
+# Extract the coefficients and form a table with estimates, standard errors, and t-values
+coefficients_table <- as.data.frame(summary$coefficients[, 1:3])
+
+# Select the top 10 rows with the largest absolute coefficients
+coefficients_table$Predictor <- rownames(coefficients_table)
+coefficients_table <- coefficients_table[order(abs(coefficients_table$Estimate), decreasing = TRUE), ]
+top_10_table <- head(coefficients_table, 10)
+
+# Ensure that transparency_score and days_until_election are included in the table
+required_predictors <- c("transparency_score", "days_until_election")
+additional_predictors <- coefficients_table[coefficients_table$Predictor %in% required_predictors, ]
+
+# Combine the top 10 table with the required predictors, ensuring no duplicates
+final_table <- unique(rbind(top_10_table, additional_predictors))
+
+# Rename specific predictors
+final_table$Predictor <- as.character(final_table$Predictor)
+final_table$Predictor[final_table$Predictor == "transparency_score"] <- "Transparency Score"
+final_table$Predictor[final_table$Predictor == "days_until_election"] <- "Days Until Election"
+
+# Set row names to the updated Predictor names and remove the Predictor column
+row.names(final_table) <- final_table$Predictor
+final_table <- final_table[, -ncol(final_table)]  # Remove Predictor column
+
+# Rename the columns
+colnames(final_table) <- c("Coefficient", "Standard Error", "t-Statistic")
+
+# Display the table
+kable(final_table, digits = 2)
+
+
 ```
-
 
 # Results {#sec-results}
 
@@ -306,9 +343,7 @@ trump_electoral_votes <- sum(state_predictions$trump_electoral_votes)
 harris_electoral_votes <- sum(state_predictions$harris_electoral_votes)
 
 # Create the table using kable
-kable(state_predictions[, c("state", "predicted_percent_trump", "electoral_votes", "winner")], 
-      col.names = c("State", "Trump Predicted %", "Electoral Votes", "Winner"), 
-      digits = 2)
+kable(state_predictions[, c("state", "predicted_percent_trump", "electoral_votes", "winner")],        col.names = c("State", "Trump Predicted %", "Electoral Votes", "Winner"),digits = 2) 
 ```
 
 
@@ -415,7 +450,7 @@ The model also highlights the significant role of battleground states, with stat
 The model’s reliance on historical polling data and state-level predictions reflects certain limitations inherent in election forecasting. While the model effectively captures overall trends, it cannot account for unforeseen factors, such as shifts in voter turnout, the influence of third-party candidates, or sudden political or social events that could impact voter behavior. Additionally, the uneven distribution of survey data across states introduces further uncertainty. States with infrequent polling or underrepresented demographic groups may lead to biased predictions. This variation in polling frequency and sample diversity presents a challenge in achieving a fully representative model, and these uncertainties beyond the data are much more complex. 
 
 ## Weakness
-Despite the model estimating the voter's choice trend, it has limitations. For instance, assuming linear relationships between predictors may oversimplify complex voter behaviors and other external social influences. The dataset simplifies the potential influence behind the US election. 
+Despite the model’s ability to estimate voter choice trends, it has several limitations. For instance, assuming linear relationships between predictors restricts its capacity to capture more complex, non-linear relationships, potentially oversimplifying external social influences. The dataset itself may also oversimplify the range of factors affecting the U.S. election, limiting the model’s ability to account for all relevant influences. Additionally, outliers and influential points can disproportionately impact the regression model, potentially distorting results and leading to misleading conclusions.
 
 Furthermore, polling is susceptible to biases, which can skew results. For example, factors like nonresponse bias—where certain demographic groups, such as less civically engaged individuals, are less likely to participate—may influence results more heavily in this election cycle. Additionally, reliance on past election data introduces a risk of recency bias, as seen in public expectations shaped by Trump’s unexpected win in 2016 and close finish in 2020. As @silver2024gut notes, intuition or prior election outcomes can be misleading, given the unique dynamics of each election. Polling errors, such as those seen in 2016 and 2020, further emphasize the need to carefully interpret our model’s findings.
 
@@ -841,8 +876,37 @@ full_summary_df <- rbind(coefficients_df, additional_stats)
 library(knitr)
 kable(full_summary_df[!rownames(full_summary_df) %in% "F-statistic p-value", c("Estimate", "Std. Error", "t value")])
 
-# Display the full summary table using kable
-kable(full_summary_df)
+```
+```{r}
+#| echo: false
+#| tbl-cap: Coefficient Estimates with 95% Confidence Intervals for Predictors. Predictors with positive coefficients are shown in blue, while predictors with negative coefficients are shown in red. 
+#| warning: false
+#| message: false
+
+# Convert the model summary to a tidy format for easier plotting
+tidy_model <- broom::tidy(regression_model, conf.int = TRUE, conf.level = 0.95) %>%
+  filter(term != "(Intercept)")
+
+# Plot the coefficients with confidence intervals, excluding the intercept
+ggplot(tidy_model, aes(x = estimate, y = reorder(term, estimate))) +
+  geom_point(aes(color = estimate > 0), size = 1.2) +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), color = "grey", height = 0.3) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "black") +
+  scale_color_manual(
+    values = c("red", "blue"),
+    labels = c("Negative Coefficient", "Positive Coefficient"),
+    name = ""  # This removes the default "estimate > 0" label
+  ) +
+  labs(x = "Coefficient Value", y = "Predictors") +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.text.y = element_text(size = 3),
+    axis.title.x = element_text(size = 14),
+    axis.title.y = element_text(size = 14),
+    plot.title = element_text(size = 16, face = "bold"),
+    legend.position = "top"
+  ) +
+  guides(color = guide_legend(reverse = TRUE))
 
 ```
 
