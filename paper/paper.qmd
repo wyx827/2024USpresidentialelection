@@ -1,6 +1,6 @@
 ---
-title: "Predicting Kamala Harris's Victory in the 2024 US Election"
-subtitle: "Poll Data Predicts Kamala Harris Win with 387 Electoral Votes"
+title: "Forecasting the 2024 U.S. Presidential Election"
+subtitle: "Predicting Kamala Harris’s Path to Victory: A Poll-Based Projection Under Electoral Uncertainty"
 author: 
   - Xuanle Zhou
   - Yongqi Liu
@@ -9,7 +9,7 @@ thanks: "Code and data are available at: https://github.com/wyx827/2024USpreside
 date: today
 date-format: long
 toc: true
-abstract: "This study provides a prediction for the 2024 U.S. presidential election, presenting potential outcomes based on a state-by-state electoral vote analysis. These projections can guide campaign strategies and influence public discourse. The results suggest Kamala Harris will secure a win with 387 electoral votes, significantly surpassing the 270 needed for victory. In contrast, Donald Trump is predicted to receive 151 electoral votes."
+abstract: "This study provides a predictive analysis of the 2024 U.S. presidential election, presenting potential outcomes through a state-by-state evaluation of electoral votes. These projections can guide campaign strategies and influence public discourse. The results suggest Kamala Harris will secure a win with 387 electoral votes, significantly surpassing the 270 needed for victory and indicating a landslide. In contrast, Donald Trump is predicted to receive 151 electoral votes."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -41,7 +41,10 @@ The findings indicate a competitive election landscape, with Harris showing stro
 
 The remainder of this paper is organized as follows: @sec-data describes the dataset and the preprocessing steps for model preparation. @sec-model explains the modeling approach, including predictor selection and the regression model structure. @sec-results presents the primary findings, detailing state-by-state predictions and overall electoral projections. @sec-discussion discusses the implications, limitations, and potential directions for future research. The Appendix provides supplementary information on methodology, diagnostics, technical details of the model setup, acknowledgments, and references.
 
+## Estimand
 In this analysis, the estimand is the true effect of polling factors on projected support for Trump and Harris in the 2024 U.S. election. Specifically, it reflects how variables such as poll quality, transparency, sample size, and timing influence the predicted vote percentages for Kamala Harris and Donald Trump across states. Defining the estimand clearly ensures consistency in the analysis by guiding model design and interpretation, preventing unintended shifts in focus due to minor methodological changes.
+
+### 
 
 
 # Data {#sec-data}
@@ -52,15 +55,14 @@ This study uses R packages [@citeR] to clean and analyz the dataset, including l
 
 After cleaning the data, which included grouping and removing missing values, the analysis dataset consists of 1,683 observations, focusing on the following 11 variables: pollster name, methodology, numeric grade, start date, end date, sample size, candidate name, percentage, transparency score, and population group. 
 
-## Data Measurement and Considerations 
+## Measurement and Considerations 
 
-In this analysis, the goal is to convert individual polling data, which reflects voter sentiment before Election Day, into an estimate of the overall electoral support for each candidate. This process involves systematically capturing public opinion about voting intentions and translating it into structured data that can reliably forecast electoral college outcomes.
+The goal of measurement here is to translate individual voter opinions into a reliable estimate of electoral college outcomes. This analysis aims to systematically capture public sentiment through polling data and convert it into a structured forecast of electoral support for each candidate.
 
-The dataset originates from @fivethirty, a trusted source known for its rigorous standards in polling data collection. Only polls meeting specific quality criteria are included, ensuring that data represents a broad cross-section of likely voters across the U.S. Each poll must disclose essential details, including the pollster’s name, survey dates, sample size, and methodological information. This transparency in methodology includes aspects like the polling medium (phone, online), use of voter files, demographic weighting, and any adjustments made to reflect a representative sample. These steps help ensure that the recorded data accurately captures respondents' voting intentions.
-
-Once these polls pass quality checks, they are integrated into the FiveThirtyEight database, where they contribute to aggregated polling averages and forecast models. Poll results are recorded as percentages reflecting the level of support for each candidate, essentially quantifying voter sentiment. However, moving from these individual opinions to a reliable state-by-state and national forecast requires addressing inherent challenges, such as demographic imbalances and geographic biases. To mitigate these, demographic weights are applied, aligning sample composition with actual population distributions.
-
-The measurement approach also includes recency adjustments to account for the time since each poll was conducted, as opinions can shift rapidly closer to Election Day. This approach, combined with selective inclusion criteria, ensures that the dataset reflects a consistent and structured view of voter sentiment across various demographic and regional groups, bridging the gap between initial polling data and final election predictions.
+- Data Source and Quality Assurance: The dataset is sourced from @fivethirty, a trusted platform recognized for its stringent standards in polling data quality. Only polls meeting high-quality criteria are included to ensure broad representation of likely U.S. voters. Each poll provides essential details, including the pollster’s identity, survey dates, sample size, and methodological transparency. These methods include data collection medium (e.g., phone, online), use of voter files, demographic weighting, and adjustments to create a representative sample. While these standards help capture respondents’ voting intentions accurately, it’s important to note that these criteria rely on historical benchmarks, potentially overlooking recent methodological shifts or emerging biases.
+- Temporal Limitations and Data Recency: Polling data captures discrete snapshots of voter sentiment rather than continuous updates. Consequently, the analysis reflects voter intentions only at specific moments, which may not capture rapid opinion shifts, particularly as Election Day approaches. To mitigate this limitation, recency adjustments are applied to account for the time elapsed since each poll was conducted, helping to ensure that the data remains reflective of current voter sentiment.
+- Participation and Response Bias: Despite the rigorous methodology, certain biases in survey participation are difficult to avoid. Self-selection bias (where individuals choose whether to participate) and social desirability bias (where respondents may adjust their responses to be more socially acceptable) can affect data accuracy. These biases may introduce discrepancies between expressed opinions and actual voting behavior, potentially influencing forecast reliability.
+- Regional Sampling Imbalances: The frequency of polling varies significantly by state, with battleground states receiving more frequent attention than states considered “safe.” This uneven distribution can lead to imbalances in regional representation, which might skew state-level and, by extension, national forecasts. Such discrepancies highlight the challenge of producing a uniformly accurate forecast across all regions.
 
 ## Outcome Variable
 
