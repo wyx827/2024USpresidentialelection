@@ -50,7 +50,7 @@ In this analysis, the estimand is the true effect of polling factors on the proj
 
 ## Overview
 
-This study uses R packages [@citeR] to clean and analyz the dataset, including libraries from tidyverse [@tidyverse], ggplot2[@ggplot2], knitr[@knitr],usmap[@usmap], corrplot[@corrplot], arrow [@arrow]. 
+This study uses R packages [@citeR] to clean and analyz the dataset, including libraries from tidyverse [@tidyverse], ggplot2 [@ggplot2], knitr [@knitr],usmap [@usmap], corrplot [@corrplot], arrow [@arrow]. 
 
 After cleaning the data, which included grouping and removing missing values, the analysis dataset consists of 1,683 observations, focusing on the following 11 variables: pollster name, methodology, numeric grade, start date, end date, sample size, candidate name, percentage, transparency score, and population group. 
 
@@ -437,7 +437,7 @@ For future research, expanding the model to include demographic data, such as ag
 
 ## Overview of SurveyUSA
 
-SurveyUSA is a privately held opinion research company that operates nationwide, across all 50 U.S. states. Since its founding, the company has conducted over 40,000 research projects, serving a client base of 400 organizations, including media outlets, corporations, non-profits, government agencies, and academic institutions. Known for its expertise in localized opinion research, SurveyUSA focuses on gathering data at the city, county, and regional levels. The company offers timely, cost-effective surveys tailored to meet specific client needs, distinguishing itself from larger global firms[@surveyusa_website]. 
+SurveyUSA is a privately held opinion research company that operates nationwide, across all 50 U.S. states. Since its founding, the company has conducted over 40,000 research projects, serving a client base of 400 organizations, including media outlets, corporations, non-profits, government agencies, and academic institutions. Known for its expertise in localized opinion research, SurveyUSA focuses on gathering data at the city, county, and regional levels. The company offers timely, cost-effective surveys tailored to meet specific client needs, distinguishing itself from larger global firms [@surveyusa_website]. 
 
 
 ## Population, Frame, and Sample
@@ -452,7 +452,7 @@ SurveyUSA employs a mixed-method approach to recruitment, including online panel
 
 ## Sampling approach and Trade-offs
 
-SurveyUSA uses a blend of probability and non-probability sampling methods. Some respondents are drawn from non-probability online panels, while others are recruited using probability-based telephone sampling. Responses are weighted based on the latest U.S. Census estimates for age, gender, ethnicity, and region, ensuring alignment with the target population. Questions and answer choices are rotated to reduce order bias, recency effects, and latency effects[@surveyusa_methodology].\
+SurveyUSA uses a blend of probability and non-probability sampling methods. Some respondents are drawn from non-probability online panels, while others are recruited using probability-based telephone sampling. Responses are weighted based on the latest U.S. Census estimates for age, gender, ethnicity, and region, ensuring alignment with the target population. Questions and answer choices are rotated to reduce order bias, recency effects, and latency effects [@surveyusa_methodology].\
 
 * **Advantages:** The diverse sampling approach not only ensures a broad range of opinions is captured but also complements probability-based sampling, which accurately reflects the overall population. Furthermore, reweighting the data according to U.S. Census demographics strengthens the credibility of the results by ensuring demographic accuracy. Additionally, rotating questions and answer choices helps mitigate bias, further improving the reliability of the data. Finally, the use of online surveys offers a cost-effective solution for efficient data collection.\
 
