@@ -1,6 +1,6 @@
 ---
 title: "Forecasting the 2024 U.S. Presidential Election"
-subtitle: "Predicting Kamala Harris’s Path to Victory: A Poll-Based Projection Under Electoral Uncertainty"
+subtitle: "Kamala Harris’s Path to Victory: A Poll-Based Prediction Under Electoral Uncertainty"
 author: 
   - Xuanle Zhou
   - Yongqi Liu
@@ -33,18 +33,16 @@ analysis_data <- read_csv(here::here("data/02-analysis_data/cleaned_US_voting.cs
 
 # Introduction
 
-The 2024 U.S. Presidential Election will occur in a context of intensified political polarization, economic challenges, and demographic shifts, positioning it as a significant event in shaping America's future. Accurately forecasting this election’s outcome is essential for understanding potential shifts in political leadership and policy direction. Polling data has traditionally been a primary tool for measuring voter sentiment; however, recent election cycles have revealed limitations in polling accuracy due to biases, non-response, and variations in poll quality. This study proposes a model that addresses these issues to improve the reliability of election forecasts.
+The 2024 U.S. Presidential Election, which will come to an end on Nov 4, 2024, draws the worldwide attention. Especially after Joe Biden dropped out, this cycle’s election is full of more uncertainties. Predicting the electoral result is crucial and meaningful for understanding potential shifts in voter behavior, with significant implications for future leadership and policy directions in the United States.
+Forecasting the election’s outcome becomes essential and meaningful for understanding potential shifts in the voters’ behavior. To make the prediction feasible, polling data becomes a primary tool for measuring voters’ sentiment and their expectations. 
+This paper focuses on forecasting the electoral outcomes between Kamala Harris and Donald Trump in the 2024 cycle. Using the multiple linear regression model build on the polling data from @fivethirty, we construct an analysis by incorporating factors such as poll quality, transparency, sample size, state preference, and poll timing. By integrating these variables, the model produces a detailed forecast that accounts for regional differences and methodological variations, offering a thorough view of projected support for each candidate.
+The result indicates a competitive election landscape, with Harris showing strong prospects in key swing states, while Trump retains support in traditional Republican states. These findings demonstrate how the persistent influence of geographic voting patterns and the importance of polling methodology would influence the electoral votes. 
+This paper offers valuable analysis for political analysts, campaign strategists, and the public, enhancing the understanding of how polling data can inform electoral outcome predictions. However, recent election cycles have also revealed limitations in polling accuracy due to biases, non-response errors, and variations in poll quality. This study proposes a feasible model that addresses these issues to improve the reliability of election forecasts, and the uncertainty beyond the data has also been acknowledged in this paper.
+The paper is organized as follows: @sec-data describes the dataset and the processing steps for model preparation. @sec-model explains the modeling approach, including predictor selection and the regression model structure. @sec-results presents the primary findings, detailing state-by-state predictions and overall electoral projections. @sec-discussion discusses the key findings, regional voting patterns, polling uncertainty and weakness. The @sec-Appendix1 provides the evaluation of the survey USA and @sec-Appendix2 discusses about the idealized methodology on survey. Besides, model diagnostics and summary are also attached in @sec-model.
 
-This paper develops a predictive model to forecast the electoral outcomes between Kamala Harris and Donald Trump in the 2024 election. Using a multiple linear regression framework, we analyze aggregated polling data across U.S. states, incorporating factors such as poll quality, transparency, sample size, geographic indicators, and poll timing. By integrating these variables, the model aims to produce a detailed forecast that accounts for regional differences and methodological variations, offering a thorough view of projected support for each candidate.
-
-The findings indicate a competitive election landscape, with Harris showing strong prospects in key battleground states, while Trump retains support in traditional Republican strongholds. These projections highlight the persistent influence of geographic voting patterns and the importance of polling methodology in electoral forecasting. This study offers valuable information for political analysts, campaign strategists, and the public, enhancing the understanding of how polling data can inform electoral outcome predictions.
-
-The remainder of this paper is organized as follows: @sec-data describes the dataset and the preprocessing steps for model preparation. @sec-model explains the modeling approach, including predictor selection and the regression model structure. @sec-results presents the primary findings, detailing state-by-state predictions and overall electoral projections. @sec-discussion discusses the implications, limitations, and potential directions for future research. The Appendix provides supplementary information on methodology, diagnostics, technical details of the model setup, acknowledgments, and references.
-
-## Estimand
 In this analysis, the estimand is the true effect of polling factors on projected support for Trump and Harris in the 2024 U.S. election. Specifically, it reflects how variables such as poll quality, transparency, sample size, and timing influence the predicted vote percentages for Kamala Harris and Donald Trump across states. Defining the estimand clearly ensures consistency in the analysis by guiding model design and interpretation, preventing unintended shifts in focus due to minor methodological changes.
 
-### 
+
 
 
 # Data {#sec-data}
@@ -468,9 +466,7 @@ For future research, expanding the model to include demographic data, such as ag
 
 \appendix
 
-# Appendix {-}
-
-# Pollster Methodology Overview and Evaluation
+# Pollster Methodology Overview and Evaluation {#sec-Appendix1}
 
 ## Overview of SurveyUSA
 
@@ -529,7 +525,7 @@ SurveyUSA’s methodology reflects a balanced approach, leveraging various sampl
 
 
 
-# Idealized Methodology and Survey
+# Idealized Methodology and Survey {#sec-Appendix2}
 
 ## Objective and Overview
 The primary goal of this survey methodology is to forecast the U.S. presidential election outcome by collecting representative data from a diverse cross-section of American voters (the target population). The target population refers to the entire group about which we want to make predictions—in this case, eligible U.S. voters across all demographics. With a $100,000 budget, this methodology employs probability sampling techniques, effective recruitment strategies, and data validation protocols to ensure accuracy and minimize bias. Probability sampling ensures that every individual in the target population has a known, non-zero chance of selection, making the results statistically valid and generalizable to the broader population. This approach is designed to account for demographic, geographic, and political factors that can influence voting behavior, thereby enhancing the reliability of predictions [@fivethirty; @pewresearch].
@@ -780,7 +776,7 @@ If you have any questions about this survey or would like to be informed about t
 
 \newpage
 
-# Model details {#sec-model-details}
+# Model details {#sec-model}
 
 ## Diagnostics
 
