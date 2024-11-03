@@ -35,12 +35,12 @@ analysis_data <- read_csv(here::here("data/02-analysis_data/cleaned_US_voting.cs
 
 The 2024 U.S. Presidential Election, which will come to an end on Nov 5, 2024, draws the worldwide attention. Especially after Joe Biden dropped out, this cycle’s election is full of more uncertainties. Predicting the electoral result is crucial and meaningful for understanding potential shifts in voter behavior, with significant implications for future leadership and policy directions in the United States. Forecasting the election’s outcome becomes essential and meaningful for understanding potential shifts in the voters’ behavior. To make the prediction feasible, polling data becomes a primary tool for measuring voters’ sentiment and their expectations. 
 
-This paper focuses on forecasting the electoral outcomes between Kamala Harris and Donald Trump in the 2024 cycle. Using the multiple linear regression model build on the polling data from @fivethirty, we construct an analysis by incorporating factors such as poll quality, transparency, sample size, state preference, and poll timing. By integrating these variables, the model produces a detailed forecast that accounts for regional differences and methodological variations, offering a thorough view of projected support for each candidate. The result indicates a competitive election landscape, with Harris showing strong prospects in key swing states, while Trump retains support in traditional Republican states. These findings demonstrate how the persistent influence of geographic voting patterns and the polling characteristics would influence the electoral votes. 
+This paper focuses on forecasting the electoral outcomes between Kamala Harris and Donald Trump in the 2024 cycle. Using the multiple linear regression model build on the polling data from @fivethirty, we construct an analysis by incorporating factors such as poll quality, transparency, sample size, state preference, and poll timing. By integrating these variables, the model produces a detailed forecast that accounts for regional differences and methodological variations, offering a thorough view of projected support for each candidate. The results indicate a decisive victory for Harris, who is projected to secure approximately 387 electoral votes, showcasing strong performance in key swing states and surpassing the required 270 votes by a wide margin. In contrast, Trump is predicted to receive 151 electoral votes, retaining support primarily within traditional Republican strongholds. These findings underscore Harris's substantial lead and emphasize the ongoing impact of geographic voting patterns and polling characteristics on electoral outcomes.
 
 This paper offers valuable analysis for political analysts, campaign strategists, and the public, enhancing the understanding of how polling data can inform electoral outcome predictions. However, recent election cycles have also revealed limitations in polling accuracy due to biases, non-response errors, and variations in poll quality. This study proposes a feasible model that addresses these issues to improve the reliability of election forecasts, and the uncertainty beyond the data has also been acknowledged in this paper.
-The paper is organized as follows: @sec-data describes the dataset and the processing steps for model preparation. @sec-modelsetup explains the modeling approach, including predictor selection and the regression model structure. @sec-results presents the primary findings, detailing state-by-state predictions and overall electoral projections. @sec-discussion discusses the key findings, regional voting patterns, polling uncertainty and weakness. The @sec-Appendix1 provides the evaluation of the survey USA and @sec-Appendix2 discusses about the idealized methodology on survey. Besides, model diagnostics and summary are also attached in @sec-model.
+The paper is organized as follows: @sec-data describes the dataset and the processing steps for model preparation. @sec-modelsetup explains the modeling approach, including predictor selection and the regression model structure. @sec-results presents the primary findings, detailing state-by-state predictions and overall electoral projections. @sec-discussion discusses the key findings, regional voting patterns, polling uncertainty and weakness. The @sec-Appendix1 provides n evaluation of the SurveyUSA polls and @sec-Appendix2 discusses about the idealized methodology on survey. Besides, model diagnostics and summary are also attached in @sec-model.
 
-The estimand in this paper represents the actual influence of certain polling factors on the forecasted support for Kamala Harris and Donald Trump in the 2024 election. Specifically, it examines how factors like poll quality, transparency, sample size, and timing impact voting percentages for each candidate across different states. Defining this estimand here provides a consistent foundation for the analysis, ensuring that the model accurately reflects the relationship between these polling characteristics and candidate support while minimizing potential distortions from methodological differences.
+The estimand in this paper represents the actual influence of certain polling factors on the forecasted support for Kamala Harris and Donald Trump in the 2024 election. Specifically, it examines how factors like poll quality, transparency, sample size, and timing impact voting percentages for each candidate across different states. However, the true estimand remains unknown, as we can only approximate it using available polling data and model assumptions. Defining this estimand here provides a consistent foundation for the analysis, ensuring that the model accurately reflects the relationship between these polling characteristics and candidate support while minimizing potential distortions from methodological differences.
 
 
 # Data {#sec-data}
@@ -62,7 +62,7 @@ The goal of measurement here is to translate individual voter opinions into a re
 
 ## Outcome Variable
 
-The outcome variable of interest for this research is the percentage representing the level of public support for Donald Trump. The distribution is shown in @fig-pct, where support percentage for Donald Trump ranges from approximately 20% to 70%. The red dashed line at the 50% mark acts as a benchmark, indicating the threshold needed for majority support.
+The outcome variable of interest for this research is the percentage representing the level of public support for Donald Trump. The distribution is shown in @fig-pct, where support percentage for Donald Trump ranges from approximately 20% to 70%. The red dashed line at the 50% mark acts as a benchmark, indicating the threshold needed for majority support for winning.
 
 The distribution shows that most observations cluster around a support level of approximately 48%, indicating significant backing from the electorate. A smaller portion of polls report support above 55%, suggesting that while Trump has a core base, many voters remain either undecided or opposed. @fig-pct highlights both the concentration and variability of support for Donald Trump within the surveyed population.
 
@@ -84,7 +84,7 @@ ggplot(analysis_data, aes(x = percent)) +
 
 ### Numeric Grade
 
-The numeric grade reflects the quality of the pollster, with FiveThirtyEight defining a scale from 0 to 3. A grade of 0 indicates a low-quality poll, while a grade of 3 signifies a high-quality pollster. After filtering for pollsters with a numeric grade higher than 2.5, we identified a total of 30 distinct pollsters. The distribution shows that grades cluster around 2.6, 2.8, and 2.9, with fewer polls receiving grades of 2.7 and 3.0, as shown in @fig-numeric-grade .
+The numeric grade reflects the quality of the pollster, with @fivethirty defining a scale from 0 to 3. A grade of 0 indicates a low-quality poll, while a grade of 3 signifies a high-quality pollster. After filtering for pollsters with a numeric grade higher than 2.5, we identified a total of 30 distinct pollsters. The distribution shows that grades cluster around 2.6, 2.8, and 2.9, with fewer polls receiving grades of 2.7 and 3.0, as shown in @fig-numeric-grade .
 
 ```{r}
 #| label: fig-numeric-grade
@@ -126,7 +126,7 @@ ggplot(analysis_data %>% filter(sample_size < 3000), aes(x = sample_size)) +
 ```
 ### Transparency Score
 
-The Transparency Score measures how transparent a pollster is, calculated based on the amount of information disclosed about its polls, weighted by recency. The highest possible score is 10, while the lowest is 0. The distribution of Transparency Scores for the filtered pollsters shows a peak around 9 as presented in @fig-transparency-score, indicating that nine the most common transparency score. @fig-transparency-score suggests that among the selected pollsters, there is a predominance of high transparency scores.
+The Transparency Score measures how transparent a pollster is, calculated based on the amount of information disclosed about its polls, weighted by recency. The highest possible score is 10, while the lowest is 0. The distribution of Transparency Scores for the filtered pollsters shows a peak around 9 as presented in @fig-transparency-score, indicating that nine is the most common transparency score. @fig-transparency-score suggests that among the selected pollsters, there is a predominance of high transparency scores.
 
 ```{r}
 #| label: fig-transparency-score
@@ -154,7 +154,7 @@ As shown in the @fig-end-date, at the beginning, fewer pollsters are conducting 
 
 ```{r}
 #| label: fig-end-date
-#| fig-cap: Trend of Support Percentage for Donald Trump Over Time Leading Up to the 2024 Election Day. The red dashed line represents the smoothed trend of average support for Donald Trump at each point in time, showing fluctuations and a gradual increase in support as the election day approaches.Renew the data to the October 24.2024
+#| fig-cap: Trend of Support Percentage for Donald Trump Over Time Leading Up to the 2024 Election Day. The red dashed line represents the smoothed trend of average support for Donald Trump at each point in time, showing fluctuations and a gradual increase in support as the election day approaches. Renew the data to the October 24, 2024. 
 #| echo: false
 #| warning: false
 #| message: false
@@ -195,7 +195,7 @@ Key assumptions for Multiple linear regression:
 - Normality of Residuals: The residuals (errors) of the model are normally distributed.
 - No Multicollinearity: Independent variables should not be highly correlated with each other. Multicollinearity will make some predictors appear insignificant when they might actually have an effect.
 
-Additional details and model diagnostics are provided in [Appendix -@sec-model-details].
+Additional details and model diagnostics are provided in @sec-model.
 
 The model predicts Trump’s polling percentage (percent) using the following predictors:
 
@@ -235,7 +235,7 @@ Based on the model summary shown in @tbl-summary-model, we observe that several 
 
 When evaluated on the test set, the model appears to struggle with accurately identifying Trump supporters, possibly due to unobserved factors or limitations in capturing the complexity of voter behavior.
 
-The rationale for applying multiple regression in this context is to control for various influential factors simultaneously—such as time trends (`days_until_election`), pollster quality (`transparency_score`), and regional differences (`state-level effects`). This approach allows us to isolate the individual impact of each variable, providing a more detailed understanding of how each factor contributes to Trump’s polling outcomes. The full coefficient output is shown in the [Appendix -@sec-model-details]
+The rationale for applying multiple regression in this context is to control for various influential factors simultaneously—such as time trends (`days_until_election`), pollster quality (`transparency_score`), and regional differences (`state-level effects`). This approach allows us to isolate the individual impact of each variable, providing a more detailed understanding of how each factor contributes to Trump’s polling outcomes. The full coefficient output is shown in the @sec-model
 
 ```{r}
 #| echo: false
@@ -287,9 +287,10 @@ kable(final_table, digits = 2)
 We applied a regression model to predict the percentage of votes Trump is expected to receive in each state. The model results, combined with each state's electoral vote allocation, allowed us to predict the winner in each state. Based on this, we calculated the total number of electoral votes for both Trump and Harris.
 
 The table below (@tbl-prediction) summarizes the predicted results, showing Trump’s predicted percentage, the number of electoral votes in each state, and the predicted winner (either Trump or Harris). For instance:
-- Alabama: Trump is predicted to win 53% of the vote, securing all 9 electoral votes.
+
+- South Dakota: Trump is predicted to win 57.17% of the vote, securing all 3 electoral votes for Trump.
 - California: Trump is predicted to receive 34.39% of the vote, resulting in a victory for Harris, who takes California's 55 electoral votes.
-- Florida: The model predicts a close race, with Trump at 48.89% of the vote, resulting in a Harris win in this battleground state.
+- Florida: The model predicts a close race, with Trump at 50.04% of the vote, resulting in a Trump win in this battleground state.
 
 ```{r}
 #| echo: false
@@ -344,7 +345,7 @@ kable(state_predictions[, c("state", "predicted_percent_trump", "electoral_votes
 
 
 ## Predicted Electoral Outcomes by State
-The table in the [Appendix -@tbl-missing-states] supplements the predicted electoral outcomes by providing likely results for states where the model could not generate predictions. Using historical data and winner information to estimate outcomes for these missing states ensures a complete view of electoral projections and accounts for every state in the final electoral vote totals.
+The table in the @tbl-missing-states supplements the predicted electoral outcomes by providing likely results for states where the model could not generate predictions. Using historical data and winner information to estimate outcomes for these missing states ensures a complete view of electoral projections and accounts for every state in the final electoral vote totals.
 
 @fig-statemap shows the predicted winner for each state in the 2024 U.S. Presidential Election, based on the regression model's predicted vote percentages for Trump and Harris. The color distribution across the country highlights regional preferences, with Harris winning most of the West Coast, Northeast, and parts of the Midwest, while Trump is favored in much of the South and Mountain West regions. Swing states, including Pennsylvania, Michigan, and Wisconsin, are currently projected to lean blue, suggesting a shift toward Harris in these critical battleground areas. @fig-statemap serves as a snapshot of the anticipated electoral landscape, indicating where each candidate may focus campaign efforts leading up to election day.
 
@@ -405,7 +406,7 @@ plot_usmap(data = state_predictions, values = "winner_color", regions = "states"
 ```
 
 
-@tbl-numstate shows the numerical predicted winner of the 2024 US Presidential Election by state. Harris is expected to win the 2024 U.S. Presidential Election, securing 387 electoral votes, compared to Trump’s 151 electoral votes. The election outcome hinges on several battleground states, where the vote margins are predicted to be narrow.
+@tbl-numstate shows the numerical predicted winner of the 2024 US Presidential Election by state. Harris is expected to win the 2024 U.S. Presidential Election, securing 387 electoral votes in total, compared to Trump’s 151 electoral votes. The election outcome hinges on several battleground states, where the vote margins are predicted to be narrow.
 ```{r}
 #| echo: false
 #| label: tbl-numstate
@@ -433,14 +434,14 @@ kable(summary_df, col.names = c("Candidate", "Total Electoral Votes"), format = 
 ## Key Findings
 This paper presents a forecast for the 2024 U.S. Presidential Election between Kamala Harris and Donald Trump, leveraging a linear regression model trained on historical state-level voting data and recent polling information. Our model projects a decisive victory for Harris, with an expected 387 electoral votes compared to Trump’s 151, reinforcing the impact of demographic and geographic factors on U.S. electoral outcomes.
 
-The analysis shows that state-specific factors, such as historical voting patterns and days until election day, significantly influence each candidate’s polling outcomes. Traditional Democratic strongholds like California and New York favor Harris, while Republican-leaning states such as Alabama and Wyoming align with Trump. This distribution reflects persistent geographic voting patterns and highlights the impact of regional party loyalty.
+The analysis shows that state-specific factors, such as historical voting patterns and days until election day, significantly influence each candidate’s polling outcomes. Traditional Democratic strongholds like California and New York favor Harris, while Republican-leaning states such as South Dakota and Missouri align with Trump. This distribution reflects persistent geographic voting patterns and highlights the impact of regional party loyalty.
 
 Notably, the model also highlights the influence of battleground states, where even slight shifts in voter sentiment could alter the election’s outcome. For example, Florida, a key swing state, is predicted to lean narrowly towards Trump with an estimated 50.04% of the vote, emphasizing the potential volatility in these regions.
 
 ## Regional Voting Patterns and Their Impact on Electoral Outcomes
-Our analysis demonstrates the persistence of geographic voting patterns in U.S. elections. As expected, traditional Democratic strongholds such as California, New York, and Illinois favor Harris, while Republican-dominated states like Alabama and Wyoming show support for Trump. These regional preferences align with historical voting behaviors, suggesting that party loyalty and demographic factors continue to shape election results.
+Our analysis demonstrates the persistence of geographic voting patterns in U.S. elections. As expected, traditional Democratic strongholds such as California, New York, and Massachusetts favor Harris, while Republican-dominated states like South Dakota and Missouri show support for Trump. These regional preferences align with historical voting behaviors, suggesting that party loyalty and demographic factors continue to shape election results.
 
-The model also highlights the significant role of battleground states, with states such as Florida and Arizona predicted to lean toward Harris. The influence of these states, where margins are often narrow, emphasizes the importance of campaign efforts and voter mobilization in these regions. The projections illustrate that minor shifts in voter sentiment within these states could decisively impact the overall election outcome because of the high number of electoral votes.
+For instance, Florida, with its 30 electoral votes, is projected to lean toward Trump, with 50.04% of voters supporting him. In contrast, Arizona, with its 11 electoral votes, is expected to lean toward Harris, as 47.64% of voters are predicted to support Trump. The influence of these states, where margins are often narrow, emphasizes the importance of campaign efforts and voter mobilization in these regions. The projections illustrate that minor shifts in voter sentiment within these states could decisively impact the overall election outcome because of the high number of electoral votes.
 
 ## Polling and Electoral Uncertainty Beyond the Data
 The model’s reliance on historical polling data and state-level predictions reflects certain limitations inherent in election forecasting. While the model effectively captures overall trends, it cannot account for unforeseen factors, such as shifts in voter turnout, the influence of third-party candidates, or sudden political or social events that could impact voter behavior. Additionally, the uneven distribution of survey data across states introduces further uncertainty. States with infrequent polling or underrepresented demographic groups may lead to biased predictions. This variation in polling frequency and sample diversity presents a challenge in achieving a fully representative model, and these uncertainties beyond the data are much more complex. 
@@ -464,7 +465,7 @@ For future research, expanding the model to include demographic data, such as ag
 
 \appendix
 
-# Pollster Methodology Overview and Evaluation {#sec-Appendix1}
+# Appendix: Pollster Methodology Overview and Evaluation {#sec-Appendix1}
 
 ## Overview of SurveyUSA
 
@@ -496,12 +497,11 @@ Selecting an appropriate sampling technique can help researchers to obtain relia
 SurveyUSA uses a blend of probability and non-probability sampling methods. Some respondents are drawn from non-probability online panels, while others are recruited using probability-based telephone sampling. Responses are weighted based on the latest U.S. Census estimates for age, gender, ethnicity, and region, ensuring alignment with the target population. Questions and answer choices are rotated to reduce order bias, recency effects, and latency effects [@surveyusa_methodology].\
 
 * **Advantages:** The diverse sampling approach not only ensures a broad range of opinions is captured but also complements probability-based sampling, which accurately reflects the overall population. Furthermore, reweighting the data according to U.S. Census demographics strengthens the credibility of the results by ensuring demographic accuracy. Additionally, rotating questions and answer choices helps mitigate bias, further improving the reliability of the data. Finally, the use of online surveys offers a cost-effective solution for efficient data collection.\
-
-* **Disadvantages:** Phone-based data collection tends to be time-consuming and can be affected by interviewer effects during telephone interviews. Additionally, challenges like non-response issues, such as busy signals or refusals to participate, can hinder the effectiveness of the data collection process.\
+* **Disadvantages:** Phone-based data collection tends to be time-consuming and can be affected by interviewer effects during telephone interviews. Additionally, challenges like non-response issues, such as busy signals or refusals to participate, can hinder the effectiveness of the data collection process.
 
 ## Non-response Handling
 
-Non-response in survey research is important to address because it introduces potential bias, impacting the accuracy and representativeness of the results.As mentioned by @groves2012nonresponse, when certain groups are underrepresented due to non-response, it can skew findings, making them less reflective of the actual population. For example, individuals who with demanding schedules, lower income or limited access to technology might be less likely to respond to a poll. Meanwhile, people with strong opinions or from specific demographic groups could be overrepresented in the results. As a result of non-response, the findings may misinform decision-makers, leading to conclusions that don’t truly represent the diverse views of the entire population. Addressing non-response is thus essential for producing balanced, reliable survey results that can genuinely inform policies, programs, and public opinion.\
+Addressing non-response in survey research is essential because it introduces potential bias, particularly non-response bias, which can impact the accuracy and representativeness of the results. As mentioned by @groves2012nonresponse, when certain groups are underrepresented due to non-response, it can skew findings, making them less reflective of the actual population. For example, individuals who with demanding schedules, lower income or limited access to technology might be less likely to respond to a poll. Meanwhile, people with strong opinions or from specific demographic groups could be overrepresented in the results. As a result of non-response, the findings may misinform decision-makers, leading to conclusions that don’t truly represent the diverse views of the entire population. Addressing non-response is thus essential for producing balanced, reliable survey results that can genuinely inform policies, programs, and public opinion.
 
 To mitigate non-response, SurveyUSA employs follow-up calls when interviews are interrupted by answering machines or busy signals. This additional effort helps reach individuals who may have been initially unavailable or hesitant, thereby improving the sample’s representativeness. This method aligns with one of the practical strategies discussed by @groves2012nonresponse to reduce non-response. However, SurveyUSA need to be caution that excessive or overly persistent follow-ups can lead to respondent discomfort, raise ethical concerns, and introduce potential biases if respondents feel obligated or pressured to participate.
 
@@ -515,15 +515,14 @@ Other approaches that SurveyUSA could consider include imputation, as discussed 
 * **Positive Aspects:**
 A logical flow between questions facilitates easy navigation for respondents throughout the survey, while simple wording promotes inclusivity by enabling individuals from diverse backgrounds to comprehend the questions. Furthermore, all questions are directly relevant to analyzing the 2024 U.S. presidential election, and providing predefined response options simplifies the choices for participants.\
 * **Negative Aspects:**
-Static options for party affiliation and ideology may overlook the subtleties of respondents' political beliefs. These fixed categories risk oversimplifying complex political identities.\
+Static options for party affiliation and ideology may overlook the subtleties of respondents' political beliefs. These fixed categories risk oversimplifying complex political identities.
 
 ## Summary Evaluation
 
 SurveyUSA’s methodology reflects a balanced approach, leveraging various sampling approach and method to reach a representative sample. While its blend of probability and non-probability methods has strengths, such as cost-effectiveness and broad reach, it faces challenges related to telephone interview logistics, potential interviewer bias, and the limitations of fixed questionnaire options. Nevertheless, the inclusion of data weighting and question rotation adds credibility to its results, making SurveyUSA a reliable pollster for localized opinion research. 
 
 
-
-# Idealized Methodology and Survey {#sec-Appendix2}
+# Appendix: Idealized Methodology and Survey {#sec-Appendix2}
 
 ## Objective and Overview
 The primary goal of this survey methodology is to forecast the U.S. presidential election outcome by collecting representative data from a diverse cross-section of American voters (the target population). The target population refers to the entire group about which we want to make predictions—in this case, eligible U.S. voters across all demographics. With a $100,000 budget, this methodology employs probability sampling techniques, effective recruitment strategies, and data validation protocols to ensure accuracy and minimize bias. Probability sampling ensures that every individual in the target population has a known, non-zero chance of selection, making the results statistically valid and generalizable to the broader population. This approach is designed to account for demographic, geographic, and political factors that can influence voting behavior, thereby enhancing the reliability of predictions [@fivethirty; @pewresearch].
@@ -549,13 +548,15 @@ Quota Sampling complements this by setting specific quotas to ensure each subgro
 This stratification aligns with best practices in survey sampling, allowing for improved accuracy and generalizability in election forecasting by ensuring that subgroups are proportionately represented [@pewresearch]. However, in stratified sampling, selecting relevant stratification variables can be challenging, and it is neither feasible nor cost-effective to stratify across numerous variables simultaneously. For quota sampling, there is a risk of selection bias, and it does not guarantee the randomness, which may impact the sample’s representativeness.
 
 ### Sample Size
-A total of **10,000 respondents** will be surveyed, providing a margin of error of approximately ±1\% at a 95\% confidence level. This sample size allows for detailed subgroup analysis (e.g., by state or demographic group), yielding statistically robust predictions that represent the target population.
+Sample size is a critical factor in research design, as it influences the accuracy, reliability, and generalizability of study results. As mentioned by @cohen2013statistical, in statistical analysis, a larger sample size generally provides a more accurate reflection of the population characteristics, reducing the potential for sampling error. 
+
+Thus, for the idealized methodology, a total of **10,000 respondents** will be surveyed, providing a margin of error of approximately ±1\% at a 95\% confidence level. This sample size allows for detailed subgroup analysis (e.g., by state or demographic group), yielding statistically robust predictions that represent the target population.
 
 ### Weighting
-Post-stratification weights will be applied to adjust for any oversampling or undersampling of specific demographic groups. For instance, younger voters or underrepresented minorities will be weighted to reflect their true proportions in the voting population. This weighting ensures that the final sample aligns closely with the demographic makeup of the target population.
+As discussed by @kalton2003weighting, weighting adjustments are frequently applied in surveys to address non- response and non-coverage, helping weighted sample estimates align with known population values. Thus, in this idealized methodology, post-stratification weights will be used to adjust for any oversampling or undersampling of specific demographic groups. For example, younger voters or underrepresented minorities will be weighted to reflect their actual proportions in the voting population. This adjustment ensures that the final sample closely mirrors the demographic composition of the target population, enhancing the accuracy and representativeness of the results.
 
 ## Recruitment Strategy
-Recruitment is executed through **multi-channel outreach**, combining digital advertisements, email outreach, and partnerships with civic organizations. This strategy is designed to capture a probability sample and follows best practices in survey methodologies to minimize non-response bias—errors that occur when certain groups in the target population are less likely to respond to the survey. Non-response matters because it can distort the results if certain demographics are underrepresented in the final data [@pewresearch].
+Recruitment is executed through **multi-channel outreach**, combining digital advertisements, email outreach, and partnerships with civic organizations. This strategy is designed to capture a probability sample and follows best practices in survey methodologies to minimize non-response bias—errors that occur when certain groups in the target population are less likely to respond to the survey. Non-response matters because it can distort the results if certain demographics are underrepresented in the final data [@pewresearch]. Moreover, utilizing multiple methods can reduce costs, speed up response collection, and improve response rates [@dillman2014internet]. 
 
 * **Digital Advertisements**: Targeted ads on platforms like Facebook, Instagram, and Google will recruit respondents based on their demographic profiles (age, gender, location, political interest).
 * **Email Outreach**: If permissible, voter registration databases will be accessed to send email invitations to registered voters.
@@ -774,7 +775,7 @@ If you have any questions about this survey or would like to be informed about t
 
 \newpage
 
-# Model details {#sec-model}
+# Appendix: Model details {#sec-model}
 
 ## Diagnostics
 
