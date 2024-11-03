@@ -33,16 +33,14 @@ analysis_data <- read_csv(here::here("data/02-analysis_data/cleaned_US_voting.cs
 
 # Introduction
 
-The 2024 U.S. Presidential Election, which will come to an end on Nov 5, 2024, draws the worldwide attention. Especially after Joe Biden dropped out, this cycle’s election is full of more uncertainties. Predicting the electoral result is crucial and meaningful for understanding potential shifts in voter behavior, with significant implications for future leadership and policy directions in the United States.
-Forecasting the election’s outcome becomes essential and meaningful for understanding potential shifts in the voters’ behavior. To make the prediction feasible, polling data becomes a primary tool for measuring voters’ sentiment and their expectations. 
-This paper focuses on forecasting the electoral outcomes between Kamala Harris and Donald Trump in the 2024 cycle. Using the multiple linear regression model build on the polling data from @fivethirty, we construct an analysis by incorporating factors such as poll quality, transparency, sample size, state preference, and poll timing. By integrating these variables, the model produces a detailed forecast that accounts for regional differences and methodological variations, offering a thorough view of projected support for each candidate.
-The result indicates a competitive election landscape, with Harris showing strong prospects in key swing states, while Trump retains support in traditional Republican states. These findings demonstrate how the persistent influence of geographic voting patterns and the importance of polling methodology would influence the electoral votes. 
+The 2024 U.S. Presidential Election, which will come to an end on Nov 5, 2024, draws the worldwide attention. Especially after Joe Biden dropped out, this cycle’s election is full of more uncertainties. Predicting the electoral result is crucial and meaningful for understanding potential shifts in voter behavior, with significant implications for future leadership and policy directions in the United States. Forecasting the election’s outcome becomes essential and meaningful for understanding potential shifts in the voters’ behavior. To make the prediction feasible, polling data becomes a primary tool for measuring voters’ sentiment and their expectations. 
+
+This paper focuses on forecasting the electoral outcomes between Kamala Harris and Donald Trump in the 2024 cycle. Using the multiple linear regression model build on the polling data from @fivethirty, we construct an analysis by incorporating factors such as poll quality, transparency, sample size, state preference, and poll timing. By integrating these variables, the model produces a detailed forecast that accounts for regional differences and methodological variations, offering a thorough view of projected support for each candidate. The result indicates a competitive election landscape, with Harris showing strong prospects in key swing states, while Trump retains support in traditional Republican states. These findings demonstrate how the persistent influence of geographic voting patterns and the polling characteristics would influence the electoral votes. 
+
 This paper offers valuable analysis for political analysts, campaign strategists, and the public, enhancing the understanding of how polling data can inform electoral outcome predictions. However, recent election cycles have also revealed limitations in polling accuracy due to biases, non-response errors, and variations in poll quality. This study proposes a feasible model that addresses these issues to improve the reliability of election forecasts, and the uncertainty beyond the data has also been acknowledged in this paper.
 The paper is organized as follows: @sec-data describes the dataset and the processing steps for model preparation. @sec-modelsetup explains the modeling approach, including predictor selection and the regression model structure. @sec-results presents the primary findings, detailing state-by-state predictions and overall electoral projections. @sec-discussion discusses the key findings, regional voting patterns, polling uncertainty and weakness. The @sec-Appendix1 provides the evaluation of the survey USA and @sec-Appendix2 discusses about the idealized methodology on survey. Besides, model diagnostics and summary are also attached in @sec-model.
 
-In this analysis, the estimand is the true effect of polling factors on projected support for Trump and Harris in the 2024 U.S. election. Specifically, it reflects how variables such as poll quality, transparency, sample size, and timing influence the predicted vote percentages for Kamala Harris and Donald Trump across states. Defining the estimand clearly ensures consistency in the analysis by guiding model design and interpretation, preventing unintended shifts in focus due to minor methodological changes.
-
-
+The estimand in this paper represents the actual influence of certain polling factors on the forecasted support for Kamala Harris and Donald Trump in the 2024 election. Specifically, it examines how factors like poll quality, transparency, sample size, and timing impact voting percentages for each candidate across different states. Defining this estimand here provides a consistent foundation for the analysis, ensuring that the model accurately reflects the relationship between these polling characteristics and candidate support while minimizing potential distortions from methodological differences.
 
 
 # Data {#sec-data}
@@ -873,7 +871,7 @@ library(knitr)
 kable(full_summary_df[!rownames(full_summary_df) %in% "F-statistic p-value", c("Estimate", "Std. Error", "t value")])
 
 ```
-```{r}
+```{r, fig.width=10, fig.height=8}
 #| echo: false
 #| tbl-cap: Coefficient Estimates with 95% Confidence Intervals for Predictors. Predictors with positive coefficients are shown in blue, while predictors with negative coefficients are shown in red. 
 #| warning: false
@@ -894,9 +892,9 @@ ggplot(tidy_model, aes(x = estimate, y = reorder(term, estimate))) +
     name = ""  # This removes the default "estimate > 0" label
   ) +
   labs(x = "Coefficient Value", y = "Predictors") +
-  theme_minimal(base_size = 12) +
+  theme_minimal(base_size = 14) +
   theme(
-    axis.text.y = element_text(size = 3),
+    axis.text.y = element_text(size = 10),
     axis.title.x = element_text(size = 14),
     axis.title.y = element_text(size = 14),
     plot.title = element_text(size = 16, face = "bold"),
