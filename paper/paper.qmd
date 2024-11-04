@@ -38,6 +38,7 @@ The 2024 U.S. Presidential Election, which will come to an end on Nov 5, 2024, d
 This paper focuses on forecasting the electoral outcomes between Kamala Harris and Donald Trump in the 2024 cycle. Using the multiple linear regression model build on the polling data from @fivethirty, we construct an analysis by incorporating factors such as poll quality, transparency, sample size, state preference, and poll timing. By integrating these variables, the model produces a detailed forecast that accounts for regional differences and methodological variations, offering a thorough view of projected support for each candidate. The results indicate a decisive victory for Harris, who is projected to secure approximately 387 electoral votes, showcasing strong performance in key swing states and surpassing the required 270 votes by a wide margin. In contrast, Trump is predicted to receive 151 electoral votes, retaining support primarily within traditional Republican strongholds. These findings underscore Harris's substantial lead and emphasize the ongoing impact of geographic voting patterns and polling characteristics on electoral outcomes.
 
 This paper offers valuable analysis for political analysts, campaign strategists, and the public, enhancing the understanding of how polling data can inform electoral outcome predictions. However, recent election cycles have also revealed limitations in polling accuracy due to biases, non-response errors, and variations in poll quality. This study proposes a feasible model that addresses these issues to improve the reliability of election forecasts, and the uncertainty beyond the data has also been acknowledged in this paper.
+
 The paper is organized as follows: @sec-data describes the dataset and the processing steps for model preparation. @sec-modelsetup explains the modeling approach, including predictor selection and the regression model structure. @sec-results presents the primary findings, detailing state-by-state predictions and overall electoral projections. @sec-discussion discusses the key findings, regional voting patterns, polling uncertainty and weakness. The @sec-Appendix1 provides n evaluation of the SurveyUSA polls and @sec-Appendix2 discusses about the idealized methodology on survey. Besides, model diagnostics and summary are also attached in @sec-model.
 
 The estimand in this paper represents the actual influence of certain polling factors on the forecasted support for Kamala Harris and Donald Trump in the 2024 election. Specifically, it examines how factors like poll quality, transparency, sample size, and timing impact voting percentages for each candidate across different states. However, the true estimand remains unknown, as we can only approximate it using available polling data and model assumptions. Defining this estimand here provides a consistent foundation for the analysis, ensuring that the model accurately reflects the relationship between these polling characteristics and candidate support while minimizing potential distortions from methodological differences.
@@ -53,9 +54,11 @@ After cleaning the data, which included grouping and removing missing values, th
 
 ## Measurement and Considerations 
 
-The goal of measurement here is to translate individual voter opinions into a reliable estimate of electoral college outcomes. This analysis aims to systematically capture public sentiment through polling data and convert it into a structured forecast of electoral support for each candidate.
+The goal of measurement is to distill individual voter opinions into a reliable estimate of Electoral College outcomes, transforming raw polling data into a clear forecast of each candidate’s support.
 
-- Data Source and Quality Assurance: The dataset is sourced from @fivethirty, a trusted platform recognized for its stringent standards in polling data quality. Only polls meeting high-quality criteria are included to ensure broad representation of likely U.S. voters. Each poll provides essential details, including the pollster’s identity, survey dates, sample size, and methodological transparency. These methods include data collection medium (e.g., phone, online), use of voter files, demographic weighting, and adjustments to create a representative sample. While these standards help capture respondents’ voting intentions accurately, it’s important to note that these criteria rely on historical benchmarks, potentially overlooking recent methodological shifts or emerging biases.
+To capture public sentiment, surveys ask questions like, “If the election were held today, who would you vote for?” Responses are summarized by pollsters as a percentage of support for each candidate, creating a structured outcome variable that reflects aggregate support.
+
+- Data Source and Quality Assurance: The dataset is sourced from @fivethirty, a trusted platform recognized for its stringent standards in polling data qualityOnly high-quality polls are included to ensure broad representation of likely U.S. voters. Each poll includes essential details, such as pollster identity, survey dates, sample size, and methodology, all documented in the dataset. While these standards effectively capture respondents' voting intentions, they are based on historical benchmarks that may not fully account for recent methodological shifts or emerging biases. Additionally, the dataset provides a numeric grade, transparency score, and pollster rating, calculated by @fivethirty using their internal criteria and scoring mechanisms. 
 - Temporal Limitations and Data Recency: Polling data captures discrete snapshots of voter sentiment rather than continuous updates. Consequently, the analysis reflects voter intentions only at specific moments, which may not capture rapid opinion shifts, particularly as Election Day approaches. To mitigate this limitation, recency adjustments are applied to account for the time elapsed since each poll was conducted, helping to ensure that the data remains reflective of current voter sentiment.
 - Participation and Response Bias: Despite the rigorous methodology, certain biases in survey participation are difficult to avoid. Self-selection bias (where individuals choose whether to participate) and social desirability bias (where respondents may adjust their responses to be more socially acceptable) can affect data accuracy. These biases may introduce discrepancies between expressed opinions and actual voting behavior, potentially influencing forecast reliability.
 - Regional Sampling Imbalances: The frequency of polling varies significantly by state, with battleground states receiving more frequent attention than states considered “safe.” This uneven distribution can lead to imbalances in regional representation, which might skew state-level and, by extension, national forecasts. Such discrepancies highlight the challenge of producing a uniformly accurate forecast across all regions.
@@ -295,7 +298,7 @@ The table below (@tbl-prediction) summarizes the predicted results, showing Trum
 ```{r}
 #| echo: false
 #| label: tbl-prediction
-#| tbl-cap: Prediction Outcomes for the 2024 U.S. Presidential Election by State. Showing the predicted percentage of votes for Donald Trump, the number of electoral votes each state holds, and the expected winning candidate (either Kamala Harris or Donald Trump)
+#| tbl-cap: 2024 U.S. Presidential Election Predictions by State. Projected vote percentages for Donald Trump, each state’s electoral votes, and the expected winning candidate (Kamala Harris or Donald Trump).
 #| warning: false
 #| message: false
 
@@ -410,7 +413,7 @@ plot_usmap(data = state_predictions, values = "winner_color", regions = "states"
 ```{r}
 #| echo: false
 #| label: tbl-numstate
-#| tbl-cap: Numerical Projected Electoral Vote Count for the 2024 U.S. Presidential Election (Based on Polling Data and Historical Trends). 
+#| tbl-cap: Projected Electoral Vote Count for the 2024 U.S. Presidential Election. With 538 total electoral votes, a candidate needs 270 to win.
 #| warning: false
 #| message: false
 
@@ -492,16 +495,16 @@ Additionally, respondents from non-probability online panels are randomly select
 
 ## Sampling approach and Trade-offs
 
-Selecting an appropriate sampling technique can help researchers to obtain reliable research results. In general, sampling techniques fall into two categories: probability (random) sampling and non-probability (non-random) sampling. Probability sampling includes methods such as simple random sampling, stratified random sampling, cluster sampling, systematic sampling, and multi-stage sampling. In contrast, non-probability sampling encompasses techniques like quota sampling, snowball sampling, judgment sampling, and convenience sampling.
+Selecting an appropriate sampling technique can help researchers to obtain reliable research results. In general, sampling techniques fall into two categories: probability (random) sampling and non-probability (non-random) sampling. Probability sampling includes methods such as simple random sampling, stratified random sampling, cluster sampling, systematic sampling, and multi-stage sampling. In contrast, non-probability sampling encompasses techniques like quota sampling, snowball sampling, judgment sampling, and convenience sampling [@fowler2013survey].
 
-SurveyUSA uses a blend of probability and non-probability sampling methods. Some respondents are drawn from non-probability online panels, while others are recruited using probability-based telephone sampling. Responses are weighted based on the latest U.S. Census estimates for age, gender, ethnicity, and region, ensuring alignment with the target population. Questions and answer choices are rotated to reduce order bias, recency effects, and latency effects [@surveyusa_methodology].\
+SurveyUSA utilizes both probability and non-probability sampling methods, sourcing respondents from non-probability online panels and probability-based telephone sampling [@surveyusa_methodology]. SurveyUSA employs simple random sampling, a method in which each individual in the population has an equal chance of selection, by randomly selecting phone numbers [@noor2022simple]. In contrast, the online panel represents convenience sampling, a non-probability method in which self-selected participants voluntarily join the panel and are readily available for surveys [@fowler2013survey]. Responses are weighted based on the latest U.S. Census estimates for age, gender, ethnicity, and region, ensuring alignment with the target population. Questions and answer choices are rotated to reduce order bias, recency effects, and latency effects [@surveyusa_methodology].\
 
-* **Advantages:** The diverse sampling approach not only ensures a broad range of opinions is captured but also complements probability-based sampling, which accurately reflects the overall population. Furthermore, reweighting the data according to U.S. Census demographics strengthens the credibility of the results by ensuring demographic accuracy. Additionally, rotating questions and answer choices helps mitigate bias, further improving the reliability of the data. Finally, the use of online surveys offers a cost-effective solution for efficient data collection.\
-* **Disadvantages:** Phone-based data collection tends to be time-consuming and can be affected by interviewer effects during telephone interviews. Additionally, challenges like non-response issues, such as busy signals or refusals to participate, can hinder the effectiveness of the data collection process.
+* **Advantages:** The mixed approach offers several benefits. Simple random sampling ensures representativeness by giving all individuals an equal selection chance, a key feature that ensures representativeness and minimizes selection bias. Randomization helping to offset confounding effects from both known and unknown factors [@noor2022simple]. Convenience sampling through online panels further enhances data collection by making it faster and more cost-effective [@sedgwick2013convenience]. Additionally, reweighting the data according to U.S. Census demographics strengthens the credibility of the results by ensuring demographic accuracy. Rotating questions and answer choices helps mitigate bias, improving data reliability.\
+* **Disadvantages:** Simple random sampling can be problematic for heterogeneous or dispersed populations [@noor2022simple]. Using phone-based data collection is time-consuming, as it requires contacting many individuals to reach an adequate response rate. Non-response issues, including busy signals, refusals, or hang-ups, are common in phone surveys. This can create non-response bias, where the views of non-participants differ from those of participants, compromising representativeness. The interviewer effect is another concern as respondents may adjust their answers in the presence of a live interviewer [@noor2022simple]. In addition, convenience sampling also presents challenges, primarily by introducing motivation bias. Participants’ willingness to join may depend on their interest in the survey topic, or dissatisfaction they want to voice, potentially skewing the sample’s representativeness [@sedgwick2013convenience].
 
 ## Non-response Handling
 
-Addressing non-response in survey research is essential because it introduces potential bias, particularly non-response bias, which can impact the accuracy and representativeness of the results. As mentioned by @groves2012nonresponse, when certain groups are underrepresented due to non-response, it can skew findings, making them less reflective of the actual population. For example, individuals who with demanding schedules, lower income or limited access to technology might be less likely to respond to a poll. Meanwhile, people with strong opinions or from specific demographic groups could be overrepresented in the results. As a result of non-response, the findings may misinform decision-makers, leading to conclusions that don’t truly represent the diverse views of the entire population. Addressing non-response is thus essential for producing balanced, reliable survey results that can genuinely inform policies, programs, and public opinion.
+Addressing non-response in survey research is essential, as it occurs when selected participants do not participate or complete the survey, leading to non-response bias [@groves2012nonresponse]. This bias can compromise accuracy and representativeness by disrupting the information balance needed for the research question, particularly when certain groups are underrepresented, skewing findings away from the actual population [@sedgwick2013convenience]. For example, individuals who with demanding schedules, lower income or limited access to technology might be less likely to respond to a poll. Meanwhile, people with strong opinions or from specific demographic groups could be overrepresented in the results. As a result of non-response, the findings may misinform decision-makers, leading to conclusions that don’t truly represent the diverse views of the entire population. Addressing non-response is thus essential for producing balanced, reliable survey results that can genuinely inform policies, programs, and public opinion.
 
 To mitigate non-response, SurveyUSA employs follow-up calls when interviews are interrupted by answering machines or busy signals. This additional effort helps reach individuals who may have been initially unavailable or hesitant, thereby improving the sample’s representativeness. This method aligns with one of the practical strategies discussed by @groves2012nonresponse to reduce non-response. However, SurveyUSA need to be caution that excessive or overly persistent follow-ups can lead to respondent discomfort, raise ethical concerns, and introduce potential biases if respondents feel obligated or pressured to participate.
 
@@ -535,7 +538,7 @@ The primary goal of this survey methodology is to forecast the U.S. presidential
 ## Sampling Strategy
 Our sampling strategy combines **stratified** random sampling with **quota sampling** to ensure broad representation across key demographics. Stratified random sampling involves dividing the target population into subgroups (strata) based on demographic characteristics, then randomly sampling from each stratum. This technique enhances the representativeness of the sample and improves prediction accuracy by includes all important subpopulation [@taherdoost2016sampling] and reducing demographic and geographic sampling bias [@fivethirty].
 
-Quota Sampling complements this by setting specific quotas to ensure each subgroup meets minimum representation levels within the sample, based on key demographic categories. While not truly random, quota sampling helps ensure that important demographics are represented even when probability sampling is challenging or costly.
+Quota Sampling complements this by setting specific quotas to ensure each subgroup meets minimum representation levels within the sample, based on key demographic categories [@moser1952quota]. While not truly random, quota sampling helps ensure that important demographics are represented even when probability sampling is challenging or costly.
 
 ### Stratification Variables
 * **Age Groups**: 18-29, 30-44, 45-64, 65+ 
@@ -782,11 +785,11 @@ If you have any questions about this survey or would like to be informed about t
 ```{r}
 #| echo: false
 #| label: fig-diagnosis-1
-#| tbl-cap: Linear regression assumptions hold.
+#| fig-cap: Linear regression assumptions hold.
 #| warning: false
 #| message: false
 #| fig.width: 10
-#| fig.height: 8
+#| fig.height: 7
 
 par(mfrow = c(2, 2))  
 plot(regression_model)
@@ -823,12 +826,13 @@ metrics_df <- data.frame(
 )
 kable(metrics_df)
 ```
-
+\newpage
 ## Model Summary
 
 ```{r, fig.width=12, fig.height=10}
 #| echo: false
-#| tbl-cap: Coefficient Estimates with 95% Confidence Intervals for Predictors. Predictors with positive coefficients are shown in blue, while predictors with negative coefficients are shown in red. 
+#| label: fig-model-summary
+#| fig-cap: Coefficient Estimates with 95% Confidence Intervals for Predictors. Predictors with positive coefficients are shown in blue, while predictors with negative coefficients are shown in red. 
 #| warning: false
 #| message: false
 
@@ -838,7 +842,7 @@ tidy_model <- broom::tidy(regression_model, conf.int = TRUE, conf.level = 0.95) 
 
 # Plot the coefficients with confidence intervals, excluding the intercept
 ggplot(tidy_model, aes(x = estimate, y = reorder(term, estimate))) +
-  geom_point(aes(color = estimate > 0), size = 1.2) +
+  geom_point(aes(color = estimate > 0), size = 3) +
   geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), color = "grey", height = 0.3) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "black") +
   scale_color_manual(
@@ -861,7 +865,7 @@ ggplot(tidy_model, aes(x = estimate, y = reorder(term, estimate))) +
 ## Multicollinearity Check on the Training Data
 ```{r}
 #| echo: false
-#| fig-cap: Correlation Matrix of Numeric Grade, Sample Size, Transparency Score and `Days Until Election`
+#| fig-cap: Correlation Matrix of Numeric Grade, Sample Size, Transparency Score and Days Until Election
 #| warning: false
 #| message: false
 
